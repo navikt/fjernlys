@@ -1,0 +1,18 @@
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin-left: 10%;
+}
+
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
