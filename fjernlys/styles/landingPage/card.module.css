@@ -1,7 +1,10 @@
 .box {
   width: 20%;
-  height: 300px;
+  height: 400px;
   background-color: #cbcfd5;
+  width: 300px;
+  margin-left: 32px;
+  margin-right: 32px;
 }
 
 .box:hover {
@@ -14,9 +17,11 @@
   flex-direction: row;
   position: relative;
   align-items: center;
-  width: 90%;
-  margin-top: 37.5%;
-  margin-left: 10%;
+  width: 100%;
+  margin-left: 5%;
+  margin-top: 50%;
+
+  justify-content: center;
 }
 
 .block {
