@@ -1,7 +1,7 @@
 import Dropdown from "./Dropdown";
 import React from "react";
 import styles from "@/styles/skjema/risk.module.css";
-import { HelpText } from "@navikt/ds-react";
+import { HelpText, TextField } from "@navikt/ds-react";
 
 const Risk = () => {
   return (
@@ -13,6 +13,9 @@ const Risk = () => {
           Velg verdier for sannsynlighet og konsekvens gjort i din
           risikovurdering
         </HelpText>
+      </div>
+      <div>
+        <TextField label="RisikoID" value={"R1"} readOnly />
       </div>
       <div className={styles.verdier}>
         <Dropdown title={"Sannsynlighet"} />
