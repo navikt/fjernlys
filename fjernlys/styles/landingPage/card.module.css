@@ -1,7 +1,7 @@
 .box {
   width: 20%;
   height: 400px;
-  background-color: #cbcfd5;
+  background-color: var(--a-gray-300);
   width: 300px;
   margin-left: 32px;
   margin-right: 32px;

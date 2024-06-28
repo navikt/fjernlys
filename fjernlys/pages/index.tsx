@@ -7,7 +7,15 @@ import Card from "@/components/landingPage/card";
 import { TasklistIcon, TerminalIcon } from "@navikt/aksel-icons";
 import Image from "next/image";
 
+import { useRouter } from "next/router";
+
 export default function Home() {
+  const router = useRouter();
+
+  const goToForm = () => {
+    router.push("/skjema");
+  };
+
   return (
     <>
       <Page
@@ -21,12 +29,7 @@ export default function Home() {
       >
         <Box as="header" background="surface-neutral-moderate" padding="8">
           <Page.Block gutters>
-            <Image
-              src="/nav_black.png"
-              width={85}
-              height={55}
-              alt={"Nav Logo"}
-            />
+            <Image src="/Rød.png" width={85} height={55} alt={"Nav Logo"} />
             RAPPORTERINGSSYSTEM
           </Page.Block>
         </Box>
@@ -34,6 +37,7 @@ export default function Home() {
           <Card
             title="Fyll ut skjema"
             icon={<TasklistIcon title="a11y-title" fontSize="5rem" />}
+            onClick={goToForm}
           />
 
           <Card
