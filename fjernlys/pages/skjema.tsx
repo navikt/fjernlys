@@ -3,6 +3,8 @@ import React from "react";
 import Image from "next/image";
 import styles from "@/styles/landingPage/landingPage.module.css";
 import Risk from "@/components/skjema/Risk";
+import Opplysninger from "@/components/skjema/Opplysninger";
+import Risikoeier from "@/components/skjema/Risikoeier";
 
 const fillForm = () => {
   return (
@@ -34,8 +36,10 @@ const fillForm = () => {
             <div className={styles.test}>
               <h1>Rapporterinsskjema</h1>
             </div>
+            <Opplysninger />
             <Risk />
             <div className={styles.test}>Andre opplysninger</div>
+            <Risikoeier />
           </VStack>
         </div>
       </Page>
