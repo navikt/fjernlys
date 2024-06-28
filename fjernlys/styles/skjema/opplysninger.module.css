@@ -1,0 +1,16 @@
+.hovedDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.risikoeierDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.risikoeierRadio {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
