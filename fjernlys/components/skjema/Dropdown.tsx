@@ -8,7 +8,7 @@ interface Props {
 const Dropdown = ({ title }: Props) => {
   return (
     <div>
-      <Select label={title}>
+      <Select label={title} size="small">
         <option value="0">Velg verdi</option>
         <option value="1">1</option>
         <option value="1.5">1.5</option>

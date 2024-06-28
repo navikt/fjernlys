@@ -6,8 +6,9 @@ import { HelpText } from "@navikt/ds-react";
 const Risk = () => {
   return (
     <div>
+      <h2>Risiko</h2>
       <div className={styles.verdier}>
-        <h2>Fyll inn verdier</h2>
+        <h3>Fyll inn verdier</h3>
         <HelpText title="Hva skal du gjøre?">
           Velg verdier for sannsynlighet og konsekvens gjort i din
           risikovurdering

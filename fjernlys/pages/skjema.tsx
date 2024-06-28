@@ -30,8 +30,10 @@ const fillForm = () => {
             borderRadius: "5px",
           }}
         >
-          <VStack gap="4" align={"center"}>
-            <div className={styles.test}>Risikovurdering for Alderspensjon</div>
+          <VStack gap="4" align={"start"} style={{ marginLeft: "5vw" }}>
+            <div className={styles.test}>
+              <h1>Rapporterinsskjema</h1>
+            </div>
             <Risk />
             <div className={styles.test}>Andre opplysninger</div>
           </VStack>
