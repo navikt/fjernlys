@@ -9,7 +9,7 @@ const Opplysninger = () => {
       <h3>Opplysning fra rapporteringsskjema</h3>
       <div className={styles.hovedDiv}>
         <Select label={"Ytelse"}>
-          <option value="0" disabled selected>
+          <option value="0" disabled>
             Velg ytelse/tjeneste
           </option>
           <option value="1">AAP</option>

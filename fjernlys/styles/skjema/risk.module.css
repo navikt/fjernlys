@@ -3,3 +3,11 @@
   flex-direction: row;
   gap: 16px;
 }
+
+.navds-text-field__input navds-body-short navds-body-short--medium {
+  background-color: red;
+}
+
+#tester {
+  background-color: red;
+}
