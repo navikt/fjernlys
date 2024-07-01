@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TextField } from "@navikt/ds-react";
 import Dropdown from "./Dropdown";
 import styles from "@/styles/skjema/risk.module.css";
 import { XMarkIcon } from "@navikt/aksel-icons";
+import { DropdownValues } from "@/pages/skjema";
 
 const Tiltak = () => {
+  const context = useContext(DropdownValues);
+  if (!context) {
+    throw new Error("No context");
+  }
   interface TiltakProps {
     key: number;
     value: string;
@@ -34,8 +39,8 @@ const Tiltak = () => {
       </div>
       <div>
         <div className={styles.verdier}>
-          <Dropdown title={"Sannsynlighet"} />
-          <Dropdown title={"Konsekvens"} />
+          <Dropdown title={"Sannsynlighet"} formKey={""} setVerdi={undefined} />
+          <Dropdown title={"Konsekvens"} formKey={""} setVerdi={undefined} />
         </div>
       </div>
     </div>

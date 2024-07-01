@@ -6,6 +6,8 @@ import Risk from "@/components/skjema/Risk";
 import Opplysninger from "@/components/skjema/Opplysninger";
 import Risikoeier from "@/components/skjema/Risikoeier";
 import { createContext } from "react";
+import LeggTilTiltak from "@/components/skjema/LeggTilTiltak";
+import LeggTilRisiko from "@/components/skjema/LeggTilRisiko";
 
 interface FormContextType {
   formData: { [key: string]: any };
@@ -14,8 +16,6 @@ interface FormContextType {
 export const DropdownValues = createContext<FormContextType | undefined>(
   undefined
 );
-import LeggTilTiltak from "@/components/skjema/LeggTilTiltak";
-import LeggTilRisiko from "@/components/skjema/LeggTilRisiko";
 
 const fillForm = () => {
   const [formData, setFormData] = useState<{ [key: string]: any }>({});
@@ -55,9 +55,9 @@ const fillForm = () => {
             <Opplysninger />
             <DropdownValues.Provider value={{ formData, updateFormData }}>
               <Risk />
+              <LeggTilTiltak />
+              <LeggTilRisiko />
             </DropdownValues.Provider>
-            <LeggTilTiltak />
-            <LeggTilRisiko />
             <div className={styles.test}>Andre opplysninger</div>
             <Risikoeier />
           </VStack>

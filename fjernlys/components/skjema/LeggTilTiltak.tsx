@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
 import Tiltak from "./Tiltak";
+import { DropdownValues } from "@/pages/skjema";
 
 const LeggTilTiltak: React.FC = () => {
+  const context = useContext(DropdownValues);
+  if (!context) {
+    throw new Error("No context");
+  }
   const [tiltakList, setTiltakList] = useState<JSX.Element[]>([]);
 
   const addTiltak = () => {
