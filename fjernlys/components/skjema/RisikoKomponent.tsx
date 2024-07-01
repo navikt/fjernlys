@@ -71,7 +71,7 @@ function RisikoKomponent({ riskID }: Props) {
             setVerdi={setConsValue}
           />
         </div>
-        <LeggTilTiltak />
+        <LeggTilTiltak riskID={riskID} />
       </div>
     </>
   );

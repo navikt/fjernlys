@@ -1,0 +1,27 @@
+.parentDiv {
+  margin-top: 32px;
+  position: relative;
+}
+
+.actionDiv {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.actionDiv:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.actionText {
+  margin-left: 10px;
+}
+
+.tiltakMainDiv {
+  margin-left: 25px;
+  position: relative;
+  margin-bottom: 32px;
+  background-color: #f7f8f8;
+  border: 1px red solid;
+}
