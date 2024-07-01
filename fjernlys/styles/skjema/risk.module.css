@@ -4,6 +4,14 @@
   gap: 16px;
 }
 
+.navds-text-field__input navds-body-short navds-body-short--medium {
+  background-color: red;
+}
+
+#tester {
+  background-color: red;
+}
+
 .leggTil {
   display: flex;
   flex-direction: row;

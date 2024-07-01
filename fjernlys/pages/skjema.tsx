@@ -1,14 +1,28 @@
 import { Box, Page, VStack } from "@navikt/ds-react";
-import React from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/landingPage/landingPage.module.css";
 import Risk from "@/components/skjema/Risk";
 import Opplysninger from "@/components/skjema/Opplysninger";
 import Risikoeier from "@/components/skjema/Risikoeier";
+import { createContext } from "react";
+
+interface FormContextType {
+  formData: { [key: string]: any };
+  updateFormData: (key: string, value: any) => void;
+}
+export const DropdownValues = createContext<FormContextType | undefined>(
+  undefined
+);
 import LeggTilTiltak from "@/components/skjema/LeggTilTiltak";
 import LeggTilRisiko from "@/components/skjema/LeggTilRisiko";
 
 const fillForm = () => {
+  const [formData, setFormData] = useState<{ [key: string]: any }>({});
+
+  const updateFormData = (key: string, value: any) => {
+    setFormData((prevData: any) => ({ ...prevData, [key]: value }));
+  };
   return (
     <>
       <Page
@@ -36,10 +50,12 @@ const fillForm = () => {
         >
           <VStack gap="4" align={"start"} style={{ marginLeft: "5vw" }}>
             <div className={styles.test}>
-              <h1>Rapporterinsskjema</h1>
+              <h1>Rapporteringsskjema</h1>
             </div>
             <Opplysninger />
-            <Risk />
+            <DropdownValues.Provider value={{ formData, updateFormData }}>
+              <Risk />
+            </DropdownValues.Provider>
             <LeggTilTiltak />
             <LeggTilRisiko />
             <div className={styles.test}>Andre opplysninger</div>
