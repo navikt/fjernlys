@@ -6,9 +6,6 @@ import { DropdownValues } from "@/pages/skjema";
 import Tiltak from "./Tiltak";
 
 const Risk = () => {
-  const addTiltak = () => {
-    console.log("Legg til tiltak");
-  };
   const context = useContext(DropdownValues);
   if (!context) {
     throw new Error("No context");

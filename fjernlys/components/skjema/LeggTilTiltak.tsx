@@ -8,17 +8,29 @@ const LeggTilTiltak: React.FC = () => {
   if (!context) {
     throw new Error("No context");
   }
-  const [tiltakList, setTiltakList] = useState<JSX.Element[]>([]);
+  const [tiltakList, setTiltakList] = useState<
+    { id: string; element: JSX.Element }[]
+  >([]);
 
   const addTiltak = () => {
-    setTiltakList([...tiltakList, <Tiltak key={tiltakList.length} />]);
+    const newId = `t${tiltakList.length + 1}`;
+    const riskId = "R1";
+    setTiltakList([
+      ...tiltakList,
+      { id: newId, element: <Tiltak key={newId} id={newId} riskId={riskId} /> },
+    ]);
+    {
+      console.log(tiltakList);
+    }
   };
 
   return (
     <div>
       <div style={{ marginTop: "10px" }}>
-        {tiltakList.map((tiltak) => (
-          <div style={{ marginTop: "5px" }}>{tiltak}</div>
+        {tiltakList.map(({ id, element }) => (
+          <div key={id} style={{ marginTop: "5px" }}>
+            {element}
+          </div>
         ))}
       </div>
       <div style={{ marginTop: "5px", display: "flex", alignItems: "center" }}>
@@ -28,6 +40,7 @@ const LeggTilTiltak: React.FC = () => {
           onClick={addTiltak}
           style={{ cursor: "pointer" }} // added inline style for cursor
         />
+
         <div style={{ marginLeft: "10px" }}>Legg til Tiltak</div>
       </div>
     </div>
