@@ -20,7 +20,6 @@ const Risk = () => {
 
   useEffect(() => {
     updateColor(probValue, consValue);
-    console.log(formData);
   }, [probValue, consValue]);
 
   const updateColor = (prob: string, cons: string) => {
