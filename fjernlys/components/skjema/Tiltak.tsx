@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
-import { TextField } from "@navikt/ds-react";
-import Dropdown from "./Dropdown";
+import { Radio, RadioGroup, Select, Switch, TextField } from "@navikt/ds-react";
 import stylesRisk from "@/styles/skjema/risk.module.css";
 import { XMarkIcon } from "@navikt/aksel-icons";
 import { DropdownValues } from "@/pages/skjema";
@@ -17,10 +16,8 @@ const Tiltak: React.FC<TiltakProps> = ({ tiltakID, riskID, deleteTiltak }) => {
   if (!context) {
     throw new Error("No context");
   }
-  const [probValue, setProbValue] = useState("0");
-  const [consValue, setConsValue] = useState("0");
 
-  const kys = () => {
+  const deleteSelf = () => {
     deleteTiltak(tiltakID);
   };
   return (
@@ -32,25 +29,35 @@ const Tiltak: React.FC<TiltakProps> = ({ tiltakID, riskID, deleteTiltak }) => {
           right: "5px",
           cursor: "pointer",
         }}
-        onClick={kys}
+        onClick={deleteSelf}
       >
         <XMarkIcon />
       </div>
       <div className={stylesRisk.verdier}></div>
-      <div>
-        <TextField label="TiltakID" value={tiltakID} readOnly />
-      </div>
-      <div>
-        <TextField label="RiskID" value={riskID} readOnly />
-      </div>
-      <div>
-        <div className={stylesRisk.verdier}>
-          <Dropdown
-            title={"Sannsynlighet"}
-            formKey={""}
-            setVerdi={setProbValue}
-          />
-          <Dropdown title={"Konsekvens"} formKey={""} setVerdi={setConsValue} />
+      <div style={{ margin: "16px" }}>
+        <div>
+          <TextField label="TiltakID" value={tiltakID} readOnly />
+        </div>
+        <div>
+          <TextField label="RiskID" value={riskID} readOnly />
+        </div>
+        <div>
+          <div>
+            <Select label={"Kategori"} size="small">
+              <option value="0" disabled>
+                Velg kategori
+              </option>
+              <option value="personvern">Personvern</option>
+              <option value="Kategori2">Kategori 2</option>
+            </Select>
+          </div>
+          <div className={stylesTiltak.radio}>
+            <RadioGroup legend="Er tiltaket påbegynt?">
+              <div className={stylesTiltak.tiltakRadio}>
+                <Radio value="1">Ja</Radio> <Radio value="2">Nei</Radio>
+              </div>
+            </RadioGroup>
+          </div>
         </div>
       </div>
     </div>

@@ -23,5 +23,24 @@
   position: relative;
   margin-bottom: 32px;
   background-color: #f7f8f8;
-  border: 1px red solid;
+}
+
+.tiltakRadio {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.radio {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.close {
+  position: "absolute";
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
 }
