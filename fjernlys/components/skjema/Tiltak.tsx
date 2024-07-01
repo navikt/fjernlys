@@ -5,15 +5,17 @@ import styles from "@/styles/skjema/risk.module.css";
 import { XMarkIcon } from "@navikt/aksel-icons";
 import { DropdownValues } from "@/pages/skjema";
 
-const Tiltak = () => {
+interface TiltakProps {
+  id: string;
+  riskId: string;
+}
+
+const Tiltak: React.FC<TiltakProps> = ({ id, riskId }) => {
   const context = useContext(DropdownValues);
   if (!context) {
     throw new Error("No context");
   }
-  interface TiltakProps {
-    key: number;
-    value: string;
-  }
+
   return (
     <div
       style={{
@@ -35,7 +37,10 @@ const Tiltak = () => {
       </div>
       <div className={styles.verdier}></div>
       <div>
-        <TextField label="TiltakID" value="TILTAK!!!!!!!!" readOnly />
+        <TextField label="TiltakID" value={id} readOnly />
+      </div>
+      <div>
+        <TextField label="RiskID" value={riskId} readOnly />
       </div>
       <div>
         <div className={styles.verdier}>
