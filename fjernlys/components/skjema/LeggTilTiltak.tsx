@@ -17,15 +17,16 @@ const LeggTilTiltak = ({ riskID }: Props) => {
     { id: string; element: JSX.Element }[]
   >([]);
 
+  const deleteTiltak = (tiltakID: string) => {
+    setTiltakList((prevList) =>
+      prevList.filter((item) => item.id !== tiltakID)
+    );
+  };
+
   const addTiltak = () => {
     const newId = `T${tiltakList.length + 1}`;
     const riskId = riskID;
 
-    const deleteTiltak = (tiltakID: string) => {
-      setTiltakList((prevList) =>
-        prevList.filter((item) => item.id !== tiltakID)
-      );
-    };
     setTiltakList([
       ...tiltakList,
       {
