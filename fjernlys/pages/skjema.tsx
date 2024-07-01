@@ -5,6 +5,8 @@ import styles from "@/styles/landingPage/landingPage.module.css";
 import Risk from "@/components/skjema/Risk";
 import Opplysninger from "@/components/skjema/Opplysninger";
 import Risikoeier from "@/components/skjema/Risikoeier";
+import LeggTilTiltak from "@/components/skjema/LeggTilTiltak";
+import LeggTilRisiko from "@/components/skjema/LeggTilRisiko";
 
 const fillForm = () => {
   return (
@@ -38,6 +40,8 @@ const fillForm = () => {
             </div>
             <Opplysninger />
             <Risk />
+            <LeggTilTiltak />
+            <LeggTilRisiko />
             <div className={styles.test}>Andre opplysninger</div>
             <Risikoeier />
           </VStack>
