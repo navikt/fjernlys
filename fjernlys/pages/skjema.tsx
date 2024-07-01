@@ -1,4 +1,4 @@
-import { Box, Page, VStack } from "@navikt/ds-react";
+import { Box, HelpText, Page, VStack } from "@navikt/ds-react";
 import React, { useContext, useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/landingPage/landingPage.module.css";
@@ -8,6 +8,7 @@ import Risikoeier from "@/components/skjema/Risikoeier";
 import { createContext } from "react";
 import LeggTilTiltak from "@/components/skjema/LeggTilTiltak";
 import LeggTilRisiko from "@/components/skjema/LeggTilRisiko";
+import RisikoKomponent from "@/components/skjema/RisikoKomponent";
 
 interface FormContextType {
   formData: { [key: string]: any };
@@ -53,11 +54,22 @@ const fillForm = () => {
               <h1>Rapporteringsskjema</h1>
             </div>
             <Opplysninger />
+            <h2>Risiko</h2>
+            <div className={styles.verdier}>
+              <h3>Fyll inn verdier</h3>
+              <HelpText title="Hva skal du gjøre?">
+                Velg verdier for sannsynlighet og konsekvens gjort i din
+                risikovurdering
+              </HelpText>
+            </div>
             <DropdownValues.Provider value={{ formData, updateFormData }}>
-              <Risk />
-              <LeggTilTiltak />
+              <div>
+                <RisikoKomponent riskID={"R1"} />
+                <RisikoKomponent riskID={"R2"} />
+              </div>
               <LeggTilRisiko />
             </DropdownValues.Provider>
+
             <div className={styles.test}>Andre opplysninger</div>
             <Risikoeier />
           </VStack>
