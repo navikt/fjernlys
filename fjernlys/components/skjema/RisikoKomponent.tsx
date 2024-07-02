@@ -1,4 +1,4 @@
-import { TextField } from "@navikt/ds-react";
+import { ExpansionCard, TextField } from "@navikt/ds-react";
 import React, { useContext, useEffect, useState } from "react";
 import styles from "@/styles/skjema/risk.module.css";
 import { DropdownValues } from "@/pages/skjema";
@@ -51,28 +51,40 @@ function RisikoKomponent({ riskID }: Props) {
   return (
     <>
       <div className={styles.parentDiv}>
-        <div>
-          <TextField
-            label="RisikoID"
-            value={riskID}
-            readOnly
-            //id={styles["tester"]}
-            style={{ backgroundColor: color }}
-          />
-        </div>
-        <div className={styles.verdier}>
-          <Dropdown
-            title={"Sannsynlighet"}
-            formKey={"prob"}
-            setVerdi={setProbValue}
-          />
-          <Dropdown
-            title={"Konsekvens"}
-            formKey={"cons"}
-            setVerdi={setConsValue}
-          />
-        </div>
-        <LeggTilTiltak riskID={riskID} />
+        <ExpansionCard
+          aria-label="Demo med bare tittel"
+          style={{ width: "20vw" }}
+        >
+          {" "}
+          <ExpansionCard.Header>
+            {" "}
+            <ExpansionCard.Title>{riskID}</ExpansionCard.Title>{" "}
+          </ExpansionCard.Header>{" "}
+          <ExpansionCard.Content>
+            {" "}
+            <div>
+              <TextField
+                label="RisikoID"
+                value={riskID}
+                readOnly
+                style={{ backgroundColor: color }}
+              />
+            </div>
+            <div className={styles.verdier}>
+              <Dropdown
+                title={"Sannsynlighet"}
+                formKey={"prob"}
+                setVerdi={setProbValue}
+              />
+              <Dropdown
+                title={"Konsekvens"}
+                formKey={"cons"}
+                setVerdi={setConsValue}
+              />
+            </div>
+            <LeggTilTiltak riskID={riskID} />
+          </ExpansionCard.Content>{" "}
+        </ExpansionCard>
       </div>
     </>
   );

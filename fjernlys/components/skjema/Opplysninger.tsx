@@ -5,7 +5,7 @@ import styles from "@/styles/skjema/opplysninger.module.css";
 
 const Opplysninger = () => {
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <h3>Opplysning fra rapporteringsskjema</h3>
       <div className={styles.hovedDiv}>
         <Select label={"Ytelse"}>

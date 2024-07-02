@@ -66,9 +66,18 @@ const fillForm = () => {
             marginTop: "5vh",
           }}
         >
-          <VStack gap="4" align={"start"} style={{ marginLeft: "5vw" }}>
+          <VStack
+            gap="4"
+            align={"start"}
+            style={{
+              marginLeft: "5vw",
+              width: "30%",
+            }}
+          >
             <div className={styles.test}>
-              <h1>Rapporteringsskjema</h1>
+              <h1 style={{ flexGrow: "1", width: "100%" }}>
+                Rapporteringsskjema
+              </h1>
             </div>
             <Opplysninger />
             <h2>Risiko</h2>
