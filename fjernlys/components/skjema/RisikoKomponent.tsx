@@ -30,6 +30,7 @@ function RisikoKomponent({ riskID }: Props) {
     updateRiskValues("cons", consValue);
     //updateFormData(riskID, riskValues);
     //console.log(formData);
+    console.log(riskID, probValue, consValue);
   }, [probValue, consValue]);
 
   const updateColor = (prob: string, cons: string) => {
