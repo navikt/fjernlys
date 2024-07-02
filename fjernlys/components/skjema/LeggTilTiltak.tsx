@@ -9,87 +9,62 @@ interface Props {
   riskID: string;
 }
 
-type TestListeElement = [string, string];
+type tiltakValues = [string, string];
+
 const LeggTilTiltak = ({ riskID }: Props) => {
   const context = useContext(DropdownValues);
   if (!context) {
     throw new Error("No context");
   }
-  const [showDropdown, setShowDropdown] = useState(false);
 
+  const [showDropdown, setShowDropdown] = useState(false);
   const [tiltakList, setTiltakList] = useState<
     { id: string; element: JSX.Element }[]
   >([]);
-
-  const [testListe, setTestListe] = useState<TestListeElement[]>([]);
-
-  // const deleteTiltak = (tiltakID: string) => {
-  //   setTiltakList((prevList) =>
-  //     prevList.filter((item) => item.id !== tiltakID)
-  //   );
-  // };
+  const [tiltakValues, setTiltakValues] = useState<tiltakValues[]>([]);
 
   const deleteTiltak = (tiltakIDNum: number) => {
-    setTestListe((prevList) =>
+    setTiltakValues((prevList) =>
       prevList.filter((_, index) => index !== tiltakIDNum)
     );
-    setTiltakList([]);
-    setTimeout(generateTing, 0);
-  };
-
-  const addTiltak = (id: number, category: string, dependant: string) => {
-    const newId = `${id}`;
-    const riskId = riskID;
-    setTiltakList((prevList) => [
-      ...prevList,
-      {
-        id: newId,
-        element: (
-          <Tiltak
-            key={newId}
-            tiltakIDNum={id}
-            riskID={riskId}
-            deleteTiltak={deleteTiltak}
-            category={category}
-            dependant={dependant}
-            updateListe={updateListe}
-          />
-        ),
-      },
-    ]);
+    setTiltakList((prevList) =>
+      prevList.filter((_, index) => index !== tiltakIDNum)
+    );
   };
 
   useEffect(() => {
-    if (tiltakList.length > 0) {
-      setShowDropdown(true);
-    } else {
-      setShowDropdown(false);
-    }
+    setShowDropdown(tiltakList.length > 0);
   }, [tiltakList]);
 
-  const generateTing = () => {
-    if (testListe.length > 0) {
-      for (let i = 0; i < testListe.length; i++) {
-        const newId = i;
-        const riskId = riskID;
-        console.log(newId, riskID);
-        addTiltak(newId, testListe[i][0], testListe[i][1]);
-        console.log("Hit");
-      }
-    } else {
-      const element: TestListeElement = ["personvern", "1"];
-      setTestListe((prevList) => [...prevList, element]);
-      addTiltak(0, "personvern", "1");
-      console.log("her");
-    }
+  useEffect(() => {
+    setTiltakList(
+      tiltakValues.map((item, index) => ({
+        id: `${index}`,
+        element: (
+          <Tiltak
+            key={index}
+            tiltakIDNum={index}
+            riskID={riskID}
+            deleteTiltak={deleteTiltak}
+            category={item[0]}
+            dependant={item[1]}
+            updateListe={updateListe}
+          />
+        ),
+      }))
+    );
+  }, [tiltakValues]);
+
+  const generateNewTiltak = () => {
+    setTiltakValues((prevList) => [...prevList, ["personvern", "2"]]);
   };
 
   const updateListe = (id: number, category: string, dependant: string) => {
-    if (testListe.length > 0) {
-      testListe[id][0] = category;
-      testListe[id][1] = dependant;
-      console.log(testListe);
-    }
+    setTiltakValues((prevList) => {
+      const newList = [...prevList];
+      newList[id] = [category, dependant];
+      return newList;
+    });
   };
 
   return (
@@ -101,13 +76,12 @@ const LeggTilTiltak = ({ riskID }: Props) => {
           </div>
         ))}
       </div>
-      <div className={styles.actionDiv}>
-        <PlusCircleIcon
-          className="leggTil"
-          fontSize={"1.5rem"}
-          onClick={generateTing}
-        />
-        <div className={styles.actionText}>Legg til Tiltak</div>
+      <div onClick={generateNewTiltak}>
+        {" "}
+        <div className={styles.actionDiv}>
+          <PlusCircleIcon className="leggTil" fontSize={"1.5rem"} />
+          <div className={styles.actionText}>Legg til Tiltak</div>
+        </div>
         {showDropdown && (
           <Dropdown title={""} formKey={""} setVerdi={undefined} />
         )}

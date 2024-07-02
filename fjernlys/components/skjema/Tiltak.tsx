@@ -22,11 +22,6 @@ const Tiltak: React.FC<TiltakProps> = ({
   dependant,
   updateListe,
 }) => {
-  const context = useContext(DropdownValues);
-  if (!context) {
-    throw new Error("No context");
-  }
-
   const [selectedCat, setSelectedCat] = useState(category || "");
   const [selectedDepend, setSelectedDepend] = useState(dependant || "");
   const tiltakID = `T${tiltakIDNum + 1}`;
