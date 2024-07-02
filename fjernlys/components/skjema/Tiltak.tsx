@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Radio, RadioGroup, Select, Switch, TextField } from "@navikt/ds-react";
 import stylesRisk from "@/styles/skjema/risk.module.css";
 import { XMarkIcon } from "@navikt/aksel-icons";
@@ -6,20 +6,38 @@ import { DropdownValues } from "@/pages/skjema";
 import stylesTiltak from "@/styles/skjema/tiltak.module.css";
 
 interface TiltakProps {
-  tiltakID: string;
+  tiltakIDNum: number;
   riskID: string;
-  deleteTiltak: (tiltakID: string) => void;
+  deleteTiltak: (tiltakIDNum: number) => void;
+  category: string;
+  dependant: string;
+  updateListe: any;
 }
 
-const Tiltak: React.FC<TiltakProps> = ({ tiltakID, riskID, deleteTiltak }) => {
+const Tiltak: React.FC<TiltakProps> = ({
+  tiltakIDNum,
+  riskID,
+  deleteTiltak,
+  category,
+  dependant,
+  updateListe,
+}) => {
   const context = useContext(DropdownValues);
   if (!context) {
     throw new Error("No context");
   }
 
+  const [selectedCat, setSelectedCat] = useState(category || "");
+  const [selectedDepend, setSelectedDepend] = useState(dependant || "");
+  const tiltakID = `T${tiltakIDNum + 1}`;
+
   const deleteSelf = () => {
-    deleteTiltak(tiltakID);
+    deleteTiltak(tiltakIDNum);
   };
+
+  useEffect(() => {
+    updateListe(tiltakIDNum, selectedCat, selectedDepend);
+  }, [selectedCat, selectedDepend]);
   return (
     <div className={stylesTiltak.tiltakMainDiv}>
       <div
@@ -43,16 +61,25 @@ const Tiltak: React.FC<TiltakProps> = ({ tiltakID, riskID, deleteTiltak }) => {
         </div>
         <div>
           <div>
-            <Select label={"Kategori"} size="small">
+            <Select
+              label={"Kategori"}
+              size="small"
+              value={selectedCat}
+              onChange={(e) => setSelectedCat(e.target.value)}
+            >
               <option value="0" disabled>
                 Velg kategori
               </option>
               <option value="personvern">Personvern</option>
-              <option value="Kategori2">Kategori 2</option>
+              <option value="kategori2">Kategori 2</option>
             </Select>
           </div>
           <div className={stylesTiltak.radio}>
-            <RadioGroup legend="Er tiltaket påbegynt?">
+            <RadioGroup
+              legend="Er tiltaket påbegynt?"
+              value={selectedDepend}
+              onChange={(value) => setSelectedDepend(value)}
+            >
               <div className={stylesTiltak.tiltakRadio}>
                 <Radio value="1">Ja</Radio> <Radio value="2">Nei</Radio>
               </div>
