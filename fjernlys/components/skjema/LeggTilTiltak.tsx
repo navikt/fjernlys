@@ -19,7 +19,7 @@ const LeggTilTiltak = ({ riskID }: Props) => {
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [tiltakList, setTiltakList] = useState<
-    { id: string; riskID: string; element: JSX.Element }[]
+    { id: string; element: JSX.Element }[]
   >([]);
   const [tiltakValues, setTiltakValues] = useState<tiltakValues[]>([]);
 
