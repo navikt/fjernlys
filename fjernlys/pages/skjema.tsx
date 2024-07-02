@@ -9,6 +9,7 @@ import { createContext } from "react";
 import LeggTilTiltak from "@/components/skjema/LeggTilTiltak";
 import LeggTilRisiko from "@/components/skjema/LeggTilRisiko";
 import RisikoKomponent from "@/components/skjema/RisikoKomponent";
+import router from "next/router";
 
 interface FormContextType {
   formData: { [key: string]: any };
@@ -18,12 +19,18 @@ export const DropdownValues = createContext<FormContextType | undefined>(
   undefined
 );
 
+const goHome = () => {
+  router.push("/");
+  console.log("hey");
+};
+
 const fillForm = () => {
   const [formData, setFormData] = useState<{ [key: string]: any }>({});
 
   const updateFormData = (key: string, value: any) => {
     setFormData((prevData: any) => ({ ...prevData, [key]: value }));
   };
+
   return (
     <>
       <Page
@@ -37,7 +44,16 @@ const fillForm = () => {
       >
         <Box as="header" background="surface-neutral-moderate" padding="8">
           <Page.Block gutters>
-            <Image src="/Rød.png" width={85} height={55} alt={"Nav Logo"} />
+            <div style={{ cursor: "pointer" }}>
+              {" "}
+              <Image
+                src="/Rød.png"
+                width={85}
+                height={55}
+                alt={"Nav Logo"}
+                onClick={goHome}
+              />
+            </div>
             RAPPORTERINGSSYSTEM
           </Page.Block>
         </Box>
@@ -65,7 +81,7 @@ const fillForm = () => {
             <DropdownValues.Provider value={{ formData, updateFormData }}>
               <div>
                 <RisikoKomponent riskID={"R1"} />
-                <RisikoKomponent riskID={"R2"} />
+                {/* <RisikoKomponent riskID={"R2"} /> */}
               </div>
               <LeggTilRisiko />
             </DropdownValues.Provider>

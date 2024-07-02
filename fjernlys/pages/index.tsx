@@ -16,6 +16,10 @@ export default function Home() {
     router.push("/skjema");
   };
 
+  const gotToDashboard = () => {
+    router.push("/dashboardOverview");
+  };
+
   return (
     <>
       <Page
@@ -43,6 +47,7 @@ export default function Home() {
           <Card
             title="Dashboard"
             icon={<TerminalIcon title="a11y-title" fontSize="5rem" />}
+            onClick={gotToDashboard}
           />
         </div>
       </Page>

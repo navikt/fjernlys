@@ -17,7 +17,7 @@ const LeggTilTiltak = ({ riskID }: Props) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [tiltakList, setTiltakList] = useState<
-    { id: string; element: JSX.Element }[]
+    { id: string; riskID: string; element: JSX.Element }[]
   >([]);
 
   const deleteTiltak = (tiltakID: string) => {
@@ -42,6 +42,7 @@ const LeggTilTiltak = ({ riskID }: Props) => {
             deleteTiltak={deleteTiltak}
           />
         ),
+        riskID: "",
       },
     ]);
     {
