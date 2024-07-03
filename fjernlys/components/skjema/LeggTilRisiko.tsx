@@ -39,7 +39,7 @@ const LeggTilRisiko = () => {
             className="leggTil"
             fontSize={"1.8rem"}
             onClick={() => console.log("Legg til risiko")}
-            style={{ cursor: "pointer" }} // added inline style for cursor
+            style={{ cursor: "pointer" }}
           />
         </div>
         <div

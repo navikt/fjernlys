@@ -63,15 +63,25 @@ const fillForm = () => {
             width: "80vw",
             marginLeft: "10vw",
             borderRadius: "5px",
+            marginTop: "5vh",
           }}
         >
-          <VStack gap="4" align={"start"} style={{ marginLeft: "5vw" }}>
+          <VStack
+            gap="4"
+            align={"start"}
+            style={{
+              marginLeft: "5vw",
+              width: "30%",
+            }}
+          >
             <div className={styles.test}>
-              <h1>Rapporteringsskjema</h1>
+              <h1 style={{ flexGrow: "1", width: "100%" }}>
+                Rapporteringsskjema
+              </h1>
             </div>
             <Opplysninger />
             <h2>Risiko</h2>
-            <div className={styles.verdier}>
+            <div>
               <h3>Fyll inn verdier</h3>
               <HelpText title="Hva skal du gjøre?">
                 Velg verdier for sannsynlighet og konsekvens gjort i din
@@ -79,10 +89,6 @@ const fillForm = () => {
               </HelpText>
             </div>
             <DropdownValues.Provider value={{ formData, updateFormData }}>
-              <div>
-                <RisikoKomponent riskID={"R1"} />
-                {/* <RisikoKomponent riskID={"R2"} /> */}
-              </div>
               <LeggTilRisiko />
             </DropdownValues.Provider>
 
