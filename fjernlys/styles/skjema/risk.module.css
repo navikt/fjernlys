@@ -32,3 +32,18 @@
   margin-bottom: 32px;
   /* background-color: var(--a-gray-50); */
 }
+
+.contentDiv {
+  display: flex;
+}
+
+.trashcan {
+  color: red;
+  cursor: pointer;
+}
+
+.trashcan:hover {
+  cursor: pointer;
+  transform: scale(1.35);
+  transition: transform 0.2s ease;
+}

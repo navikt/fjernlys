@@ -7,32 +7,38 @@ import stylesTiltak from "@/styles/skjema/tiltak.module.css";
 
 interface TiltakProps {
   tiltakIDNum: number;
-  riskID: string;
+  riskIDNum: number;
   deleteTiltak: (tiltakIDNum: number) => void;
   category: string;
-  dependant: string;
+  started: boolean;
   updateListe: any;
 }
 
 const Tiltak: React.FC<TiltakProps> = ({
   tiltakIDNum,
-  riskID,
+  riskIDNum,
   deleteTiltak,
   category,
-  dependant,
+  started,
   updateListe,
 }) => {
   const [selectedCat, setSelectedCat] = useState(category || "");
-  const [selectedDepend, setSelectedDepend] = useState(dependant || "");
+  const [selectedStarted, setSelectedStarted] = useState<boolean>(
+    started || false
+  );
   const tiltakID = `T${tiltakIDNum + 1}`;
+
+  const radioBoolCheck = (value: string): boolean => {
+    return value === "ja";
+  };
 
   const deleteSelf = () => {
     deleteTiltak(tiltakIDNum);
   };
 
   useEffect(() => {
-    updateListe(tiltakIDNum, selectedCat, selectedDepend);
-  }, [selectedCat, selectedDepend]);
+    updateListe(tiltakIDNum, selectedCat, selectedStarted);
+  }, [selectedCat, selectedStarted]);
   return (
     <div className={stylesTiltak.tiltakMainDiv}>
       <div
@@ -52,7 +58,7 @@ const Tiltak: React.FC<TiltakProps> = ({
           <TextField label="TiltakID" value={tiltakID} readOnly />
         </div>
         <div>
-          <TextField label="RiskID" value={riskID} readOnly />
+          <TextField label="RiskID" value={`R${riskIDNum}`} readOnly />
         </div>
         <div>
           <div>
@@ -72,11 +78,12 @@ const Tiltak: React.FC<TiltakProps> = ({
           <div className={stylesTiltak.radio}>
             <RadioGroup
               legend="Er tiltaket påbegynt?"
-              value={selectedDepend}
-              onChange={(value) => setSelectedDepend(value)}
+              value={selectedStarted ? "ja" : "nei"}
+              onChange={(value) => setSelectedStarted(radioBoolCheck(value))}
             >
               <div className={stylesTiltak.tiltakRadio}>
-                <Radio value="1">Ja</Radio> <Radio value="2">Nei</Radio>
+                <Radio value="ja">Ja</Radio>
+                <Radio value="nei">Nei</Radio>
               </div>
             </RadioGroup>
           </div>
