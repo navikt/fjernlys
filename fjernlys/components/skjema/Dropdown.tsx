@@ -16,8 +16,7 @@ const Dropdown = ({ title, formKey, setVerdi }: Props) => {
 
   const { formData, updateFormData } = context;
   const test = (verdi: string) => {
-    // setVerdi(verdi);
-    // updateFormData(formKey, verdi);
+    setVerdi(verdi);
   };
 
   return (
