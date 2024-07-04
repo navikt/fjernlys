@@ -45,7 +45,7 @@ const LeggTilRisiko = () => {
   };
 
   useEffect(() => {
-    console.log(risikoValues);
+    console.log(JSON.stringify(risikoValues));
   }, [risikoValues]);
 
   const [risikoList, setRisikoList] = useState<
