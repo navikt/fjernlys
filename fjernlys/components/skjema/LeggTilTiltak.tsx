@@ -25,7 +25,7 @@ const LeggTilTiltak = ({ riskIDNum, tiltakValues, setTiltakValues }: Props) => {
   >([]);
 
   const deleteTiltak = (tiltakIDNum: number) => {
-    setTiltakValues((prevList: any[]) =>
+    setTiltakValues((prevList: tiltakValuesType[]) =>
       prevList.filter((_, index) => index !== tiltakIDNum)
     );
     setTiltakList((prevList) =>
@@ -54,18 +54,17 @@ const LeggTilTiltak = ({ riskIDNum, tiltakValues, setTiltakValues }: Props) => {
         ),
       }))
     );
-    // console.log("hit", tiltakValues);
   }, [tiltakValues]);
 
   const generateNewTiltak = () => {
-    setTiltakValues((prevList: any) => [
+    setTiltakValues((prevList: tiltakValuesType[]) => [
       ...prevList,
       { category: "personvern", started: false },
     ]);
   };
 
   const updateListe = (id: number, category: string, started: boolean) => {
-    setTiltakValues((prevList: any) => {
+    setTiltakValues((prevList: tiltakValuesType[]) => {
       const newList = [...prevList];
       newList[id] = { category, started };
       return newList;

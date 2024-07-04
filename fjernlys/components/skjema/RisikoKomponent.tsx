@@ -13,26 +13,32 @@ interface Props {
   probability: number;
   consequence: number;
   dependent: boolean;
-  tiltakValuesType?: tiltakValuesType[];
+  tiltakValues?: tiltakValuesType[];
   deleteRisiko: any;
   updateRisiko: any;
 }
 
-function RisikoKomponent({ riskIDNum, deleteRisiko, updateRisiko }: Props) {
+function RisikoKomponent({
+  riskIDNum,
+  probability,
+  consequence,
+  tiltakValues,
+  deleteRisiko,
+  updateRisiko,
+}: Props) {
   const context = useContext(DropdownValues);
   if (!context) {
     throw new Error("No context");
   }
   const [color, setColor] = useState("none");
   const { formData, updateFormData } = context;
-  const [probValue, setProbValue] = useState("0");
-  const [consValue, setConsValue] = useState("0");
-  const [riskValues, setRiskValues] = useState<{ [key: string]: any }>({});
+  const [probValue, setProbValue] = useState(`${probability}` || "0");
+  const [consValue, setConsValue] = useState(`${consequence}` || "0");
+  console.log(`${probability}`, `${consequence}`);
 
-  const updateRiskValues = (key: string, value: any) => {
-    setRiskValues((prevData: any) => ({ ...prevData, [key]: value }));
-  };
-  const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>([]);
+  const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>([
+    { category: "", started: false },
+  ]);
   const deleteSelf = () => {
     deleteRisiko(riskIDNum);
   };
@@ -105,11 +111,13 @@ function RisikoKomponent({ riskIDNum, deleteRisiko, updateRisiko }: Props) {
                 title={"Sannsynlighet"}
                 formKey={"prob"}
                 setVerdi={setProbValue}
+                verdi={probValue}
               />
               <Dropdown
                 title={"Konsekvens"}
                 formKey={"cons"}
                 setVerdi={setConsValue}
+                verdi={consValue}
               />
             </div>
             <LeggTilTiltak

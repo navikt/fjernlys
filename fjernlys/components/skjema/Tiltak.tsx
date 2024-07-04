@@ -22,7 +22,7 @@ const Tiltak: React.FC<TiltakProps> = ({
   started,
   updateListe,
 }) => {
-  const [selectedCat, setSelectedCat] = useState(category || "");
+  const [selectedCat, setSelectedCat] = useState(category || "personvern");
   const [selectedStarted, setSelectedStarted] = useState<boolean>(
     started || false
   );
