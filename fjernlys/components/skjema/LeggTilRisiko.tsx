@@ -15,13 +15,15 @@ const LeggTilRisiko = () => {
   const initialRiskIDNum = 0;
 
   const deleteRisiko = (riskIDNum: number) => {
-    setRisikoValues((prevList) =>
+    setRisikoValues((prevList: risikoValuesType[]) =>
       prevList.filter((_, index) => index !== riskIDNum)
     );
 
-    setRisikoList((prevList) =>
-      prevList.filter((_, index) => index !== riskIDNum)
-    );
+    setRisikoList([]);
+
+    // setRisikoList((prevList) =>
+    //   prevList.filter((_, index) => index !== riskIDNum)
+    // );
   };
 
   const updateListe = (

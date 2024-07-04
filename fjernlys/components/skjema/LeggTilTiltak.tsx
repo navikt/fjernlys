@@ -114,9 +114,11 @@ const data = [
     cons: 3,
     dependant: true,
     tiltak: [
-      { category: "personvern", started: false },
-      { category: "personvern", started: false },
-      { category: "personvern", started: false },
+      [
+        { category: "personvern", started: false },
+        { category: "personvern", started: false },
+        { category: "personvern", started: false },
+      ],
     ],
   },
 ];

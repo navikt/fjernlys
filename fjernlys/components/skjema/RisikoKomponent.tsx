@@ -39,6 +39,7 @@ function RisikoKomponent({
   const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>(
     existingTiltakValues || [{ category: "personvern", started: false }]
   );
+
   const deleteSelf = () => {
     deleteRisiko(riskIDNum);
   };
