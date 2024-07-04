@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
 import RisikoKomponent from "./RisikoKomponent";
 
-type tiltakValues = { category: string; started: boolean };
+type tiltakValuesType = { category: string; started: boolean };
 type risikoValuesType = {
   probability: number;
   consequence: number;
   dependent: boolean;
-  tiltakValues?: tiltakValues[];
+  tiltakValues?: tiltakValuesType[];
 };
 
 const LeggTilRisiko = () => {
@@ -29,7 +29,7 @@ const LeggTilRisiko = () => {
     probability: number,
     consequence: number,
     dependent: boolean,
-    tiltakValues?: tiltakValues[]
+    tiltakValues?: tiltakValuesType[]
   ) => {
     setRisikoValues((prevList) => {
       const newList = [...prevList];
@@ -38,7 +38,7 @@ const LeggTilRisiko = () => {
         probability,
         consequence,
         dependent,
-        tiltakValues: tiltakValues,
+        tiltakValues,
       };
       return newList;
     });
@@ -66,14 +66,13 @@ const LeggTilRisiko = () => {
             probability={item.probability}
             consequence={item.consequence}
             dependent={item.dependent}
-            tiltakValuesType={item.tiltakValues}
+            existingTiltakValues={item.tiltakValues}
             deleteRisiko={deleteRisiko}
             updateRisiko={updateListe}
           />
         ),
       }))
     );
-    console.log("hahaha", risikoList);
   }, [risikoValues]);
 
   const generateNewRisiko = () => {

@@ -13,7 +13,7 @@ interface Props {
   probability: number;
   consequence: number;
   dependent: boolean;
-  tiltakValues?: tiltakValuesType[];
+  existingTiltakValues?: tiltakValuesType[];
   deleteRisiko: any;
   updateRisiko: any;
 }
@@ -22,7 +22,7 @@ function RisikoKomponent({
   riskIDNum,
   probability,
   consequence,
-  tiltakValues,
+  existingTiltakValues,
   deleteRisiko,
   updateRisiko,
 }: Props) {
@@ -36,9 +36,9 @@ function RisikoKomponent({
   const [consValue, setConsValue] = useState(`${consequence}` || "0");
   console.log(`${probability}`, `${consequence}`);
 
-  const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>([
-    { category: "", started: false },
-  ]);
+  const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>(
+    existingTiltakValues || [{ category: "personvern", started: false }]
+  );
   const deleteSelf = () => {
     deleteRisiko(riskIDNum);
   };
