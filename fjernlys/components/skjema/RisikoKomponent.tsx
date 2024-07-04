@@ -52,7 +52,7 @@ function RisikoKomponent({
         parseFloat(probValue),
         parseFloat(consValue),
         false,
-        [tiltakValues]
+        tiltakValues
       );
     } else {
       updateRisiko(
