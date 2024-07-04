@@ -4,38 +4,69 @@ import styles from "@/styles/skjema/risk.module.css";
 import { DropdownValues } from "@/pages/skjema";
 import Dropdown from "./Dropdown";
 import LeggTilTiltak from "./LeggTilTiltak";
+import { TrashIcon } from "@navikt/aksel-icons";
+
+type tiltakValuesType = { category: string; started: boolean };
 
 interface Props {
-  riskID: string;
+  riskIDNum: number;
+  probability: number;
+  consequence: number;
+  dependent: boolean;
+  existingTiltakValues?: tiltakValuesType[];
+  deleteRisiko: any;
+  updateRisiko: any;
 }
 
-function RisikoKomponent({ riskID }: Props) {
+function RisikoKomponent({
+  riskIDNum,
+  probability,
+  consequence,
+  existingTiltakValues,
+  deleteRisiko,
+  updateRisiko,
+}: Props) {
   const context = useContext(DropdownValues);
   if (!context) {
     throw new Error("No context");
   }
   const [color, setColor] = useState("none");
   const { formData, updateFormData } = context;
-  const [probValue, setProbValue] = useState("0");
-  const [consValue, setConsValue] = useState("0");
-  const [riskValues, setRiskValues] = useState<{ [key: string]: any }>({});
+  const [probValue, setProbValue] = useState(`${probability}` || "0");
+  const [consValue, setConsValue] = useState(`${consequence}` || "0");
+  console.log(`${probability}`, `${consequence}`);
 
-  const updateRiskValues = (key: string, value: any) => {
-    setRiskValues((prevData: any) => ({ ...prevData, [key]: value }));
+  const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>(
+    existingTiltakValues || [{ category: "personvern", started: false }]
+  );
+
+  const deleteSelf = () => {
+    deleteRisiko(riskIDNum);
   };
 
   useEffect(() => {
     updateColor(probValue, consValue);
-    updateRiskValues("prob", probValue);
-    updateRiskValues("cons", consValue);
-    //updateFormData(riskID, riskValues);
-    //console.log(formData);
-    console.log(riskID, probValue, consValue);
-  }, [probValue, consValue]);
+    if (tiltakValues.length > 0) {
+      updateRisiko(
+        riskIDNum,
+        parseFloat(probValue),
+        parseFloat(consValue),
+        false,
+        tiltakValues
+      );
+    } else {
+      updateRisiko(
+        riskIDNum,
+        parseFloat(probValue),
+        parseFloat(consValue),
+        false
+      );
+    }
+  }, [probValue, consValue, tiltakValues]);
 
   const updateColor = (prob: string, cons: string) => {
-    let probInt = parseInt(prob);
-    let consInt = parseInt(cons);
+    let probInt = parseFloat(prob);
+    let consInt = parseFloat(cons);
 
     if (probInt > 0 && consInt > 0) {
       let total = probInt * consInt;
@@ -58,16 +89,22 @@ function RisikoKomponent({ riskID }: Props) {
           {" "}
           <ExpansionCard.Header>
             {" "}
-            <ExpansionCard.Title>{riskID}</ExpansionCard.Title>{" "}
-          </ExpansionCard.Header>{" "}
+            <ExpansionCard.Title>{`R${riskIDNum + 1}`}</ExpansionCard.Title>
+          </ExpansionCard.Header>
           <ExpansionCard.Content>
             {" "}
-            <div>
+            <div className={styles.contentDiv}>
               <TextField
                 label="RisikoID"
-                value={riskID}
+                value={`R${riskIDNum + 1}`}
                 readOnly
                 style={{ backgroundColor: color }}
+              />
+              <TrashIcon
+                title="a11y-title"
+                fontSize="1.5rem"
+                className={styles.trashcan}
+                onClick={deleteSelf}
               />
             </div>
             <div className={styles.verdier}>
@@ -75,14 +112,20 @@ function RisikoKomponent({ riskID }: Props) {
                 title={"Sannsynlighet"}
                 formKey={"prob"}
                 setVerdi={setProbValue}
+                verdi={probValue}
               />
               <Dropdown
                 title={"Konsekvens"}
                 formKey={"cons"}
                 setVerdi={setConsValue}
+                verdi={consValue}
               />
             </div>
-            <LeggTilTiltak riskID={riskID} />
+            <LeggTilTiltak
+              riskIDNum={riskIDNum}
+              tiltakValues={tiltakValues}
+              setTiltakValues={setTiltakValues}
+            />
           </ExpansionCard.Content>{" "}
         </ExpansionCard>
       </div>

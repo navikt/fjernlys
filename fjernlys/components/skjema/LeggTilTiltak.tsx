@@ -6,12 +6,14 @@ import styles from "@/styles/skjema/tiltak.module.css";
 import Dropdown from "./Dropdown";
 
 interface Props {
-  riskID: string;
+  riskIDNum: number;
+  tiltakValues: tiltakValuesType[];
+  setTiltakValues: any;
 }
 
-type tiltakValues = [string, string];
+type tiltakValuesType = { category: string; started: boolean };
 
-const LeggTilTiltak = ({ riskID }: Props) => {
+const LeggTilTiltak = ({ riskIDNum, tiltakValues, setTiltakValues }: Props) => {
   const context = useContext(DropdownValues);
   if (!context) {
     throw new Error("No context");
@@ -21,10 +23,9 @@ const LeggTilTiltak = ({ riskID }: Props) => {
   const [tiltakList, setTiltakList] = useState<
     { id: string; element: JSX.Element }[]
   >([]);
-  const [tiltakValues, setTiltakValues] = useState<tiltakValues[]>([]);
 
   const deleteTiltak = (tiltakIDNum: number) => {
-    setTiltakValues((prevList) =>
+    setTiltakValues((prevList: tiltakValuesType[]) =>
       prevList.filter((_, index) => index !== tiltakIDNum)
     );
     setTiltakList((prevList) =>
@@ -44,10 +45,10 @@ const LeggTilTiltak = ({ riskID }: Props) => {
           <Tiltak
             key={index}
             tiltakIDNum={index}
-            riskID={riskID}
+            riskIDNum={riskIDNum + 1}
             deleteTiltak={deleteTiltak}
-            category={item[0]}
-            dependant={item[1]}
+            category={item.category}
+            started={item.started}
             updateListe={updateListe}
           />
         ),
@@ -56,13 +57,16 @@ const LeggTilTiltak = ({ riskID }: Props) => {
   }, [tiltakValues]);
 
   const generateNewTiltak = () => {
-    setTiltakValues((prevList) => [...prevList, ["personvern", "2"]]);
+    setTiltakValues((prevList: tiltakValuesType[]) => [
+      ...prevList,
+      { category: "personvern", started: false },
+    ]);
   };
 
-  const updateListe = (id: number, category: string, dependant: string) => {
-    setTiltakValues((prevList) => {
+  const updateListe = (id: number, category: string, started: boolean) => {
+    setTiltakValues((prevList: tiltakValuesType[]) => {
       const newList = [...prevList];
-      newList[id] = [category, dependant];
+      newList[id] = { category, started };
       return newList;
     });
   };
@@ -91,3 +95,30 @@ const LeggTilTiltak = ({ riskID }: Props) => {
 };
 
 export default LeggTilTiltak;
+
+const data = [
+  {
+    prob: 2,
+    cons: 3,
+    dependant: true,
+    tiltak: [{ category: "personvern", started: false }],
+  },
+  {
+    prob: 2,
+    cons: 3,
+    dependant: true,
+    tiltak: [{ category: "personvern", started: false }],
+  },
+  {
+    prob: 2,
+    cons: 3,
+    dependant: true,
+    tiltak: [
+      [
+        { category: "personvern", started: false },
+        { category: "personvern", started: false },
+        { category: "personvern", started: false },
+      ],
+    ],
+  },
+];

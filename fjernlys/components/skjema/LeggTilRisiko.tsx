@@ -1,44 +1,101 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
 import RisikoKomponent from "./RisikoKomponent";
 
+type tiltakValuesType = { category: string; started: boolean };
+type risikoValuesType = {
+  probability: number;
+  consequence: number;
+  dependent: boolean;
+  tiltakValues?: tiltakValuesType[];
+};
+
 const LeggTilRisiko = () => {
-  const initialRiskID = "R1";
-  const initialRiskElement = (
-    <RisikoKomponent key={initialRiskID} riskID={initialRiskID} />
-  );
+  const [risikoValues, setRisikoValues] = useState<risikoValuesType[]>([]);
+  const initialRiskIDNum = 0;
+
+  const deleteRisiko = (riskIDNum: number) => {
+    setRisikoValues((prevList: risikoValuesType[]) =>
+      prevList.filter((_, index) => index !== riskIDNum)
+    );
+
+    setRisikoList([]);
+
+    // setRisikoList((prevList) =>
+    //   prevList.filter((_, index) => index !== riskIDNum)
+    // );
+  };
+
+  const updateListe = (
+    id: number,
+    probability: number,
+    consequence: number,
+    dependent: boolean,
+    tiltakValues?: tiltakValuesType[]
+  ) => {
+    setRisikoValues((prevList) => {
+      const newList = [...prevList];
+      console.log("newList", newList);
+      newList[id] = {
+        probability,
+        consequence,
+        dependent,
+        tiltakValues,
+      };
+      return newList;
+    });
+  };
+
+  useEffect(() => {
+    console.log(JSON.stringify(risikoValues));
+  }, [risikoValues]);
 
   const [risikoList, setRisikoList] = useState<
     {
-      riskID: string;
+      riskIDNum: number;
       element: JSX.Element;
     }[]
-  >([{ riskID: initialRiskID, element: initialRiskElement }]);
+  >([]);
 
-  const handleAddRisiko = () => {
-    const riskID = `R${risikoList.length + 1}`;
+  useEffect(() => {
+    setRisikoList(
+      risikoValues.map((item, index) => ({
+        riskIDNum: index,
+        element: (
+          <RisikoKomponent
+            key={index}
+            riskIDNum={index}
+            probability={item.probability}
+            consequence={item.consequence}
+            dependent={item.dependent}
+            existingTiltakValues={item.tiltakValues}
+            deleteRisiko={deleteRisiko}
+            updateRisiko={updateListe}
+          />
+        ),
+      }))
+    );
+  }, [risikoValues]);
 
-    setRisikoList([
-      ...risikoList,
-      { riskID, element: <RisikoKomponent key={riskID} riskID={riskID} /> },
+  const generateNewRisiko = () => {
+    setRisikoValues((prevList) => [
+      ...prevList,
+      { probability: 0, consequence: 0, dependent: false },
     ]);
-
-    console.log(risikoList);
   };
 
   return (
     <div>
       <div>
-        {risikoList.map((risiko) => (
-          <div key={risiko.riskID}>{risiko.element}</div>
+        {risikoList.map(({ riskIDNum, element }) => (
+          <div key={riskIDNum}>{element}</div>
         ))}
       </div>
-      <div style={{ display: "flex" }} onClick={handleAddRisiko}>
+      <div style={{ display: "flex" }} onClick={generateNewRisiko}>
         <div>
           <PlusCircleIcon
             className="leggTil"
             fontSize={"1.8rem"}
-            onClick={() => console.log("Legg til risiko")}
             style={{ cursor: "pointer" }}
           />
         </div>
