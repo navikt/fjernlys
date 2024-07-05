@@ -8,22 +8,21 @@ type risikoValuesType = {
   consequence: number;
   dependent: boolean;
   tiltakValues?: tiltakValuesType[];
+  newConsequence?: string;
+  newProbability?: string;
 };
 
 const LeggTilRisiko = () => {
-  const [risikoValues, setRisikoValues] = useState<risikoValuesType[]>([]);
+  const [risikoValues, setRisikoValues] = useState<risikoValuesType[]>([
+    { probability: 0, consequence: 0, dependent: false },
+  ]);
   const initialRiskIDNum = 0;
 
   const deleteRisiko = (riskIDNum: number) => {
     setRisikoValues((prevList: risikoValuesType[]) =>
       prevList.filter((_, index) => index !== riskIDNum)
     );
-
     setRisikoList([]);
-
-    // setRisikoList((prevList) =>
-    //   prevList.filter((_, index) => index !== riskIDNum)
-    // );
   };
 
   const updateListe = (
@@ -31,7 +30,9 @@ const LeggTilRisiko = () => {
     probability: number,
     consequence: number,
     dependent: boolean,
-    tiltakValues?: tiltakValuesType[]
+    tiltakValues?: tiltakValuesType[],
+    newConsequence?: string,
+    newProbability?: string
   ) => {
     setRisikoValues((prevList) => {
       const newList = [...prevList];
@@ -41,6 +42,8 @@ const LeggTilRisiko = () => {
         consequence,
         dependent,
         tiltakValues,
+        newConsequence,
+        newProbability,
       };
       return newList;
     });
@@ -71,6 +74,8 @@ const LeggTilRisiko = () => {
             existingTiltakValues={item.tiltakValues}
             deleteRisiko={deleteRisiko}
             updateRisiko={updateListe}
+            newConsequence={item.newConsequence}
+            newProbability={item.newProbability}
           />
         ),
       }))

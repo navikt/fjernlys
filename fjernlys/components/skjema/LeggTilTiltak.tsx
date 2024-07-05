@@ -9,11 +9,23 @@ interface Props {
   riskIDNum: number;
   tiltakValues: tiltakValuesType[];
   setTiltakValues: any;
+  setNewProbValue: any;
+  setNewConsValue: any;
+  newProbValue: string;
+  newConsValue: string;
 }
 
 type tiltakValuesType = { category: string; started: boolean };
 
-const LeggTilTiltak = ({ riskIDNum, tiltakValues, setTiltakValues }: Props) => {
+const LeggTilTiltak = ({
+  riskIDNum,
+  tiltakValues,
+  setTiltakValues,
+  setNewConsValue,
+  setNewProbValue,
+  newConsValue,
+  newProbValue,
+}: Props) => {
   const context = useContext(DropdownValues);
   if (!context) {
     throw new Error("No context");
@@ -67,6 +79,8 @@ const LeggTilTiltak = ({ riskIDNum, tiltakValues, setTiltakValues }: Props) => {
     setTiltakValues((prevList: tiltakValuesType[]) => {
       const newList = [...prevList];
       newList[id] = { category, started };
+      console.log("newCons", newConsValue);
+      console.log("newCons", newConsValue);
       return newList;
     });
   };
@@ -86,39 +100,27 @@ const LeggTilTiltak = ({ riskIDNum, tiltakValues, setTiltakValues }: Props) => {
           <PlusCircleIcon className="leggTil" fontSize={"1.5rem"} />
           <div className={styles.actionText}>Legg til Tiltak</div>
         </div>
-        {showDropdown && (
-          <Dropdown title={""} formKey={""} setVerdi={undefined} />
-        )}
       </div>
+      <hr />
+
+      {showDropdown && (
+        <div className={styles.verdier}>
+          <Dropdown
+            title={"Ny Sannsynlighet"}
+            formKey={"prob"}
+            setVerdi={setNewProbValue}
+            verdi={newProbValue}
+          />
+          <Dropdown
+            title={"Ny Konsekvens"}
+            formKey={"cons"}
+            setVerdi={setNewConsValue}
+            verdi={newConsValue}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
 export default LeggTilTiltak;
-
-const data = [
-  {
-    prob: 2,
-    cons: 3,
-    dependant: true,
-    tiltak: [{ category: "personvern", started: false }],
-  },
-  {
-    prob: 2,
-    cons: 3,
-    dependant: true,
-    tiltak: [{ category: "personvern", started: false }],
-  },
-  {
-    prob: 2,
-    cons: 3,
-    dependant: true,
-    tiltak: [
-      [
-        { category: "personvern", started: false },
-        { category: "personvern", started: false },
-        { category: "personvern", started: false },
-      ],
-    ],
-  },
-];

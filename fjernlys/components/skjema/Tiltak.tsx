@@ -4,6 +4,8 @@ import stylesRisk from "@/styles/skjema/risk.module.css";
 import { XMarkIcon } from "@navikt/aksel-icons";
 import { DropdownValues } from "@/pages/skjema";
 import stylesTiltak from "@/styles/skjema/tiltak.module.css";
+import Dropdown from "./Dropdown";
+import styles from "@/styles/skjema/tiltak.module.css";
 
 interface TiltakProps {
   tiltakIDNum: number;
@@ -56,9 +58,6 @@ const Tiltak: React.FC<TiltakProps> = ({
       <div style={{ margin: "16px" }}>
         <div>
           <TextField label="TiltakID" value={tiltakID} readOnly />
-        </div>
-        <div>
-          <TextField label="RiskID" value={`R${riskIDNum}`} readOnly />
         </div>
         <div>
           <div>

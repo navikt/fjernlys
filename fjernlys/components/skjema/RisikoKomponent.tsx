@@ -16,6 +16,8 @@ interface Props {
   existingTiltakValues?: tiltakValuesType[];
   deleteRisiko: any;
   updateRisiko: any;
+  newProbability?: string;
+  newConsequence?: string;
 }
 
 function RisikoKomponent({
@@ -25,6 +27,8 @@ function RisikoKomponent({
   existingTiltakValues,
   deleteRisiko,
   updateRisiko,
+  newProbability,
+  newConsequence,
 }: Props) {
   const context = useContext(DropdownValues);
   if (!context) {
@@ -34,10 +38,11 @@ function RisikoKomponent({
   const { formData, updateFormData } = context;
   const [probValue, setProbValue] = useState(`${probability}` || "0");
   const [consValue, setConsValue] = useState(`${consequence}` || "0");
-  console.log(`${probability}`, `${consequence}`);
+  const [newConsValue, setNewConsValue] = useState(newConsequence || "0");
+  const [newProbValue, setNewProbValue] = useState(newProbability || "0");
 
   const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>(
-    existingTiltakValues || [{ category: "personvern", started: false }]
+    existingTiltakValues || []
   );
 
   const deleteSelf = () => {
@@ -52,8 +57,12 @@ function RisikoKomponent({
         parseFloat(probValue),
         parseFloat(consValue),
         false,
-        tiltakValues
+        tiltakValues,
+        newConsValue,
+        newProbValue
       );
+      console.log("newCons", newConsValue);
+      console.log("newProb", newProbValue);
     } else {
       updateRisiko(
         riskIDNum,
@@ -62,7 +71,7 @@ function RisikoKomponent({
         false
       );
     }
-  }, [probValue, consValue, tiltakValues]);
+  }, [probValue, consValue, tiltakValues, newConsValue]);
 
   const updateColor = (prob: string, cons: string) => {
     let probInt = parseFloat(prob);
@@ -89,43 +98,52 @@ function RisikoKomponent({
           {" "}
           <ExpansionCard.Header>
             {" "}
-            <ExpansionCard.Title>{`R${riskIDNum + 1}`}</ExpansionCard.Title>
+            <div style={{ display: "flex" }}>
+              {" "}
+              RisikoID:
+              <ExpansionCard.Title>{`R${riskIDNum + 1}`}</ExpansionCard.Title>
+            </div>
           </ExpansionCard.Header>
           <ExpansionCard.Content>
             {" "}
-            <div className={styles.contentDiv}>
-              <TextField
-                label="RisikoID"
-                value={`R${riskIDNum + 1}`}
-                readOnly
-                style={{ backgroundColor: color }}
-              />
-              <TrashIcon
-                title="a11y-title"
-                fontSize="1.5rem"
-                className={styles.trashcan}
-                onClick={deleteSelf}
+            <div className={styles.contentDiv2}>
+              <div className={styles.contentDiv}>
+                <TextField
+                  label="Trusselnivå"
+                  readOnly
+                  style={{ backgroundColor: color }}
+                />
+                <TrashIcon
+                  title="a11y-title"
+                  fontSize="1.5rem"
+                  className={styles.trashcan}
+                  onClick={deleteSelf}
+                />
+              </div>
+              <div className={styles.verdier}>
+                <Dropdown
+                  title={"Sannsynlighet"}
+                  formKey={"prob"}
+                  setVerdi={setProbValue}
+                  verdi={probValue}
+                />
+                <Dropdown
+                  title={"Konsekvens"}
+                  formKey={"cons"}
+                  setVerdi={setConsValue}
+                  verdi={consValue}
+                />
+              </div>
+              <LeggTilTiltak
+                riskIDNum={riskIDNum}
+                tiltakValues={tiltakValues}
+                setTiltakValues={setTiltakValues}
+                setNewProbValue={setNewProbValue}
+                setNewConsValue={setNewConsValue}
+                newProbValue={newProbValue}
+                newConsValue={newConsValue}
               />
             </div>
-            <div className={styles.verdier}>
-              <Dropdown
-                title={"Sannsynlighet"}
-                formKey={"prob"}
-                setVerdi={setProbValue}
-                verdi={probValue}
-              />
-              <Dropdown
-                title={"Konsekvens"}
-                formKey={"cons"}
-                setVerdi={setConsValue}
-                verdi={consValue}
-              />
-            </div>
-            <LeggTilTiltak
-              riskIDNum={riskIDNum}
-              tiltakValues={tiltakValues}
-              setTiltakValues={setTiltakValues}
-            />
           </ExpansionCard.Content>{" "}
         </ExpansionCard>
       </div>

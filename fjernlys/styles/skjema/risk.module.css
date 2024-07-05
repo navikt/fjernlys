@@ -47,3 +47,18 @@
   transform: scale(1.35);
   transition: transform 0.2s ease;
 }
+
+.vstack {
+  margin-left: 5vw;
+  width: 30%;
+}
+
+@media screen and (max-width: 900x) {
+  .contentDiv2 {
+    width: 70%;
+  }
+  .vstack {
+    margin-left: 0;
+    width: 100%;
+  }
+}
