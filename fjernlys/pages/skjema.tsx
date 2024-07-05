@@ -76,21 +76,22 @@ const fillForm = () => {
               </h1>
             </div>
             <Opplysninger />
-            <h2>Risiko</h2>
-            <div style={{ display: "flex" }}>
-              {" "}
-              <h3>Fyll inn verdier</h3>{" "}
-              <HelpText title="Hva skal du gjøre?">
-                Velg verdier for sannsynlighet og konsekvens gjort i din
-                risikovurdering
-              </HelpText>
-            </div>
-            <DropdownValues.Provider value={{ formData, updateFormData }}>
-              <LeggTilRisiko />
-            </DropdownValues.Provider>
+            <div style={{ width: "50%" }}>
+              <h2>Risiko</h2>
+              <div style={{ display: "flex", width: "100%" }}>
+                <h3>Fyll inn verdier</h3>{" "}
+                <HelpText title="Hva skal du gjøre?">
+                  Velg verdier for sannsynlighet og konsekvens gjort i din
+                  risikovurdering
+                </HelpText>
+              </div>
+              <DropdownValues.Provider value={{ formData, updateFormData }}>
+                <LeggTilRisiko />
+              </DropdownValues.Provider>
 
-            <div className={styles.test}>Andre opplysninger</div>
-            <Risikoeier />
+              <div className={styles.test}>Andre opplysninger</div>
+              <Risikoeier />
+            </div>
           </VStack>
         </div>
       </Page>

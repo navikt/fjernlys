@@ -3,6 +3,7 @@
   flex-direction: row;
   gap: 16px;
   margin-top: 16px;
+  width: 100%;
 }
 
 .leggTil {
@@ -11,7 +12,6 @@
   gap: 8px;
   align-items: center;
   padding: 8px;
-  border: 1px solid #0067c5;
   border-radius: 4px;
   color: #0067c5;
   font-size: 14px;
@@ -31,12 +31,17 @@
 .parentDiv {
   margin-bottom: 32px;
   /* background-color: var(--a-gray-50); */
+  width: 100%;
+  display: flex;
 }
 
 .contentDiv {
   display: flex;
 }
 
+.contentDiv2 {
+  position: relative;
+}
 .trashcan {
   color: red;
   cursor: pointer;
@@ -49,16 +54,18 @@
 }
 
 .vstack {
-  margin-left: 5vw;
-  width: 30%;
+  margin-left: 5%;
+  width: 60%;
 }
 
-@media screen and (max-width: 900x) {
-  .contentDiv2 {
-    width: 70%;
-  }
-  .vstack {
-    margin-left: 0;
-    width: 100%;
-  }
+.risikoeierDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 16px;
+}
+.risikoeierRadio {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
 }

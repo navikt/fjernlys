@@ -87,6 +87,7 @@ const LeggTilTiltak = ({
 
   return (
     <div className={styles.parentDiv}>
+      <hr />
       <div>
         {tiltakList.map(({ id, element }) => (
           <div key={id} style={{ marginTop: "5px" }}>
@@ -101,7 +102,7 @@ const LeggTilTiltak = ({
           <div className={styles.actionText}>Legg til Tiltak</div>
         </div>
       </div>
-      <hr />
+      {showDropdown && <hr />}
 
       {showDropdown && (
         <div className={styles.verdier}>

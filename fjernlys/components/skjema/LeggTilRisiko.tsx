@@ -91,7 +91,7 @@ const LeggTilRisiko = () => {
 
   return (
     <div>
-      <div>
+      <div style={{ width: "100%" }}>
         {risikoList.map(({ riskIDNum, element }) => (
           <div key={riskIDNum}>{element}</div>
         ))}
