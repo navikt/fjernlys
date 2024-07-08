@@ -43,14 +43,10 @@
   position: relative;
 }
 .trashcan {
-  color: red;
+  color: white;
   cursor: pointer;
-}
-
-.trashcan:hover {
-  cursor: pointer;
-  transform: scale(1.35);
-  transition: transform 0.2s ease;
+  width: 167px;
+  display: flex;
 }
 
 .vstack {

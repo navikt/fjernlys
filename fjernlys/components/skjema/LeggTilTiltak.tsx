@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { PlusCircleIcon } from "@navikt/aksel-icons";
+import { PencilIcon, PlusCircleIcon } from "@navikt/aksel-icons";
 import Tiltak from "./Tiltak";
 import { DropdownValues } from "@/pages/skjema";
 import styles from "@/styles/skjema/tiltak.module.css";
 import Dropdown from "./Dropdown";
+import { Button } from "@navikt/ds-react";
 
 interface Props {
   riskIDNum: number;
@@ -30,11 +31,6 @@ const LeggTilTiltak = ({
   newConsValue,
   newProbValue,
 }: Props) => {
-  const context = useContext(DropdownValues);
-  if (!context) {
-    throw new Error("No context");
-  }
-
   const [showDropdown, setShowDropdown] = useState(false);
   const [tiltakList, setTiltakList] = useState<
     { id: string; element: JSX.Element }[]
@@ -122,8 +118,7 @@ const LeggTilTiltak = ({
       <div onClick={generateNewTiltak}>
         {" "}
         <div className={styles.actionDiv}>
-          <PlusCircleIcon className="leggTil" fontSize={"1.5rem"} />
-          <div className={styles.actionText}>Legg til Tiltak</div>
+          <Button icon={<PencilIcon aria-hidden />}>Legg til tiltak</Button>{" "}
         </div>
       </div>
       {showDropdown && <hr />}

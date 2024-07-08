@@ -6,12 +6,8 @@ import { DropdownValues } from "@/pages/skjema";
 import Tiltak from "./Tiltak";
 
 const Risk = () => {
-  const context = useContext(DropdownValues);
-  if (!context) {
-    throw new Error("No context");
-  }
   const [color, setColor] = useState("none");
-  const { formData, updateFormData } = context;
+
   const [probValue, setProbValue] = useState("0");
   const [consValue, setConsValue] = useState("0");
 
