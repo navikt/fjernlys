@@ -78,9 +78,6 @@ const fillForm = () => {
               </div>
 
               <LeggTilRisiko />
-
-              <div className={styles.test}>Andre opplysninger</div>
-              <Risikoeier />
             </div>
           </VStack>
         </div>

@@ -1,6 +1,6 @@
 .parentDiv {
   margin-top: 32px;
-  position: relative;
+  width: 100%;
 }
 
 .actionDiv {
@@ -48,7 +48,15 @@
 
 .verdier {
   display: flex;
-  flex-direction: row;
+
   gap: 16px;
   margin-top: 16px;
+}
+
+.trashcan {
+  color: white;
+  cursor: pointer;
+  width: 130px;
+  height: 50px;
+  display: flex;
 }

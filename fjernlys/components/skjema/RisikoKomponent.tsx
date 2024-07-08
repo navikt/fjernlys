@@ -145,7 +145,7 @@ function RisikoKomponent({
     <>
       <div className={styles.parentDiv}>
         {" "}
-        <div className={styles.contentDiv2}>
+        <div className={styles.contentDiv}>
           {" "}
           {/* <div className={styles.contentDiv}>
             <div style={{ width: "100%" }}>
@@ -176,30 +176,37 @@ function RisikoKomponent({
               />
             </div>
           </div>
-          <div style={{ marginTop: "16px" }}>
-            <Dropdown
-              title={"Kategori"}
-              formKey="category"
-              verdi={category}
-              setVerdi={setCategory}
-              options={categoryOptions}
-            />
-          </div>
-          <div className={styles.risikoeierDiv}>
-            <RadioGroup
-              legend="Avhengighetsrisiko?"
-              onChange={handleDependent}
-              defaultValue={"false"}
+          <div style={{ marginTop: "16px", display: "flex" }}>
+            <div style={{ width: "50%" }}>
+              <Dropdown
+                title={"Kategori"}
+                formKey="category"
+                verdi={category}
+                setVerdi={setCategory}
+                options={categoryOptions}
+              />
+            </div>
+            <div
+              className={styles.risikoeierDiv}
+              style={{ marginLeft: "16px", marginTop: "4px", width: "50%" }}
             >
-              <div className={styles.risikoeierRadio}>
-                <Radio value="true">Ja</Radio> <Radio value="false">Nei</Radio>
-              </div>
-            </RadioGroup>
-            <HelpText title="Hva er en avhengighetsrisiko?">
-              En avhengighetsrisiko innebærer at risikoen du har i ditt
-              system/applikasjon er avhengig av andre systemer utenfor ditt
-              ansvarsområde
-            </HelpText>
+              <RadioGroup
+                legend="Avhengighetsrisiko?"
+                onChange={handleDependent}
+                defaultValue={"false"}
+                size="small"
+              >
+                <div className={styles.risikoeierRadio}>
+                  <Radio value="true">Ja</Radio>{" "}
+                  <Radio value="false">Nei</Radio>
+                </div>
+              </RadioGroup>
+              <HelpText title="Hva er en avhengighetsrisiko?">
+                En avhengighetsrisiko innebærer at risikoen du har i ditt
+                system/applikasjon er avhengig av andre systemer utenfor ditt
+                ansvarsområde
+              </HelpText>
+            </div>
           </div>
           <LeggTilTiltak
             riskIDNum={riskIDNum}

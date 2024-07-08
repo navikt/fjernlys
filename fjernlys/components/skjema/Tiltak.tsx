@@ -1,7 +1,7 @@
 import stylesRisk from "@/styles/skjema/risk.module.css";
 import stylesTiltak from "@/styles/skjema/tiltak.module.css";
-import { XMarkIcon } from "@navikt/aksel-icons";
-import { Select, TextField } from "@navikt/ds-react";
+import { TrashIcon, XMarkIcon } from "@navikt/aksel-icons";
+import { Button, Select, TextField } from "@navikt/ds-react";
 import React, { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 
@@ -45,45 +45,56 @@ const Tiltak: React.FC<TiltakProps> = ({
 
   const dropDownOptionsCat = [
     { value: "Velg kategori", label: "Velg kategori" },
-    { value: "eliminere", label: "Eliminere" },
-    { value: "overfore", label: "Overføre" },
-    { value: "redusere", label: "Redusere" },
-    { value: "godta", label: "Godta" },
+    { value: "Eliminere", label: "Eliminere" },
+    { value: "Overføre", label: "Overføre" },
+    { value: "Redusere", label: "Redusere" },
+    { value: "Godta", label: "Godta" },
   ];
-
   const dropDownOptionsStatus = [
     { value: "Velg status", label: "Velg status" },
-    { value: "pabegynt", label: "Påbegynt" },
-    { value: "ikke-pabegynt", label: "Ikke påbegynt" },
-    { value: "viderefort", label: "Videreført" },
-    { value: "lukket", label: "Lukket" },
+    { value: "Påbegynt", label: "Påbegynt" },
+    { value: "Ikke påbegynt", label: "Ikke påbegynt" },
+    { value: "Videreført", label: "Videreført" },
+    { value: "Lukket", label: "Lukket" },
   ];
 
   return (
-    <div style={{ display: "flex" }}>
+    <>
+      <div style={{ border: "1px red black", display: "flex", gap: "16px" }}>
+        <div style={{ width: "50%" }}>
+          <Dropdown
+            title={"Kategori"}
+            formKey="category"
+            verdi={selectedCat}
+            setVerdi={setSelectedCat}
+            options={dropDownOptionsCat}
+          />
+        </div>
+        <div
+          style={{
+            width: "50%",
+          }}
+        >
+          <Dropdown
+            title={"Status"}
+            formKey="status"
+            verdi={selectedStatus}
+            setVerdi={setSelectedStatus}
+            options={dropDownOptionsStatus}
+          />
+        </div>
+      </div>
       <div style={{ marginTop: "16px" }}>
-        <Dropdown
-          title={"Kategori"}
-          formKey="category"
-          verdi={selectedCat}
-          setVerdi={setSelectedCat}
-          options={dropDownOptionsCat}
-        />
+        <Button
+          variant="danger"
+          className={stylesTiltak.trashcan}
+          onClick={deleteSelf}
+          icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+        >
+          <p style={{ fontSize: "0.8rem" }}>Slett tiltak</p>
+        </Button>
       </div>
-      <div
-        style={{
-          marginTop: "16px",
-        }}
-      >
-        <Dropdown
-          title={"Status"}
-          formKey="status"
-          verdi={selectedStatus}
-          setVerdi={setSelectedStatus}
-          options={dropDownOptionsStatus}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 

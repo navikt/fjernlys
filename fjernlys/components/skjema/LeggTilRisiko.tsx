@@ -118,60 +118,65 @@ const LeggTilRisiko = () => {
   };
 
   return (
-    <div>
-      <div style={{ width: "100%" }}>
-        {/* {risikoList.map(({ riskIDNum, element }) => (
+    <>
+      {/* {risikoList.map(({ riskIDNum, element }) => (
           <div key={riskIDNum}>{element}</div>
         ))} */}
 
-        <Table>
+      <Table>
+        {" "}
+        <Table.Header>
           {" "}
-          <Table.Header>
+          <Table.Row>
             {" "}
-            <Table.Row>
-              {" "}
-              <Table.HeaderCell />{" "}
-              <Table.HeaderCell scope="col">Risiko</Table.HeaderCell>{" "}
-              <Table.HeaderCell scope="col">Trusselnivå</Table.HeaderCell>{" "}
-              <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>{" "}
-              <Table.HeaderCell scope="col">Antall tiltak</Table.HeaderCell>{" "}
-            </Table.Row>{" "}
-          </Table.Header>{" "}
-          <Table.Body>
-            {risikoList.map(({ riskIDNum, element }) => (
-              <Table.ExpandableRow
-                key={riskIDNum}
-                content={element}
-                open={expandedRow === riskIDNum}
-                onOpenChange={() => handleRowClick(riskIDNum)}
-              >
-                <Table.DataCell scope="row">
-                  {`R${riskIDNum + 1}`}
-                </Table.DataCell>
-                <Table.DataCell scope="row">
-                  {risikoValues[riskIDNum].riskLevel}
-                </Table.DataCell>
-                <Table.DataCell scope="row">
-                  {risikoValues[riskIDNum].category}
-                </Table.DataCell>
-                <Table.DataCell scope="row">
-                  {risikoValues[riskIDNum].tiltakValues?.length
-                    ? risikoValues[riskIDNum].tiltakValues?.length
-                    : 0}
-                </Table.DataCell>
-              </Table.ExpandableRow>
-            ))}
-          </Table.Body>{" "}
-        </Table>
-      </div>
+            <Table.HeaderCell />{" "}
+            <Table.HeaderCell scope="col">Risiko</Table.HeaderCell>{" "}
+            <Table.HeaderCell scope="col">Trusselnivå</Table.HeaderCell>{" "}
+            <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>{" "}
+            <Table.HeaderCell scope="col">Avhengighet</Table.HeaderCell>{" "}
+            <Table.HeaderCell scope="col">Antall tiltak</Table.HeaderCell>{" "}
+          </Table.Row>{" "}
+        </Table.Header>{" "}
+        <Table.Body>
+          {risikoList.map(({ riskIDNum, element }) => (
+            <Table.ExpandableRow
+              key={riskIDNum}
+              content={element}
+              open={expandedRow === riskIDNum}
+              onOpenChange={() => handleRowClick(riskIDNum)}
+            >
+              <Table.DataCell scope="row">{`R${riskIDNum + 1}`}</Table.DataCell>
+              <Table.DataCell scope="row">
+                {risikoValues[riskIDNum].riskLevel}
+              </Table.DataCell>
+              <Table.DataCell scope="row">
+                {risikoValues[riskIDNum].category}
+              </Table.DataCell>{" "}
+              <Table.DataCell scope="row">
+                {risikoValues[riskIDNum].dependent === true ? "Ja" : "Nei"}
+              </Table.DataCell>
+              <Table.DataCell scope="row">
+                {risikoValues[riskIDNum].tiltakValues?.length
+                  ? risikoValues[riskIDNum].tiltakValues?.length
+                  : 0}
+              </Table.DataCell>
+            </Table.ExpandableRow>
+          ))}
+        </Table.Body>{" "}
+      </Table>
 
       <div
         onClick={generateNewRisiko}
-        style={{ fontWeight: "bold", fontSize: "1.3rem", marginTop: "16px" }}
+        style={{
+          fontWeight: "bold",
+          fontSize: "1.3rem",
+          marginTop: "16px",
+          marginBottom: "32px",
+        }}
       >
         <Button icon={<PencilIcon aria-hidden />}>Legg til risiko</Button>{" "}
       </div>
-    </div>
+    </>
   );
 };
 

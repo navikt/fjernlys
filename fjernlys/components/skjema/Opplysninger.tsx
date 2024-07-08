@@ -2,6 +2,7 @@ import { Select } from "@navikt/ds-react";
 import React from "react";
 import DatoVelger from "./DatoVelger";
 import styles from "@/styles/skjema/opplysninger.module.css";
+import Risikoeier from "./Risikoeier";
 
 const Opplysninger = () => {
   return (
@@ -23,8 +24,8 @@ const Opplysninger = () => {
               <option value="7">Utbetaling</option>
             </Select>
           </div>
-          <DatoVelger />
         </div>
+        <Risikoeier />
       </div>
     </div>
   );

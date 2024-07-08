@@ -36,11 +36,8 @@
 }
 
 .contentDiv {
-  display: flex;
-}
-
-.contentDiv2 {
   position: relative;
+  width: 80%;
 }
 .trashcan {
   color: white;
