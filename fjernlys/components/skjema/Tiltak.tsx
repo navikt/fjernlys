@@ -1,17 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Radio, RadioGroup, Select, Switch, TextField } from "@navikt/ds-react";
 import stylesRisk from "@/styles/skjema/risk.module.css";
-import { XMarkIcon } from "@navikt/aksel-icons";
-import { DropdownValues } from "@/pages/skjema";
 import stylesTiltak from "@/styles/skjema/tiltak.module.css";
+import { XMarkIcon } from "@navikt/aksel-icons";
+import { Select, TextField } from "@navikt/ds-react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
-import styles from "@/styles/skjema/tiltak.module.css";
 
 interface TiltakProps {
   tiltakIDNum: number;
   riskIDNum: number;
   deleteTiltak: (tiltakIDNum: number) => void;
   category: string;
+  status: string;
   started: boolean;
   updateListe: any;
 }
@@ -22,9 +21,13 @@ const Tiltak: React.FC<TiltakProps> = ({
   deleteTiltak,
   category,
   started,
+  status,
   updateListe,
 }) => {
   const [selectedCat, setSelectedCat] = useState(category || "personvern");
+  const [selectedStatus, setSelectedStatus] = useState(
+    status || "ikke-pabegynt"
+  );
   const [selectedStarted, setSelectedStarted] = useState<boolean>(
     started || false
   );
@@ -39,8 +42,25 @@ const Tiltak: React.FC<TiltakProps> = ({
   };
 
   useEffect(() => {
-    updateListe(tiltakIDNum, selectedCat, selectedStarted);
-  }, [selectedCat, selectedStarted]);
+    updateListe(tiltakIDNum, selectedCat, selectedStatus, selectedStarted);
+  }, [selectedCat, selectedStarted, selectedStatus]);
+
+  const dropDownOptionsCat = [
+    { value: "0", label: "Velg kategori" },
+    { value: "eliminere", label: "Eliminere" },
+    { value: "overfore", label: "Overføre" },
+    { value: "redusere", label: "Redusere" },
+    { value: "godta", label: "Godta" },
+  ];
+
+  const dropDownOptionsStatus = [
+    { value: "0", label: "Velg status" },
+    { value: "pabegynt", label: "Påbegynt" },
+    { value: "ikke-pabegynt", label: "Ikke påbegynt" },
+    { value: "viderefort", label: "Videreført" },
+    { value: "lukket", label: "Lukket" },
+  ];
+
   return (
     <div className={stylesTiltak.tiltakMainDiv}>
       <div
@@ -61,41 +81,26 @@ const Tiltak: React.FC<TiltakProps> = ({
         </div>
         <div>
           <div style={{ marginTop: "16px" }}>
-            <Select
-              label={"Kategori"}
-              size="small"
-              value={selectedCat}
-              onChange={(e) => setSelectedCat(e.target.value)}
-            >
-              <option value="0" disabled>
-                Velg kategori
-              </option>
-              <option value="eliminere">Eliminere</option>
-              <option value="overfore">Overføre</option>
-              <option value="redusere">Redusere</option>
-              <option value="godta">Godta</option>
-            </Select>
+            <Dropdown
+              title={"Kategori"}
+              formKey="category"
+              verdi={selectedCat}
+              setVerdi={setSelectedCat}
+              options={dropDownOptionsCat}
+            />
           </div>
           <div
             style={{
               marginTop: "16px",
             }}
           >
-            <Select
-              label={"Status"}
-              size="small"
-              value={selectedCat}
-              onChange={(e) => setSelectedCat(e.target.value)}
-              style={{ marginBottom: "16px" }}
-            >
-              <option value="0" disabled>
-                Velg kategori
-              </option>
-              <option value="pabegynt">Påbegynt</option>
-              <option value="ikke-pabegynt">Ikke påbegynt</option>
-              <option value="viderefort">Videreført</option>
-              <option value="lukket">Lukket</option>
-            </Select>
+            <Dropdown
+              title={"Status"}
+              formKey="status"
+              verdi={selectedStatus}
+              setVerdi={setSelectedStatus}
+              options={dropDownOptionsStatus}
+            />
           </div>
         </div>
       </div>

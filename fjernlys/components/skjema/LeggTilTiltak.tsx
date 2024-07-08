@@ -15,7 +15,11 @@ interface Props {
   newConsValue: string;
 }
 
-type tiltakValuesType = { category: string; started: boolean };
+type tiltakValuesType = {
+  status: string;
+  category: string;
+  started: boolean;
+};
 
 const LeggTilTiltak = ({
   riskIDNum,
@@ -60,30 +64,50 @@ const LeggTilTiltak = ({
             riskIDNum={riskIDNum + 1}
             deleteTiltak={deleteTiltak}
             category={item.category}
+            status={item.status}
             started={item.started}
             updateListe={updateListe}
           />
         ),
       }))
     );
+    console.log("tiltakValues", tiltakValues);
   }, [tiltakValues]);
 
   const generateNewTiltak = () => {
     setTiltakValues((prevList: tiltakValuesType[]) => [
       ...prevList,
-      { category: "personvern", started: false },
+      { category: "personvern", status: "påbegynt", started: false },
     ]);
   };
 
-  const updateListe = (id: number, category: string, started: boolean) => {
+  const updateListe = (
+    id: number,
+    category: string,
+    status: string,
+    started: boolean
+  ) => {
     setTiltakValues((prevList: tiltakValuesType[]) => {
       const newList = [...prevList];
-      newList[id] = { category, started };
+      newList[id] = { category, status, started };
       console.log("newCons", newConsValue);
       console.log("newCons", newConsValue);
       return newList;
     });
   };
+
+  const dropdownOptions = [
+    { value: "0", label: "Velg verdi" },
+    { value: "1", label: "1" },
+    { value: "1.5", label: "1.5" },
+    { value: "2", label: "2" },
+    { value: "2.5", label: "2.5" },
+    { value: "3", label: "3" },
+    { value: "3.5", label: "3.5" },
+    { value: "4", label: "4" },
+    { value: "4.5", label: "4.5" },
+    { value: "5", label: "5" },
+  ];
 
   return (
     <div className={styles.parentDiv}>
@@ -107,16 +131,18 @@ const LeggTilTiltak = ({
       {showDropdown && (
         <div className={styles.verdier}>
           <Dropdown
-            title={"Ny Sannsynlighet"}
+            title={"Ny sannsynlighet"}
             formKey={"prob"}
             setVerdi={setNewProbValue}
             verdi={newProbValue}
+            options={dropdownOptions}
           />
           <Dropdown
-            title={"Ny Konsekvens"}
+            title={"Ny konsekvens"}
             formKey={"cons"}
             setVerdi={setNewConsValue}
             verdi={newConsValue}
+            options={dropdownOptions}
           />
         </div>
       )}

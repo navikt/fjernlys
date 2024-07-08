@@ -69,3 +69,12 @@
   flex-direction: row;
   gap: 16px;
 }
+
+.skjemaDiv {
+  background-color: white;
+  width: 80vw;
+  margin-left: 10vw;
+  border-radius: 5px;
+  margin-top: 5vh;
+  border: 1px, solid, #c6c2bf;
+}

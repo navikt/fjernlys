@@ -59,16 +59,7 @@ const fillForm = () => {
             RAPPORTERINGSSYSTEM
           </Page.Block>
         </Box>
-        <div
-          style={{
-            backgroundColor: "white",
-            width: "80vw",
-            marginLeft: "10vw",
-            borderRadius: "5px",
-            marginTop: "5vh",
-            border: "1px solid #c6c2bf",
-          }}
-        >
+        <div className={risk.skjemaDiv}>
           <VStack gap="4" align={"start"} className={risk.vstack}>
             <div className={styles.test}>
               <h1 style={{ flexGrow: "1", width: "100%" }}>

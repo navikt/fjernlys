@@ -13,7 +13,7 @@ import Dropdown from "./Dropdown";
 import LeggTilTiltak from "./LeggTilTiltak";
 import { TrashIcon } from "@navikt/aksel-icons";
 
-type tiltakValuesType = { category: string; started: boolean };
+type tiltakValuesType = { category: string; status: string; started: boolean };
 
 interface Props {
   riskIDNum: number;
@@ -95,6 +95,19 @@ function RisikoKomponent({
       }
     }
   };
+  const dropdownOptions = [
+    { value: "0", label: "Velg verdi" },
+    { value: "1", label: "1" },
+    { value: "1.5", label: "1.5" },
+    { value: "2", label: "2" },
+    { value: "2.5", label: "2.5" },
+    { value: "3", label: "3" },
+    { value: "3.5", label: "3.5" },
+    { value: "4", label: "4" },
+    { value: "4.5", label: "4.5" },
+    { value: "5", label: "5" },
+  ];
+
   return (
     <>
       <div className={styles.parentDiv}>
@@ -161,6 +174,7 @@ function RisikoKomponent({
                     formKey={"prob"}
                     setVerdi={setProbValue}
                     verdi={probValue}
+                    options={dropdownOptions}
                   />
                 </div>
                 <div style={{ width: "50%" }}>
@@ -169,6 +183,7 @@ function RisikoKomponent({
                     formKey={"cons"}
                     setVerdi={setConsValue}
                     verdi={consValue}
+                    options={dropdownOptions}
                   />
                 </div>
               </div>

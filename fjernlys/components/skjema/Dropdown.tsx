@@ -1,43 +1,37 @@
 import { DropdownValues } from "@/pages/skjema";
 import { Select } from "@navikt/ds-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 interface Props {
   title: string;
   formKey: string;
-  setVerdi: any;
+  setVerdi: (verdi: string) => void;
   verdi?: string;
+  options: { value: string; label: string }[];
 }
 
-const Dropdown = ({ title, formKey, setVerdi, verdi }: Props) => {
+const Dropdown = ({ title, formKey, setVerdi, verdi, options }: Props) => {
   const context = useContext(DropdownValues);
+
+  // Ensure context is defined
   if (!context) {
-    throw new Error("no context");
+    throw new Error("DropdownValues context is not provided.");
   }
 
-  const { formData, updateFormData } = context;
-  const test = (verdi: string) => {
-    setVerdi(verdi);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    setVerdi(selectedValue);
+    context.updateFormData(formKey, selectedValue);
   };
 
   return (
     <div>
-      <Select
-        label={title}
-        size="small"
-        onChange={(e) => test(e.target.value)}
-        value={verdi}
-      >
-        <option value="0">Velg verdi</option>
-        <option value="1">1</option>
-        <option value="1.5">1.5</option>
-        <option value="2">2</option>
-        <option value="2.5">2.5</option>
-        <option value="3">3</option>
-        <option value="3.5">3.5</option>
-        <option value="4">4</option>
-        <option value="4.5">4.5</option>
-        <option value="5">5</option>
+      <Select label={title} value={verdi} onChange={handleChange} size="small">
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </Select>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
 import RisikoKomponent from "./RisikoKomponent";
 
-type tiltakValuesType = { category: string; started: boolean };
+type tiltakValuesType = { category: string; status: string; started: boolean };
 type risikoValuesType = {
   probability: number;
   consequence: number;
