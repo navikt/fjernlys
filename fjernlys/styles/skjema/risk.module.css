@@ -3,6 +3,7 @@
   flex-direction: row;
   gap: 16px;
   margin-top: 16px;
+  width: 100%;
 }
 
 .leggTil {
@@ -11,7 +12,6 @@
   gap: 8px;
   align-items: center;
   padding: 8px;
-  border: 1px solid #0067c5;
   border-radius: 4px;
   color: #0067c5;
   font-size: 14px;
@@ -31,12 +31,17 @@
 .parentDiv {
   margin-bottom: 32px;
   /* background-color: var(--a-gray-50); */
+  width: 100%;
+  display: flex;
 }
 
 .contentDiv {
   display: flex;
 }
 
+.contentDiv2 {
+  position: relative;
+}
 .trashcan {
   color: red;
   cursor: pointer;
@@ -46,4 +51,21 @@
   cursor: pointer;
   transform: scale(1.35);
   transition: transform 0.2s ease;
+}
+
+.vstack {
+  margin-left: 5%;
+  width: 60%;
+}
+
+.risikoeierDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 16px;
+}
+.risikoeierRadio {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
 }

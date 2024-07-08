@@ -1,16 +1,19 @@
 .hovedDiv {
   display: flex;
-  flex-direction: row;
   gap: 16px;
 }
 
 .risikoeierDiv {
   display: flex;
-  flex-direction: row;
   gap: 8px;
 }
 .risikoeierRadio {
   display: flex;
-  flex-direction: row;
+  gap: 16px;
+}
+
+.selectDiv {
+  display: flex;
+  width: 50%;
   gap: 16px;
 }

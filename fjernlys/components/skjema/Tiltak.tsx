@@ -4,6 +4,8 @@ import stylesRisk from "@/styles/skjema/risk.module.css";
 import { XMarkIcon } from "@navikt/aksel-icons";
 import { DropdownValues } from "@/pages/skjema";
 import stylesTiltak from "@/styles/skjema/tiltak.module.css";
+import Dropdown from "./Dropdown";
+import styles from "@/styles/skjema/tiltak.module.css";
 
 interface TiltakProps {
   tiltakIDNum: number;
@@ -58,10 +60,7 @@ const Tiltak: React.FC<TiltakProps> = ({
           <TextField label="TiltakID" value={tiltakID} readOnly />
         </div>
         <div>
-          <TextField label="RiskID" value={`R${riskIDNum}`} readOnly />
-        </div>
-        <div>
-          <div>
+          <div style={{ marginTop: "16px" }}>
             <Select
               label={"Kategori"}
               size="small"
@@ -71,21 +70,32 @@ const Tiltak: React.FC<TiltakProps> = ({
               <option value="0" disabled>
                 Velg kategori
               </option>
-              <option value="personvern">Personvern</option>
-              <option value="kategori2">Kategori 2</option>
+              <option value="eliminere">Eliminere</option>
+              <option value="overfore">Overføre</option>
+              <option value="redusere">Redusere</option>
+              <option value="godta">Godta</option>
             </Select>
           </div>
-          <div className={stylesTiltak.radio}>
-            <RadioGroup
-              legend="Er tiltaket påbegynt?"
-              value={selectedStarted ? "ja" : "nei"}
-              onChange={(value) => setSelectedStarted(radioBoolCheck(value))}
+          <div
+            style={{
+              marginTop: "16px",
+            }}
+          >
+            <Select
+              label={"Status"}
+              size="small"
+              value={selectedCat}
+              onChange={(e) => setSelectedCat(e.target.value)}
+              style={{ marginBottom: "16px" }}
             >
-              <div className={stylesTiltak.tiltakRadio}>
-                <Radio value="ja">Ja</Radio>
-                <Radio value="nei">Nei</Radio>
-              </div>
-            </RadioGroup>
+              <option value="0" disabled>
+                Velg kategori
+              </option>
+              <option value="pabegynt">Påbegynt</option>
+              <option value="ikke-pabegynt">Ikke påbegynt</option>
+              <option value="viderefort">Videreført</option>
+              <option value="lukket">Lukket</option>
+            </Select>
           </div>
         </div>
       </div>

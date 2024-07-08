@@ -1,4 +1,11 @@
-import { ExpansionCard, TextField } from "@navikt/ds-react";
+import {
+  ExpansionCard,
+  HelpText,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+} from "@navikt/ds-react";
 import React, { useContext, useEffect, useState } from "react";
 import styles from "@/styles/skjema/risk.module.css";
 import { DropdownValues } from "@/pages/skjema";
@@ -16,6 +23,8 @@ interface Props {
   existingTiltakValues?: tiltakValuesType[];
   deleteRisiko: any;
   updateRisiko: any;
+  newProbability?: string;
+  newConsequence?: string;
 }
 
 function RisikoKomponent({
@@ -25,6 +34,8 @@ function RisikoKomponent({
   existingTiltakValues,
   deleteRisiko,
   updateRisiko,
+  newProbability,
+  newConsequence,
 }: Props) {
   const context = useContext(DropdownValues);
   if (!context) {
@@ -34,10 +45,11 @@ function RisikoKomponent({
   const { formData, updateFormData } = context;
   const [probValue, setProbValue] = useState(`${probability}` || "0");
   const [consValue, setConsValue] = useState(`${consequence}` || "0");
-  console.log(`${probability}`, `${consequence}`);
+  const [newConsValue, setNewConsValue] = useState(newConsequence || "0");
+  const [newProbValue, setNewProbValue] = useState(newProbability || "0");
 
   const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>(
-    existingTiltakValues || [{ category: "personvern", started: false }]
+    existingTiltakValues || []
   );
 
   const deleteSelf = () => {
@@ -52,8 +64,12 @@ function RisikoKomponent({
         parseFloat(probValue),
         parseFloat(consValue),
         false,
-        tiltakValues
+        tiltakValues,
+        newConsValue,
+        newProbValue
       );
+      console.log("newCons", newConsValue);
+      console.log("newProb", newProbValue);
     } else {
       updateRisiko(
         riskIDNum,
@@ -62,7 +78,7 @@ function RisikoKomponent({
         false
       );
     }
-  }, [probValue, consValue, tiltakValues]);
+  }, [probValue, consValue, tiltakValues, newConsValue]);
 
   const updateColor = (prob: string, cons: string) => {
     let probInt = parseFloat(prob);
@@ -84,48 +100,88 @@ function RisikoKomponent({
       <div className={styles.parentDiv}>
         <ExpansionCard
           aria-label="Demo med bare tittel"
-          style={{ width: "20vw" }}
+          style={{ width: "100%" }}
         >
           {" "}
           <ExpansionCard.Header>
             {" "}
-            <ExpansionCard.Title>{`R${riskIDNum + 1}`}</ExpansionCard.Title>
+            <div>
+              <ExpansionCard.Title>{`R${riskIDNum + 1}`}</ExpansionCard.Title>
+            </div>
           </ExpansionCard.Header>
           <ExpansionCard.Content>
             {" "}
-            <div className={styles.contentDiv}>
-              <TextField
-                label="RisikoID"
-                value={`R${riskIDNum + 1}`}
-                readOnly
-                style={{ backgroundColor: color }}
-              />
+            <div className={styles.contentDiv2}>
+              {" "}
               <TrashIcon
                 title="a11y-title"
                 fontSize="1.5rem"
                 className={styles.trashcan}
                 onClick={deleteSelf}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                }}
+              />
+              <div className={styles.contentDiv}>
+                <div style={{ width: "100%" }}>
+                  <TextField
+                    label="Trusselnivå"
+                    readOnly
+                    style={{ backgroundColor: color }}
+                  />
+                </div>
+              </div>
+              <div style={{ marginTop: "16px" }}>
+                <Select label={"Kategori"} size="small">
+                  <option value="0" disabled>
+                    Velg kategori
+                  </option>
+                  <option value="personvern">Personvern</option>
+                  <option value="digital">Digitalt Angrep</option>
+                  <option value="drift">Drift/Infrastruktur</option>
+                </Select>
+              </div>
+              <div className={styles.risikoeierDiv}>
+                <RadioGroup legend="Avhengighetsrisiko?">
+                  <div className={styles.risikoeierRadio}>
+                    <Radio value="1">Ja</Radio> <Radio value="2">Nei</Radio>
+                  </div>
+                </RadioGroup>
+                <HelpText title="Hva er en avhengighetsrisiko?">
+                  En avhengighetsrisiko innebærer at risikoen du har i ditt
+                  system/applikasjon er avhengig av andre systemer utenfor ditt
+                  ansvarsområde
+                </HelpText>
+              </div>
+              <div className={styles.verdier}>
+                <div style={{ width: "50%" }}>
+                  <Dropdown
+                    title={"Sannsynlighet"}
+                    formKey={"prob"}
+                    setVerdi={setProbValue}
+                    verdi={probValue}
+                  />
+                </div>
+                <div style={{ width: "50%" }}>
+                  <Dropdown
+                    title={"Konsekvens"}
+                    formKey={"cons"}
+                    setVerdi={setConsValue}
+                    verdi={consValue}
+                  />
+                </div>
+              </div>
+              <LeggTilTiltak
+                riskIDNum={riskIDNum}
+                tiltakValues={tiltakValues}
+                setTiltakValues={setTiltakValues}
+                setNewProbValue={setNewProbValue}
+                setNewConsValue={setNewConsValue}
+                newProbValue={newProbValue}
+                newConsValue={newConsValue}
               />
             </div>
-            <div className={styles.verdier}>
-              <Dropdown
-                title={"Sannsynlighet"}
-                formKey={"prob"}
-                setVerdi={setProbValue}
-                verdi={probValue}
-              />
-              <Dropdown
-                title={"Konsekvens"}
-                formKey={"cons"}
-                setVerdi={setConsValue}
-                verdi={consValue}
-              />
-            </div>
-            <LeggTilTiltak
-              riskIDNum={riskIDNum}
-              tiltakValues={tiltakValues}
-              setTiltakValues={setTiltakValues}
-            />
           </ExpansionCard.Content>{" "}
         </ExpansionCard>
       </div>

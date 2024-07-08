@@ -2,6 +2,8 @@ import { Box, HelpText, Page, VStack } from "@navikt/ds-react";
 import React, { useContext, useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/landingPage/landingPage.module.css";
+import risk from "@/styles/skjema/risk.module.css";
+import riskStyles from "@/styles/skjema/risk.module.css";
 import Risk from "@/components/skjema/Risk";
 import Opplysninger from "@/components/skjema/Opplysninger";
 import Risikoeier from "@/components/skjema/Risikoeier";
@@ -64,36 +66,32 @@ const fillForm = () => {
             marginLeft: "10vw",
             borderRadius: "5px",
             marginTop: "5vh",
+            border: "1px solid #c6c2bf",
           }}
         >
-          <VStack
-            gap="4"
-            align={"start"}
-            style={{
-              marginLeft: "5vw",
-              width: "30%",
-            }}
-          >
+          <VStack gap="4" align={"start"} className={risk.vstack}>
             <div className={styles.test}>
               <h1 style={{ flexGrow: "1", width: "100%" }}>
                 Rapporteringsskjema
               </h1>
             </div>
             <Opplysninger />
-            <h2>Risiko</h2>
-            <div>
-              <h3>Fyll inn verdier</h3>
-              <HelpText title="Hva skal du gjøre?">
-                Velg verdier for sannsynlighet og konsekvens gjort i din
-                risikovurdering
-              </HelpText>
-            </div>
-            <DropdownValues.Provider value={{ formData, updateFormData }}>
-              <LeggTilRisiko />
-            </DropdownValues.Provider>
+            <div style={{ width: "50%" }}>
+              <h2>Risiko</h2>
+              <div style={{ display: "flex", width: "100%" }}>
+                <h3>Fyll inn verdier</h3>{" "}
+                <HelpText title="Hva skal du gjøre?">
+                  Velg verdier for sannsynlighet og konsekvens gjort i din
+                  risikovurdering
+                </HelpText>
+              </div>
+              <DropdownValues.Provider value={{ formData, updateFormData }}>
+                <LeggTilRisiko />
+              </DropdownValues.Provider>
 
-            <div className={styles.test}>Andre opplysninger</div>
-            <Risikoeier />
+              <div className={styles.test}>Andre opplysninger</div>
+              <Risikoeier />
+            </div>
           </VStack>
         </div>
       </Page>
