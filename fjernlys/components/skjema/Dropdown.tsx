@@ -10,12 +10,6 @@ interface Props {
 }
 
 const Dropdown = ({ title, formKey, setVerdi, verdi }: Props) => {
-  const context = useContext(DropdownValues);
-  if (!context) {
-    throw new Error("no context");
-  }
-
-  const { formData, updateFormData } = context;
   const test = (verdi: string) => {
     setVerdi(verdi);
   };
@@ -28,7 +22,9 @@ const Dropdown = ({ title, formKey, setVerdi, verdi }: Props) => {
         onChange={(e) => test(e.target.value)}
         value={verdi}
       >
-        <option value="0">Velg verdi</option>
+        <option value="0" disabled>
+          Velg verdi
+        </option>
         <option value="1">1</option>
         <option value="1.5">1.5</option>
         <option value="2">2</option>

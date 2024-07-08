@@ -1,4 +1,5 @@
 import {
+  Button,
   ExpansionCard,
   HelpText,
   Radio,
@@ -12,6 +13,7 @@ import { DropdownValues } from "@/pages/skjema";
 import Dropdown from "./Dropdown";
 import LeggTilTiltak from "./LeggTilTiltak";
 import { TrashIcon } from "@navikt/aksel-icons";
+import Dependent from "./Dependent";
 
 type tiltakValuesType = { category: string; started: boolean };
 
@@ -19,7 +21,9 @@ interface Props {
   riskIDNum: number;
   probability: number;
   consequence: number;
-  dependent: boolean;
+  existingDependent: boolean;
+  existingRiskLevel: string;
+  existingCategory: string;
   existingTiltakValues?: tiltakValuesType[];
   deleteRisiko: any;
   updateRisiko: any;
@@ -31,22 +35,26 @@ function RisikoKomponent({
   riskIDNum,
   probability,
   consequence,
+  existingDependent,
   existingTiltakValues,
+  existingRiskLevel,
+  existingCategory,
   deleteRisiko,
   updateRisiko,
   newProbability,
   newConsequence,
 }: Props) {
-  const context = useContext(DropdownValues);
-  if (!context) {
-    throw new Error("No context");
-  }
   const [color, setColor] = useState("none");
-  const { formData, updateFormData } = context;
+
   const [probValue, setProbValue] = useState(`${probability}` || "0");
   const [consValue, setConsValue] = useState(`${consequence}` || "0");
   const [newConsValue, setNewConsValue] = useState(newConsequence || "0");
   const [newProbValue, setNewProbValue] = useState(newProbability || "0");
+  const [dependent, setDependent] = useState(existingDependent || false);
+  const [riskLevel, setRiskLevel] = useState(
+    existingRiskLevel || "Ingen vurdering"
+  );
+  const [category, setCategory] = useState(existingCategory || "Ikke satt");
 
   const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>(
     existingTiltakValues || []
@@ -56,6 +64,10 @@ function RisikoKomponent({
     deleteRisiko(riskIDNum);
   };
 
+  const updateCategory = (category: string) => {
+    setCategory(category);
+  };
+
   useEffect(() => {
     updateColor(probValue, consValue);
     if (tiltakValues.length > 0) {
@@ -63,7 +75,9 @@ function RisikoKomponent({
         riskIDNum,
         parseFloat(probValue),
         parseFloat(consValue),
-        false,
+        dependent,
+        riskLevel,
+        category,
         tiltakValues,
         newConsValue,
         newProbValue
@@ -75,10 +89,20 @@ function RisikoKomponent({
         riskIDNum,
         parseFloat(probValue),
         parseFloat(consValue),
-        false
+        dependent,
+        riskLevel,
+        category
       );
     }
-  }, [probValue, consValue, tiltakValues, newConsValue]);
+  }, [
+    probValue,
+    consValue,
+    dependent,
+    riskLevel,
+    category,
+    tiltakValues,
+    newConsValue,
+  ]);
 
   const updateColor = (prob: string, cons: string) => {
     let probInt = parseFloat(prob);
@@ -88,103 +112,102 @@ function RisikoKomponent({
       let total = probInt * consInt;
       if (total <= 4 && probInt <= 3 && consInt <= 3) {
         setColor("green");
+        setRiskLevel("Lav");
       } else if (total >= 15) {
         setColor("red");
+        setRiskLevel("Alvorlig");
       } else if (total >= 4 && total < 15) {
         setColor("yellow");
+        setRiskLevel("Moderat");
       }
     }
+  };
+  const handleDependent = (value: string) => {
+    setDependent(value === "true");
   };
   return (
     <>
       <div className={styles.parentDiv}>
-        <ExpansionCard
-          aria-label="Demo med bare tittel"
-          style={{ width: "100%" }}
-        >
+        {" "}
+        <div className={styles.contentDiv2}>
           {" "}
-          <ExpansionCard.Header>
-            {" "}
-            <div>
-              <ExpansionCard.Title>{`R${riskIDNum + 1}`}</ExpansionCard.Title>
-            </div>
-          </ExpansionCard.Header>
-          <ExpansionCard.Content>
-            {" "}
-            <div className={styles.contentDiv2}>
-              {" "}
-              <TrashIcon
-                title="a11y-title"
-                fontSize="1.5rem"
-                className={styles.trashcan}
-                onClick={deleteSelf}
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                }}
-              />
-              <div className={styles.contentDiv}>
-                <div style={{ width: "100%" }}>
-                  <TextField
-                    label="Trusselnivå"
-                    readOnly
-                    style={{ backgroundColor: color }}
-                  />
-                </div>
-              </div>
-              <div style={{ marginTop: "16px" }}>
-                <Select label={"Kategori"} size="small">
-                  <option value="0" disabled>
-                    Velg kategori
-                  </option>
-                  <option value="personvern">Personvern</option>
-                  <option value="digital">Digitalt Angrep</option>
-                  <option value="drift">Drift/Infrastruktur</option>
-                </Select>
-              </div>
-              <div className={styles.risikoeierDiv}>
-                <RadioGroup legend="Avhengighetsrisiko?">
-                  <div className={styles.risikoeierRadio}>
-                    <Radio value="1">Ja</Radio> <Radio value="2">Nei</Radio>
-                  </div>
-                </RadioGroup>
-                <HelpText title="Hva er en avhengighetsrisiko?">
-                  En avhengighetsrisiko innebærer at risikoen du har i ditt
-                  system/applikasjon er avhengig av andre systemer utenfor ditt
-                  ansvarsområde
-                </HelpText>
-              </div>
-              <div className={styles.verdier}>
-                <div style={{ width: "50%" }}>
-                  <Dropdown
-                    title={"Sannsynlighet"}
-                    formKey={"prob"}
-                    setVerdi={setProbValue}
-                    verdi={probValue}
-                  />
-                </div>
-                <div style={{ width: "50%" }}>
-                  <Dropdown
-                    title={"Konsekvens"}
-                    formKey={"cons"}
-                    setVerdi={setConsValue}
-                    verdi={consValue}
-                  />
-                </div>
-              </div>
-              <LeggTilTiltak
-                riskIDNum={riskIDNum}
-                tiltakValues={tiltakValues}
-                setTiltakValues={setTiltakValues}
-                setNewProbValue={setNewProbValue}
-                setNewConsValue={setNewConsValue}
-                newProbValue={newProbValue}
-                newConsValue={newConsValue}
+          {/* <div className={styles.contentDiv}>
+            <div style={{ width: "100%" }}>
+              <TextField
+                label="Trusselnivå"
+                readOnly
+                style={{ backgroundColor: color }}
               />
             </div>
-          </ExpansionCard.Content>{" "}
-        </ExpansionCard>
+          </div> */}
+          <div className={styles.verdier}>
+            <div style={{ width: "50%" }}>
+              <Dropdown
+                title={"Sannsynlighet"}
+                formKey={"prob"}
+                setVerdi={setProbValue}
+                verdi={probValue}
+              />
+            </div>
+            <div style={{ width: "50%" }}>
+              <Dropdown
+                title={"Konsekvens"}
+                formKey={"cons"}
+                setVerdi={setConsValue}
+                verdi={consValue}
+              />
+            </div>
+          </div>
+          <div style={{ marginTop: "16px" }}>
+            <Select
+              label={"Kategori"}
+              size="small"
+              onChange={(e) => updateCategory(e.target.value)}
+              value={category}
+            >
+              <option value="Ikke satt" disabled>
+                Velg kategori
+              </option>
+              <option value="Personvern">Personvern</option>
+              <option value="Digitalt Angrep">Digitalt Angrep</option>
+              <option value="Drift/Infrastruktur">Drift/Infrastruktur</option>
+            </Select>
+          </div>
+          <div className={styles.risikoeierDiv}>
+            <RadioGroup
+              legend="Avhengighetsrisiko?"
+              onChange={handleDependent}
+              defaultValue={"false"}
+            >
+              <div className={styles.risikoeierRadio}>
+                <Radio value="true">Ja</Radio> <Radio value="false">Nei</Radio>
+              </div>
+            </RadioGroup>
+            <HelpText title="Hva er en avhengighetsrisiko?">
+              En avhengighetsrisiko innebærer at risikoen du har i ditt
+              system/applikasjon er avhengig av andre systemer utenfor ditt
+              ansvarsområde
+            </HelpText>
+          </div>
+          <LeggTilTiltak
+            riskIDNum={riskIDNum}
+            tiltakValues={tiltakValues}
+            setTiltakValues={setTiltakValues}
+            setNewProbValue={setNewProbValue}
+            setNewConsValue={setNewConsValue}
+            newProbValue={newProbValue}
+            newConsValue={newConsValue}
+          />
+        </div>
       </div>
+      <Button
+        variant="danger"
+        className={styles.trashcan}
+        onClick={deleteSelf}
+        icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+      >
+        Slett risiko
+      </Button>
     </>
   );
 }

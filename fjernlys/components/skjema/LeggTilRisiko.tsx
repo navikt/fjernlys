@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { PlusCircleIcon } from "@navikt/aksel-icons";
+import { PencilIcon, PlusCircleIcon } from "@navikt/aksel-icons";
 import RisikoKomponent from "./RisikoKomponent";
+import { Button, HStack, Table } from "@navikt/ds-react";
 
 type tiltakValuesType = { category: string; started: boolean };
 type risikoValuesType = {
   probability: number;
   consequence: number;
   dependent: boolean;
+  riskLevel: string;
+  category: string;
   tiltakValues?: tiltakValuesType[];
   newConsequence?: string;
   newProbability?: string;
@@ -14,7 +17,13 @@ type risikoValuesType = {
 
 const LeggTilRisiko = () => {
   const [risikoValues, setRisikoValues] = useState<risikoValuesType[]>([
-    { probability: 0, consequence: 0, dependent: false },
+    {
+      probability: 0,
+      consequence: 0,
+      dependent: false,
+      riskLevel: "Ingen vurdering",
+      category: "Ikke satt",
+    },
   ]);
   const initialRiskIDNum = 0;
 
@@ -25,11 +34,17 @@ const LeggTilRisiko = () => {
     setRisikoList([]);
   };
 
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const handleRowClick = (rowId: number) => {
+    setExpandedRow(expandedRow === rowId ? null : rowId);
+  };
   const updateListe = (
     id: number,
     probability: number,
     consequence: number,
     dependent: boolean,
+    riskLevel: string,
+    category: string,
     tiltakValues?: tiltakValuesType[],
     newConsequence?: string,
     newProbability?: string
@@ -41,6 +56,8 @@ const LeggTilRisiko = () => {
         probability,
         consequence,
         dependent,
+        riskLevel,
+        category,
         tiltakValues,
         newConsequence,
         newProbability,
@@ -61,6 +78,9 @@ const LeggTilRisiko = () => {
   >([]);
 
   useEffect(() => {
+    if (risikoValues.length === 0) {
+      generateNewRisiko();
+    }
     setRisikoList(
       risikoValues.map((item, index) => ({
         riskIDNum: index,
@@ -70,7 +90,9 @@ const LeggTilRisiko = () => {
             riskIDNum={index}
             probability={item.probability}
             consequence={item.consequence}
-            dependent={item.dependent}
+            existingDependent={item.dependent}
+            existingRiskLevel={item.riskLevel}
+            existingCategory={item.category}
             existingTiltakValues={item.tiltakValues}
             deleteRisiko={deleteRisiko}
             updateRisiko={updateListe}
@@ -85,30 +107,69 @@ const LeggTilRisiko = () => {
   const generateNewRisiko = () => {
     setRisikoValues((prevList) => [
       ...prevList,
-      { probability: 0, consequence: 0, dependent: false },
+      {
+        probability: 0,
+        consequence: 0,
+        dependent: false,
+        riskLevel: "Ingen vurdering",
+        category: "Ikke satt",
+      },
     ]);
   };
 
   return (
     <div>
       <div style={{ width: "100%" }}>
-        {risikoList.map(({ riskIDNum, element }) => (
+        {/* {risikoList.map(({ riskIDNum, element }) => (
           <div key={riskIDNum}>{element}</div>
-        ))}
+        ))} */}
+
+        <Table>
+          {" "}
+          <Table.Header>
+            {" "}
+            <Table.Row>
+              {" "}
+              <Table.HeaderCell />{" "}
+              <Table.HeaderCell scope="col">Risiko</Table.HeaderCell>{" "}
+              <Table.HeaderCell scope="col">Trusselnivå</Table.HeaderCell>{" "}
+              <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>{" "}
+              <Table.HeaderCell scope="col">Antall tiltak</Table.HeaderCell>{" "}
+            </Table.Row>{" "}
+          </Table.Header>{" "}
+          <Table.Body>
+            {risikoList.map(({ riskIDNum, element }) => (
+              <Table.ExpandableRow
+                key={riskIDNum}
+                content={element}
+                open={expandedRow === riskIDNum}
+                onOpenChange={() => handleRowClick(riskIDNum)}
+              >
+                <Table.DataCell scope="row">
+                  {`R${riskIDNum + 1}`}
+                </Table.DataCell>
+                <Table.DataCell scope="row">
+                  {risikoValues[riskIDNum].riskLevel}
+                </Table.DataCell>
+                <Table.DataCell scope="row">
+                  {risikoValues[riskIDNum].category}
+                </Table.DataCell>
+                <Table.DataCell scope="row">
+                  {risikoValues[riskIDNum].tiltakValues?.length
+                    ? risikoValues[riskIDNum].tiltakValues?.length
+                    : 0}
+                </Table.DataCell>
+              </Table.ExpandableRow>
+            ))}
+          </Table.Body>{" "}
+        </Table>
       </div>
-      <div style={{ display: "flex" }} onClick={generateNewRisiko}>
-        <div>
-          <PlusCircleIcon
-            className="leggTil"
-            fontSize={"1.8rem"}
-            style={{ cursor: "pointer" }}
-          />
-        </div>
-        <div
-          style={{ marginLeft: "10px", fontWeight: "bold", fontSize: "1.3rem" }}
-        >
-          Legg til ny Risiko
-        </div>
+
+      <div
+        onClick={generateNewRisiko}
+        style={{ fontWeight: "bold", fontSize: "1.3rem", marginTop: "16px" }}
+      >
+        <Button icon={<PencilIcon aria-hidden />}>Legg til risiko</Button>{" "}
       </div>
     </div>
   );

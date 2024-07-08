@@ -85,9 +85,8 @@ const fillForm = () => {
                   risikovurdering
                 </HelpText>
               </div>
-              <DropdownValues.Provider value={{ formData, updateFormData }}>
-                <LeggTilRisiko />
-              </DropdownValues.Provider>
+
+              <LeggTilRisiko />
 
               <div className={styles.test}>Andre opplysninger</div>
               <Risikoeier />
