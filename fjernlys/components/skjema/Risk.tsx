@@ -59,7 +59,6 @@ const Risk = () => {
           label="RisikoID"
           value={"R1"}
           readOnly
-          //id={styles["tester"]}
           style={{ backgroundColor: color }}
         />
       </div>

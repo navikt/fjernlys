@@ -24,10 +24,8 @@ const Tiltak: React.FC<TiltakProps> = ({
   status,
   updateListe,
 }) => {
-  const [selectedCat, setSelectedCat] = useState(category || "personvern");
-  const [selectedStatus, setSelectedStatus] = useState(
-    status || "ikke-pabegynt"
-  );
+  const [selectedCat, setSelectedCat] = useState(category || "Velg kategori");
+  const [selectedStatus, setSelectedStatus] = useState(status || "Velg status");
   const [selectedStarted, setSelectedStarted] = useState<boolean>(
     started || false
   );
@@ -46,7 +44,7 @@ const Tiltak: React.FC<TiltakProps> = ({
   }, [selectedCat, selectedStarted, selectedStatus]);
 
   const dropDownOptionsCat = [
-    { value: "0", label: "Velg kategori" },
+    { value: "Velg kategori", label: "Velg kategori" },
     { value: "eliminere", label: "Eliminere" },
     { value: "overfore", label: "Overføre" },
     { value: "redusere", label: "Redusere" },
@@ -54,7 +52,7 @@ const Tiltak: React.FC<TiltakProps> = ({
   ];
 
   const dropDownOptionsStatus = [
-    { value: "0", label: "Velg status" },
+    { value: "Velg status", label: "Velg status" },
     { value: "pabegynt", label: "Påbegynt" },
     { value: "ikke-pabegynt", label: "Ikke påbegynt" },
     { value: "viderefort", label: "Videreført" },

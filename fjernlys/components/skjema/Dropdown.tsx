@@ -19,8 +19,12 @@ const Dropdown = ({ title, setVerdi, verdi, options }: Props) => {
   return (
     <div>
       <Select label={title} value={verdi} onChange={handleChange} size="small">
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
+        {options.map((option, index) => (
+          <option
+            key={option.value}
+            value={option.value}
+            disabled={index === 0}
+          >
             {option.label}
           </option>
         ))}
