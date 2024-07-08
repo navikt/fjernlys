@@ -10,18 +10,10 @@ interface Props {
   options: { value: string; label: string }[];
 }
 
-const Dropdown = ({ title, formKey, setVerdi, verdi, options }: Props) => {
-  const context = useContext(DropdownValues);
-
-  // Ensure context is defined
-  if (!context) {
-    throw new Error("DropdownValues context is not provided.");
-  }
-
+const Dropdown = ({ title, setVerdi, verdi, options }: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setVerdi(selectedValue);
-    context.updateFormData(formKey, selectedValue);
   };
 
   return (
