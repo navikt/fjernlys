@@ -20,10 +20,10 @@
 
 .tiltakMainDiv {
   margin-left: 25px;
-  position: relative;
   margin-bottom: 32px;
   background-color: #f7f8f8;
   border-radius: 5px;
+  display: flex;
 }
 
 .tiltakRadio {

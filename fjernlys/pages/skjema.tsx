@@ -67,7 +67,7 @@ const fillForm = () => {
               </h1>
             </div>
             <Opplysninger />
-            <div style={{ width: "50%" }}>
+            <div style={{ width: "80%" }}>
               <h2>Risiko</h2>
               <div style={{ display: "flex", width: "100%" }}>
                 <h3>Fyll inn verdier</h3>{" "}

@@ -62,47 +62,28 @@ const Tiltak: React.FC<TiltakProps> = ({
   ];
 
   return (
-    <div className={stylesTiltak.tiltakMainDiv}>
+    <div style={{ display: "flex" }}>
+      <div style={{ marginTop: "16px" }}>
+        <Dropdown
+          title={"Kategori"}
+          formKey="category"
+          verdi={selectedCat}
+          setVerdi={setSelectedCat}
+          options={dropDownOptionsCat}
+        />
+      </div>
       <div
         style={{
-          position: "absolute",
-          top: "5px",
-          right: "5px",
-          cursor: "pointer",
+          marginTop: "16px",
         }}
-        onClick={deleteSelf}
       >
-        <XMarkIcon />
-      </div>
-      <div className={stylesRisk.verdier}></div>
-      <div style={{ margin: "16px" }}>
-        <div>
-          <TextField label="TiltakID" value={tiltakID} readOnly />
-        </div>
-        <div>
-          <div style={{ marginTop: "16px" }}>
-            <Dropdown
-              title={"Kategori"}
-              formKey="category"
-              verdi={selectedCat}
-              setVerdi={setSelectedCat}
-              options={dropDownOptionsCat}
-            />
-          </div>
-          <div
-            style={{
-              marginTop: "16px",
-            }}
-          >
-            <Dropdown
-              title={"Status"}
-              formKey="status"
-              verdi={selectedStatus}
-              setVerdi={setSelectedStatus}
-              options={dropDownOptionsStatus}
-            />
-          </div>
-        </div>
+        <Dropdown
+          title={"Status"}
+          formKey="status"
+          verdi={selectedStatus}
+          setVerdi={setSelectedStatus}
+          options={dropDownOptionsStatus}
+        />
       </div>
     </div>
   );

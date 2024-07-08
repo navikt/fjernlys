@@ -4,7 +4,7 @@ import Tiltak from "./Tiltak";
 import { DropdownValues } from "@/pages/skjema";
 import styles from "@/styles/skjema/tiltak.module.css";
 import Dropdown from "./Dropdown";
-import { Button } from "@navikt/ds-react";
+import { Button, Table } from "@navikt/ds-react";
 
 interface Props {
   riskIDNum: number;
@@ -33,7 +33,7 @@ const LeggTilTiltak = ({
 }: Props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [tiltakList, setTiltakList] = useState<
-    { id: string; element: JSX.Element }[]
+    { tiltakID: number; element: JSX.Element }[]
   >([]);
 
   const deleteTiltak = (tiltakIDNum: number) => {
@@ -52,7 +52,7 @@ const LeggTilTiltak = ({
   useEffect(() => {
     setTiltakList(
       tiltakValues.map((item, index) => ({
-        id: `${index}`,
+        tiltakID: index,
         element: (
           <Tiltak
             key={index}
@@ -108,13 +108,38 @@ const LeggTilTiltak = ({
   return (
     <div className={styles.parentDiv}>
       <hr />
-      <div>
+      {/* <div>
         {tiltakList.map(({ id, element }) => (
           <div key={id} style={{ marginTop: "5px" }}>
             {element}
           </div>
         ))}
-      </div>
+      </div> */}
+      <Table>
+        {" "}
+        <Table.Header>
+          {" "}
+          <Table.Row>
+            {" "}
+            <Table.HeaderCell scope="col">Tiltak</Table.HeaderCell>{" "}
+            <Table.HeaderCell scope="col">Status</Table.HeaderCell>{" "}
+          </Table.Row>{" "}
+        </Table.Header>{" "}
+        <Table.Body>
+          <div>
+            {tiltakList.map(({ tiltakID, element }) => (
+              <Table.ExpandableRow key={tiltakID} content={element}>
+                <Table.DataCell scope="row">{`T${
+                  tiltakID + 1
+                }`}</Table.DataCell>{" "}
+                <Table.DataCell scope="row">
+                  {tiltakValues[tiltakID].category}
+                </Table.DataCell>{" "}
+              </Table.ExpandableRow>
+            ))}
+          </div>
+        </Table.Body>{" "}
+      </Table>
       <div onClick={generateNewTiltak}>
         {" "}
         <div className={styles.actionDiv}>
