@@ -64,10 +64,6 @@ function RisikoKomponent({
     deleteRisiko(riskIDNum);
   };
 
-  const updateCategory = (category: string) => {
-    setCategory(category);
-  };
-
   useEffect(() => {
     updateColor(probValue, consValue);
     if (tiltakValues.length > 0) {
@@ -138,6 +134,13 @@ function RisikoKomponent({
     { value: "5", label: "5" },
   ];
 
+  const categoryOptions = [
+    { value: "Ikke satt", label: "Ikke satt" },
+    { value: "Personvern", label: "Personvern" },
+    { value: "Digitalt Angrep", label: "Digitalt Angrep" },
+    { value: "Drift/Infrastruktur", label: "Drift/Infrastruktur" },
+  ];
+
   return (
     <>
       <div className={styles.parentDiv}>
@@ -174,19 +177,13 @@ function RisikoKomponent({
             </div>
           </div>
           <div style={{ marginTop: "16px" }}>
-            <Select
-              label={"Kategori"}
-              size="small"
-              onChange={(e) => updateCategory(e.target.value)}
-              value={category}
-            >
-              <option value="Ikke satt" disabled>
-                Velg kategori
-              </option>
-              <option value="Personvern">Personvern</option>
-              <option value="Digitalt Angrep">Digitalt Angrep</option>
-              <option value="Drift/Infrastruktur">Drift/Infrastruktur</option>
-            </Select>
+            <Dropdown
+              title={"Kategori"}
+              formKey="category"
+              verdi={category}
+              setVerdi={setCategory}
+              options={categoryOptions}
+            />
           </div>
           <div className={styles.risikoeierDiv}>
             <RadioGroup
