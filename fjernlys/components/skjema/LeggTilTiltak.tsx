@@ -46,7 +46,10 @@ const LeggTilTiltak = ({
   useEffect(() => {
     setShowDropdown(tiltakList.length > 0);
   }, [tiltakList]);
-
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const handleRowClick = (rowId: number) => {
+    setExpandedRow(expandedRow === rowId ? null : rowId);
+  };
   useEffect(() => {
     setTiltakList(
       tiltakValues.map((item, index) => ({
@@ -118,7 +121,12 @@ const LeggTilTiltak = ({
           </Table.Header>
           <Table.Body>
             {tiltakList.map(({ tiltakID, element }) => (
-              <Table.ExpandableRow key={tiltakID} content={element}>
+              <Table.ExpandableRow
+                key={tiltakID}
+                content={element}
+                open={expandedRow === tiltakID}
+                onOpenChange={() => handleRowClick(tiltakID)}
+              >
                 <Table.DataCell scope="row">{`T${
                   tiltakID + 1
                 }`}</Table.DataCell>
