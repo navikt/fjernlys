@@ -76,3 +76,11 @@
   margin-top: 300px;
   position: absolute;
 }
+
+.trashcan {
+  color: white;
+  cursor: pointer;
+  width: 130px;
+  height: 50px;
+  display: flex;
+}

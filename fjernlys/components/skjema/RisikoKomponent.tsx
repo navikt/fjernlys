@@ -219,14 +219,6 @@ function RisikoKomponent({
           />
         </div>
       </div>
-      <Button
-        variant="danger"
-        className={styles.trashcan}
-        onClick={deleteSelf}
-        icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
-      >
-        Slett risiko
-      </Button>
     </>
   );
 }

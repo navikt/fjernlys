@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { PencilIcon, PlusCircleIcon } from "@navikt/aksel-icons";
+import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 import RisikoKomponent from "./RisikoKomponent";
 import { Button, HStack, Table } from "@navikt/ds-react";
 import { get } from "http";
 import PopUp from "./PopUp";
-
+import styles from "@/styles/skjema/risk.module.css";
 type tiltakValuesType = { category: string; status: string; started: boolean };
 type risikoValuesType = {
   probability: number;
@@ -147,6 +147,7 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
             <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>
             <Table.HeaderCell scope="col">Avhengighet</Table.HeaderCell>
             <Table.HeaderCell scope="col">Antall tiltak</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Slett risiko</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -192,6 +193,18 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
                   ? risikoValues[riskIDNum].tiltakValues?.length
                   : 0}
               </Table.DataCell>
+              <Table.DataCell scope="row">
+                <Button
+                  variant="danger"
+                  className={styles.trashcan}
+                  onClick={() => activateDeletePopUp(riskIDNum)}
+                  icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+                  size="small"
+                  style={{ height: "40px" }}
+                >
+                  Slett
+                </Button>
+              </Table.DataCell>
             </Table.ExpandableRow>
           ))}
         </Table.Body>
@@ -205,7 +218,11 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
           marginBottom: "32px",
         }}
       >
-        <Button icon={<PencilIcon />} onClick={() => generateNewRisiko()}>
+        <Button
+          icon={<PencilIcon />}
+          onClick={() => generateNewRisiko()}
+          variant="secondary"
+        >
           <div>Legg til risiko</div>
         </Button>
       </div>

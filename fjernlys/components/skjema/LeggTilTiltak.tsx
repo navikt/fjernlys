@@ -109,54 +109,62 @@ const LeggTilTiltak = ({
   return (
     <>
       {showDropdown && (
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell />
-              <Table.HeaderCell scope="col">Tiltak</Table.HeaderCell>
-              <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>
-              <Table.HeaderCell scope="col">Status</Table.HeaderCell>
-              <Table.HeaderCell scope="col">Slett tiltak</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {tiltakList.map(({ tiltakID, element }) => (
-              <Table.ExpandableRow
-                key={tiltakID}
-                content={element}
-                open={expandedRow === tiltakID}
-                onOpenChange={() => handleRowClick(tiltakID)}
-              >
-                <Table.DataCell scope="row">{`T${
-                  tiltakID + 1
-                }`}</Table.DataCell>
-                <Table.DataCell scope="row">
-                  {tiltakValues[tiltakID].category}
-                </Table.DataCell>
-                <Table.DataCell scope="row">
-                  {tiltakValues[tiltakID].status}
-                </Table.DataCell>
-                <Table.DataCell scope="row">
-                  <Button
-                    variant="danger"
-                    className={styles.trashcan}
-                    onClick={() => deleteTiltak(tiltakID)}
-                    icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
-                    size="small"
-                    style={{ height: "40px" }}
-                  >
-                    Slett tiltak
-                  </Button>
-                </Table.DataCell>
-              </Table.ExpandableRow>
-            ))}
-          </Table.Body>
-        </Table>
+        <div className={styles.tableDiv}>
+          <Table size="small">
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell />
+                <Table.HeaderCell scope="col">Tiltak</Table.HeaderCell>
+                <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>
+                <Table.HeaderCell scope="col">Status</Table.HeaderCell>
+                <Table.HeaderCell scope="col">Slett tiltak</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {tiltakList.map(({ tiltakID, element }) => (
+                <Table.ExpandableRow
+                  key={tiltakID}
+                  content={element}
+                  open={expandedRow === tiltakID}
+                  onOpenChange={() => handleRowClick(tiltakID)}
+                >
+                  <Table.DataCell scope="row">{`T${
+                    tiltakID + 1
+                  }`}</Table.DataCell>
+                  <Table.DataCell scope="row">
+                    {tiltakValues[tiltakID].category}
+                  </Table.DataCell>
+                  <Table.DataCell scope="row">
+                    {tiltakValues[tiltakID].status}
+                  </Table.DataCell>
+                  <Table.DataCell scope="row">
+                    <Button
+                      variant="danger"
+                      className={styles.trashcan}
+                      onClick={() => deleteTiltak(tiltakID)}
+                      icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+                      size="small"
+                      style={{ height: "40px" }}
+                    >
+                      Slett
+                    </Button>
+                  </Table.DataCell>
+                </Table.ExpandableRow>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
       )}
       <div onClick={generateNewTiltak}>
         {" "}
         <div className={styles.actionDiv}>
-          <Button icon={<PencilIcon aria-hidden />}>Legg til tiltak</Button>{" "}
+          <Button
+            icon={<PencilIcon aria-hidden />}
+            size="small"
+            variant="secondary"
+          >
+            Legg til tiltak
+          </Button>{" "}
         </div>
       </div>
       {showDropdown && <hr />}

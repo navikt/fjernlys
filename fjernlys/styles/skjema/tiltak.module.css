@@ -4,7 +4,7 @@
 }
 
 .actionDiv {
-  margin-top: 16px;
+  margin-top: 32px;
   display: flex;
   align-items: center;
 }
@@ -59,4 +59,8 @@
   width: 130px;
   height: 50px;
   display: flex;
+}
+
+.tableDiv {
+  margin-top: 32px;
 }
