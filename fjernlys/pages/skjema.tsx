@@ -1,37 +1,40 @@
 import { Box, HelpText, Page, VStack } from "@navikt/ds-react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/landingPage/landingPage.module.css";
 import risk from "@/styles/skjema/risk.module.css";
-import riskStyles from "@/styles/skjema/risk.module.css";
-import Risk from "@/components/skjema/Risk";
 import Opplysninger from "@/components/skjema/Opplysninger";
-import Risikoeier from "@/components/skjema/Risikoeier";
-import { createContext } from "react";
-import LeggTilTiltak from "@/components/skjema/LeggTilTiltak";
 import LeggTilRisiko from "@/components/skjema/LeggTilRisiko";
-import RisikoKomponent from "@/components/skjema/RisikoKomponent";
 import router from "next/router";
-
-interface FormContextType {
-  formData: { [key: string]: any };
-  updateFormData: (key: string, value: any) => void;
-}
-export const DropdownValues = createContext<FormContextType | undefined>(
-  undefined
-);
 
 const goHome = () => {
   router.push("/");
-  console.log("hey");
+};
+type tiltakValuesType = { category: string; status: string; started: boolean };
+type risikoValuesType = {
+  probability: number;
+  consequence: number;
+  dependent: boolean;
+  riskLevel: string;
+  category: string;
+  tiltakValues?: tiltakValuesType[];
+  newConsequence?: string;
+  newProbability?: string;
 };
 
 const fillForm = () => {
-  const [formData, setFormData] = useState<{ [key: string]: any }>({});
-
-  const updateFormData = (key: string, value: any) => {
-    setFormData((prevData: any) => ({ ...prevData, [key]: value }));
-  };
+  const [risikoValues, setRisikoValues] = useState<risikoValuesType[]>([
+    {
+      probability: 0,
+      consequence: 0,
+      dependent: false,
+      riskLevel: "Ingen vurdering",
+      category: "Ikke satt",
+    },
+  ]);
+  const [owner, setOwner] = useState(true);
+  const [notOwner, setNotOwner] = useState("");
+  const [service, setService] = useState("Ikke valgt");
 
   return (
     <>
@@ -66,18 +69,35 @@ const fillForm = () => {
                 Rapporteringsskjema
               </h1>
             </div>
-            <Opplysninger />
+            <Opplysninger
+              service={service}
+              setService={setService}
+              owner={owner}
+              setOwner={setOwner}
+              setNotOwner={setNotOwner}
+            />
             <div style={{ width: "80%" }}>
               <h2>Risiko</h2>
-              <div style={{ display: "flex", width: "100%" }}>
-                <h3>Fyll inn verdier</h3>{" "}
-                <HelpText title="Hva skal du gjøre?">
-                  Velg verdier for sannsynlighet og konsekvens gjort i din
-                  risikovurdering
-                </HelpText>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <h3 style={{ margin: 0 }}>Fyll inn verdier</h3>
+                <div style={{ marginLeft: "8px" }}>
+                  <HelpText title="Hva skal du gjøre?">
+                    Velg verdier for sannsynlighet og konsekvens gjort i din
+                    risikovurdering
+                  </HelpText>
+                </div>
               </div>
 
-              <LeggTilRisiko />
+              <LeggTilRisiko
+                risikoValues={risikoValues}
+                setRisikoValues={setRisikoValues}
+              />
             </div>
           </VStack>
         </div>

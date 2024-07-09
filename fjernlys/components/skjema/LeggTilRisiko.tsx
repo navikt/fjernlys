@@ -3,6 +3,7 @@ import { PencilIcon, PlusCircleIcon } from "@navikt/aksel-icons";
 import RisikoKomponent from "./RisikoKomponent";
 import { Button, HStack, Table } from "@navikt/ds-react";
 import { get } from "http";
+import PopUp from "./PopUp";
 
 type tiltakValuesType = { category: string; status: string; started: boolean };
 type risikoValuesType = {
@@ -16,23 +17,17 @@ type risikoValuesType = {
   newProbability?: string;
 };
 
-const LeggTilRisiko = () => {
-  const [risikoValues, setRisikoValues] = useState<risikoValuesType[]>([
-    {
-      probability: 0,
-      consequence: 0,
-      dependent: false,
-      riskLevel: "Ingen vurdering",
-      category: "Ikke satt",
-    },
-  ]);
-  const initialRiskIDNum = 0;
-
-  const deleteRisiko = (riskIDNum: number) => {
+interface Props {
+  risikoValues: risikoValuesType[];
+  setRisikoValues: any;
+}
+const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
+  const deleteRisiko = () => {
     setRisikoValues((prevList: risikoValuesType[]) =>
-      prevList.filter((_, index) => index !== riskIDNum)
+      prevList.filter((_, index) => index !== cachedID)
     );
     setRisikoList([]);
+    setActivePopUp(!activePopUp);
   };
 
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
@@ -50,7 +45,7 @@ const LeggTilRisiko = () => {
     newConsequence?: string,
     newProbability?: string
   ) => {
-    setRisikoValues((prevList) => {
+    setRisikoValues((prevList: any) => {
       const newList = [...prevList];
       console.log("newList", newList);
       newList[id] = {
@@ -95,7 +90,7 @@ const LeggTilRisiko = () => {
             existingRiskLevel={item.riskLevel}
             existingCategory={item.category}
             existingTiltakValues={item.tiltakValues}
-            deleteRisiko={deleteRisiko}
+            deleteRisiko={activateDeletePopUp}
             updateRisiko={updateListe}
             newConsequence={item.newConsequence}
             newProbability={item.newProbability}
@@ -106,7 +101,7 @@ const LeggTilRisiko = () => {
   }, [risikoValues]);
 
   const generateNewRisiko = () => {
-    setRisikoValues((prevList) => [
+    setRisikoValues((prevList: any) => [
       ...prevList,
       {
         probability: 0,
@@ -130,6 +125,13 @@ const LeggTilRisiko = () => {
     }
   };
 
+  const [cachedID, setCachedID] = useState(0);
+  const [activePopUp, setActivePopUp] = useState(false);
+  const activateDeletePopUp = (riskID: number) => {
+    setActivePopUp(!activePopUp);
+    setCachedID(riskID);
+  };
+
   return (
     <>
       {/* {risikoList.map(({ riskIDNum, element }) => (
@@ -137,19 +139,16 @@ const LeggTilRisiko = () => {
         ))} */}
 
       <Table>
-        {" "}
         <Table.Header>
-          {" "}
           <Table.Row>
-            {" "}
-            <Table.HeaderCell />{" "}
-            <Table.HeaderCell scope="col">Risiko</Table.HeaderCell>{" "}
-            <Table.HeaderCell scope="col">Trusselnivå</Table.HeaderCell>{" "}
-            <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>{" "}
-            <Table.HeaderCell scope="col">Avhengighet</Table.HeaderCell>{" "}
-            <Table.HeaderCell scope="col">Antall tiltak</Table.HeaderCell>{" "}
-          </Table.Row>{" "}
-        </Table.Header>{" "}
+            <Table.HeaderCell />
+            <Table.HeaderCell scope="col">Risiko</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Trusselnivå</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Avhengighet</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Antall tiltak</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
         <Table.Body>
           {risikoList.map(({ riskIDNum, element }) => (
             <Table.ExpandableRow
@@ -161,7 +160,6 @@ const LeggTilRisiko = () => {
               <Table.DataCell scope="row">{`R${riskIDNum + 1}`}</Table.DataCell>
               <Table.DataCell scope="row">
                 <div style={{ display: "flex", position: "relative" }}>
-                  {" "}
                   <div style={{ position: "absolute" }}>
                     {risikoValues[riskIDNum].riskLevel}
                   </div>
@@ -185,7 +183,7 @@ const LeggTilRisiko = () => {
               </Table.DataCell>
               <Table.DataCell scope="row">
                 {risikoValues[riskIDNum].category}
-              </Table.DataCell>{" "}
+              </Table.DataCell>
               <Table.DataCell scope="row">
                 {risikoValues[riskIDNum].dependent === true ? "Ja" : "Nei"}
               </Table.DataCell>
@@ -196,11 +194,10 @@ const LeggTilRisiko = () => {
               </Table.DataCell>
             </Table.ExpandableRow>
           ))}
-        </Table.Body>{" "}
+        </Table.Body>
       </Table>
 
       <div
-        onClick={generateNewRisiko}
         style={{
           fontWeight: "bold",
           fontSize: "1.3rem",
@@ -208,8 +205,13 @@ const LeggTilRisiko = () => {
           marginBottom: "32px",
         }}
       >
-        <Button icon={<PencilIcon aria-hidden />}>Legg til risiko</Button>{" "}
+        <Button icon={<PencilIcon />} onClick={() => generateNewRisiko()}>
+          <div>Legg til risiko</div>
+        </Button>
       </div>
+      {activePopUp && (
+        <PopUp deleteRisiko={deleteRisiko} setActivatePopUp={setActivePopUp} />
+      )}
     </>
   );
 };
