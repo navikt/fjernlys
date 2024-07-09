@@ -1,6 +1,6 @@
 import React from "react";
 import { HelpText, Radio, RadioGroup } from "@navikt/ds-react";
-import styles from "@/styles/skjema/opplysninger.module.css";
+import styles from "@/styles/skjema/information.module.css";
 
 const Dependent = () => {
   return (

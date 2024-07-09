@@ -51,13 +51,15 @@
   width: 80%;
 }
 
-.risikoeierDiv {
+.dependentRiskDiv {
   display: flex;
   flex-direction: row;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 4px;
+  width: 50%;
+  margin-left: 16px;
 }
-.risikoeierRadio {
+.dependentRiskRadio {
   display: flex;
   flex-direction: row;
   gap: 16px;
@@ -81,6 +83,38 @@
   color: white;
   cursor: pointer;
   width: 130px;
-  height: 50px;
+  height: 40px;
+  display: flex;
+}
+
+.riskLevelDiv {
+  display: flex;
+  position: relative;
+}
+
+.riskLevelText {
+  position: absolute;
+}
+
+.riskLevelColorBox {
+  border: 1px solid;
+  width: 20px;
+  height: 20px;
+  margin-left: 70px;
+}
+
+.addRiskDiv {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.dropdownComp {
+  width: 50%;
+}
+
+.categoryDiv {
+  margin-top: 16px;
   display: flex;
 }

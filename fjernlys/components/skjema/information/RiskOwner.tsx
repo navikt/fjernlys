@@ -1,6 +1,6 @@
 import { HelpText, Radio, RadioGroup } from "@navikt/ds-react";
 import React from "react";
-import styles from "@/styles/skjema/opplysninger.module.css";
+import styles from "@/styles/skjema/information.module.css";
 
 interface Props {
   owner: boolean;

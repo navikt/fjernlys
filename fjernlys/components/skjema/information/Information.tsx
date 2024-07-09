@@ -1,8 +1,7 @@
 import { Select, TextField } from "@navikt/ds-react";
 import React from "react";
-import DatoVelger from "./DatoVelger";
-import styles from "@/styles/skjema/opplysninger.module.css";
-import Risikoeier from "./Risikoeier";
+import styles from "@/styles/skjema/information.module.css";
+import Risikoeier from "./RiskOwner";
 
 interface Props {
   service: string;
@@ -20,11 +19,11 @@ const Opplysninger = ({
   setNotOwner,
 }: Props) => {
   return (
-    <div style={{ width: "100%" }}>
+    <div className={styles.ownerMainDiv}>
       <h3>Opplysning fra rapporteringsskjema</h3>
       <div className={styles.hovedDiv}>
         <div className={styles.selectDiv}>
-          <div style={{ width: "80%" }}>
+          <div className={styles.dropdownDiv}>
             <Select
               label={"Ytelse"}
               onChange={(e) => setService(e.target.value)}
@@ -46,7 +45,7 @@ const Opplysninger = ({
         <Risikoeier owner={owner} setOwner={setOwner} />
       </div>
       {!owner && (
-        <div style={{ width: "40%", marginTop: "16px" }}>
+        <div className={styles.ownerInput}>
           <TextField
             label="Skriv inn e-post til risikoeier"
             onChange={(e) => setNotOwner(e.target.value)}

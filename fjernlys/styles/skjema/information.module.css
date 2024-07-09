@@ -17,3 +17,16 @@
   width: 50%;
   gap: 16px;
 }
+
+.ownerMainDiv {
+  width: 100%;
+}
+
+.dropdownDiv {
+  width: 80%;
+}
+
+.ownerInput {
+  width: 40%;
+  margin-top: 16px;
+}

@@ -1,23 +1,21 @@
 import { Select } from "@navikt/ds-react";
-import React, { useContext } from "react";
 
 interface Props {
   title: string;
-  formKey: string;
-  setVerdi: (verdi: string) => void;
-  verdi?: string;
+  setValue: (value: string) => void;
+  value?: string;
   options: { value: string; label: string }[];
 }
 
-const Dropdown = ({ title, setVerdi, verdi, options }: Props) => {
+const Dropdown = ({ title, setValue, value, options }: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-    setVerdi(selectedValue);
+    setValue(selectedValue);
   };
 
   return (
     <div>
-      <Select label={title} value={verdi} onChange={handleChange} size="small">
+      <Select label={title} value={value} onChange={handleChange} size="small">
         {options.map((option, index) => (
           <option
             key={option.value}

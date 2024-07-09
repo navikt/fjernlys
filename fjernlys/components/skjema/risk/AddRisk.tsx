@@ -1,32 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
-import RisikoKomponent from "./RisikoKomponent";
+
 import { Button, HStack, Table } from "@navikt/ds-react";
 import { get } from "http";
-import PopUp from "./PopUp";
+import PopUp from "../information/PopUp";
 import styles from "@/styles/skjema/risk.module.css";
-type tiltakValuesType = { category: string; status: string; started: boolean };
-type risikoValuesType = {
+import RiskComponent from "./RiskComponent";
+type measureValuesType = { category: string; status: string; started: boolean };
+type riskValuesType = {
   probability: number;
   consequence: number;
   dependent: boolean;
   riskLevel: string;
   category: string;
-  tiltakValues?: tiltakValuesType[];
+  measureValues?: measureValuesType[];
   newConsequence?: string;
   newProbability?: string;
 };
 
 interface Props {
-  risikoValues: risikoValuesType[];
-  setRisikoValues: any;
+  riskValues: riskValuesType[];
+  setriskValues: any;
 }
-const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
-  const deleteRisiko = () => {
-    setRisikoValues((prevList: risikoValuesType[]) =>
+const AddRisk = ({ riskValues, setriskValues }: Props) => {
+  const deleteRisk = () => {
+    setriskValues((prevList: riskValuesType[]) =>
       prevList.filter((_, index) => index !== cachedID)
     );
-    setRisikoList([]);
+    setriskList([]);
     setActivePopUp(!activePopUp);
   };
 
@@ -41,11 +42,11 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
     dependent: boolean,
     riskLevel: string,
     category: string,
-    tiltakValues?: tiltakValuesType[],
+    measureValues?: measureValuesType[],
     newConsequence?: string,
     newProbability?: string
   ) => {
-    setRisikoValues((prevList: any) => {
+    setriskValues((prevList: any) => {
       const newList = [...prevList];
       console.log("newList", newList);
       newList[id] = {
@@ -54,7 +55,7 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
         dependent,
         riskLevel,
         category,
-        tiltakValues,
+        measureValues,
         newConsequence,
         newProbability,
       };
@@ -63,10 +64,10 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(risikoValues));
-  }, [risikoValues]);
+    console.log(JSON.stringify(riskValues));
+  }, [riskValues]);
 
-  const [risikoList, setRisikoList] = useState<
+  const [riskList, setriskList] = useState<
     {
       riskIDNum: number;
       element: JSX.Element;
@@ -74,14 +75,14 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
   >([]);
 
   useEffect(() => {
-    if (risikoValues.length === 0) {
-      generateNewRisiko();
+    if (riskValues.length === 0) {
+      generateNewrisk();
     }
-    setRisikoList(
-      risikoValues.map((item, index) => ({
+    setriskList(
+      riskValues.map((item, index) => ({
         riskIDNum: index,
         element: (
-          <RisikoKomponent
+          <RiskComponent
             key={index}
             riskIDNum={index}
             probability={item.probability}
@@ -89,19 +90,19 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
             existingDependent={item.dependent}
             existingRiskLevel={item.riskLevel}
             existingCategory={item.category}
-            existingTiltakValues={item.tiltakValues}
-            deleteRisiko={activateDeletePopUp}
-            updateRisiko={updateListe}
+            existingMeasureValues={item.measureValues}
+            deleteRisk={activateDeletePopUp}
+            updateRisk={updateListe}
             newConsequence={item.newConsequence}
             newProbability={item.newProbability}
           />
         ),
       }))
     );
-  }, [risikoValues]);
+  }, [riskValues]);
 
-  const generateNewRisiko = () => {
-    setRisikoValues((prevList: any) => [
+  const generateNewrisk = () => {
+    setriskValues((prevList: any) => [
       ...prevList,
       {
         probability: 0,
@@ -134,10 +135,6 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
 
   return (
     <>
-      {/* {risikoList.map(({ riskIDNum, element }) => (
-          <div key={riskIDNum}>{element}</div>
-        ))} */}
-
       <Table>
         <Table.Header>
           <Table.Row>
@@ -147,11 +144,11 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
             <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>
             <Table.HeaderCell scope="col">Avhengighet</Table.HeaderCell>
             <Table.HeaderCell scope="col">Antall tiltak</Table.HeaderCell>
-            <Table.HeaderCell scope="col">Slett risiko</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Slett risk</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {risikoList.map(({ riskIDNum, element }) => (
+          {riskList.map(({ riskIDNum, element }) => (
             <Table.ExpandableRow
               key={riskIDNum}
               content={element}
@@ -160,37 +157,34 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
             >
               <Table.DataCell scope="row">{`R${riskIDNum + 1}`}</Table.DataCell>
               <Table.DataCell scope="row">
-                <div style={{ display: "flex", position: "relative" }}>
-                  <div style={{ position: "absolute" }}>
-                    {risikoValues[riskIDNum].riskLevel}
+                <div className={styles.riskLevelDiv}>
+                  <div className={styles.riskLevelText}>
+                    {riskValues[riskIDNum].riskLevel}
                   </div>
                   <div
                     style={{
                       visibility:
-                        getBackgroundColor(risikoValues[riskIDNum].riskLevel) ==
+                        getBackgroundColor(riskValues[riskIDNum].riskLevel) ==
                         "false"
                           ? "hidden"
                           : "visible",
-                      border: "solid 1px ",
-                      width: "20px",
-                      height: "20px",
-                      marginLeft: "70px",
                       backgroundColor: getBackgroundColor(
-                        risikoValues[riskIDNum].riskLevel
+                        riskValues[riskIDNum].riskLevel
                       ),
                     }}
+                    className={styles.riskLevelColorBox}
                   ></div>
                 </div>
               </Table.DataCell>
               <Table.DataCell scope="row">
-                {risikoValues[riskIDNum].category}
+                {riskValues[riskIDNum].category}
               </Table.DataCell>
               <Table.DataCell scope="row">
-                {risikoValues[riskIDNum].dependent === true ? "Ja" : "Nei"}
+                {riskValues[riskIDNum].dependent === true ? "Ja" : "Nei"}
               </Table.DataCell>
               <Table.DataCell scope="row">
-                {risikoValues[riskIDNum].tiltakValues?.length
-                  ? risikoValues[riskIDNum].tiltakValues?.length
+                {riskValues[riskIDNum].measureValues?.length
+                  ? riskValues[riskIDNum].measureValues?.length
                   : 0}
               </Table.DataCell>
               <Table.DataCell scope="row">
@@ -200,7 +194,6 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
                   onClick={() => activateDeletePopUp(riskIDNum)}
                   icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
                   size="small"
-                  style={{ height: "40px" }}
                 >
                   Slett
                 </Button>
@@ -210,28 +203,21 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
         </Table.Body>
       </Table>
 
-      <div
-        style={{
-          fontWeight: "bold",
-          fontSize: "1.3rem",
-          marginTop: "16px",
-          marginBottom: "32px",
-        }}
-      >
+      <div className={styles.addRiskDiv}>
         <Button
           icon={<PencilIcon />}
-          onClick={() => generateNewRisiko()}
+          onClick={() => generateNewrisk()}
           variant="secondary"
         >
-          <div>Legg til risiko</div>
-        </Button>{" "}
+          <div>Legg til risk</div>
+        </Button>
       </div>
 
       {activePopUp && (
-        <PopUp deleteRisiko={deleteRisiko} setActivatePopUp={setActivePopUp} />
+        <PopUp deleteRisk={deleteRisk} setActivatePopUp={setActivePopUp} />
       )}
     </>
   );
 };
 
-export default LeggTilRisiko;
+export default AddRisk;

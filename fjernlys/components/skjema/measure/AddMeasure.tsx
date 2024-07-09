@@ -1,65 +1,64 @@
-import React, { useContext, useEffect, useState } from "react";
-import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
-import Tiltak from "./Tiltak";
-
-import styles from "@/styles/skjema/tiltak.module.css";
-import Dropdown from "./Dropdown";
+import React, { useEffect, useState } from "react";
+import { PencilIcon, TrashIcon } from "@navikt/aksel-icons";
+import styles from "@/styles/skjema/measure.module.css";
+import Dropdown from "../information/Dropdown";
 import { Button, Table } from "@navikt/ds-react";
+import Measure from "./Measure";
 
 interface Props {
   riskIDNum: number;
-  tiltakValues: tiltakValuesType[];
-  setTiltakValues: any;
+  measureValues: measureValuesType[];
+  setMeasureValues: any;
   setNewProbValue: any;
   setNewConsValue: any;
   newProbValue: string;
   newConsValue: string;
 }
 
-type tiltakValuesType = {
+type measureValuesType = {
   status: string;
   category: string;
   started: boolean;
 };
 
-const LeggTilTiltak = ({
+const AddMeasure = ({
   riskIDNum,
-  tiltakValues,
-  setTiltakValues,
+  measureValues,
+  setMeasureValues,
   setNewConsValue,
   setNewProbValue,
   newConsValue,
   newProbValue,
 }: Props) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [tiltakList, setTiltakList] = useState<
-    { tiltakID: number; element: JSX.Element }[]
+  const [measureList, setMeasureList] = useState<
+    { measureID: number; element: JSX.Element }[]
   >([]);
 
-  const deleteTiltak = (tiltakIDNum: number) => {
-    setTiltakValues((prevList: tiltakValuesType[]) =>
-      prevList.filter((_, index) => index !== tiltakIDNum)
+  const deleteMeasure = (measureIDNum: number) => {
+    setMeasureValues((prevList: measureValuesType[]) =>
+      prevList.filter((_, index) => index !== measureIDNum)
     );
-    setTiltakList([]);
+    setMeasureList([]);
   };
 
   useEffect(() => {
-    setShowDropdown(tiltakList.length > 0);
-  }, [tiltakList]);
+    setShowDropdown(measureList.length > 0);
+  }, [measureList]);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const handleRowClick = (rowId: number) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
   };
   useEffect(() => {
-    setTiltakList(
-      tiltakValues.map((item, index) => ({
-        tiltakID: index,
+    setMeasureList(
+      measureValues.map((item, index) => ({
+        measureID: index,
         element: (
-          <Tiltak
+          <Measure
             key={index}
-            tiltakIDNum={index}
+            measureIDNum={index}
             riskIDNum={riskIDNum + 1}
-            deleteTiltak={deleteTiltak}
+            deleteMeasure={deleteMeasure}
             category={item.category}
             status={item.status}
             started={item.started}
@@ -68,11 +67,11 @@ const LeggTilTiltak = ({
         ),
       }))
     );
-    console.log("tiltakValues", tiltakValues);
-  }, [tiltakValues]);
+    console.log("measureValues", measureValues);
+  }, [measureValues]);
 
-  const generateNewTiltak = () => {
-    setTiltakValues((prevList: tiltakValuesType[]) => [
+  const generateNewMeasure = () => {
+    setMeasureValues((prevList: measureValuesType[]) => [
       ...prevList,
       { category: "Velg kategori", status: "Velg status", started: false },
     ]);
@@ -84,11 +83,9 @@ const LeggTilTiltak = ({
     status: string,
     started: boolean
   ) => {
-    setTiltakValues((prevList: tiltakValuesType[]) => {
+    setMeasureValues((prevList: measureValuesType[]) => {
       const newList = [...prevList];
       newList[id] = { category, status, started };
-      console.log("newCons", newConsValue);
-      console.log("newCons", newConsValue);
       return newList;
     });
   };
@@ -121,30 +118,29 @@ const LeggTilTiltak = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {tiltakList.map(({ tiltakID, element }) => (
+              {measureList.map(({ measureID, element }) => (
                 <Table.ExpandableRow
-                  key={tiltakID}
+                  key={measureID}
                   content={element}
-                  open={expandedRow === tiltakID}
-                  onOpenChange={() => handleRowClick(tiltakID)}
+                  open={expandedRow === measureID}
+                  onOpenChange={() => handleRowClick(measureID)}
                 >
                   <Table.DataCell scope="row">{`T${
-                    tiltakID + 1
+                    measureID + 1
                   }`}</Table.DataCell>
                   <Table.DataCell scope="row">
-                    {tiltakValues[tiltakID].category}
+                    {measureValues[measureID].category}
                   </Table.DataCell>
                   <Table.DataCell scope="row">
-                    {tiltakValues[tiltakID].status}
+                    {measureValues[measureID].status}
                   </Table.DataCell>
                   <Table.DataCell scope="row">
                     <Button
                       variant="danger"
                       className={styles.trashcan}
-                      onClick={() => deleteTiltak(tiltakID)}
+                      onClick={() => deleteMeasure(measureID)}
                       icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
                       size="small"
-                      style={{ height: "40px" }}
                     >
                       Slett
                     </Button>
@@ -155,7 +151,7 @@ const LeggTilTiltak = ({
           </Table>
         </div>
       )}
-      <div onClick={generateNewTiltak}>
+      <div onClick={generateNewMeasure}>
         {" "}
         <div className={styles.actionDiv}>
           <Button
@@ -171,22 +167,18 @@ const LeggTilTiltak = ({
 
       {showDropdown && (
         <div>
-          <h3 style={{ margin: 0, marginTop: "32px" }}>
-            Fyll inn nye verdier etter tiltak
-          </h3>
+          <h3 className={styles.h3}>Fyll inn nye verdier etter tiltak</h3>
           <div className={styles.verdier}>
             <Dropdown
               title={"Ny sannsynlighet"}
-              formKey={"prob"}
-              setVerdi={setNewProbValue}
-              verdi={newProbValue}
+              setValue={setNewProbValue}
+              value={newProbValue}
               options={dropdownOptions}
             />
             <Dropdown
               title={"Ny konsekvens"}
-              formKey={"cons"}
-              setVerdi={setNewConsValue}
-              verdi={newConsValue}
+              setValue={setNewConsValue}
+              value={newConsValue}
               options={dropdownOptions}
             />
           </div>
@@ -196,4 +188,4 @@ const LeggTilTiltak = ({
   );
 };
 
-export default LeggTilTiltak;
+export default AddMeasure;

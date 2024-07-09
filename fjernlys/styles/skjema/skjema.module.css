@@ -1,0 +1,28 @@
+.alertComponent {
+  position: absolute;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.contentDiv {
+  width: 80%;
+}
+
+.valuesHeaderDiv {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.h3 {
+  margin: 0;
+}
+
+.helpText {
+  margin-left: 8px;
+}
+
+.buttonDiv {
+  margin-left: 90%;
+  margin-bottom: 40px;
+}

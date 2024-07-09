@@ -3,11 +3,11 @@ import styles from "@/styles/skjema/popup.module.css";
 import { Box, Button } from "@navikt/ds-react";
 
 interface Props {
-  deleteRisiko: any;
+  deleteRisk: any;
   setActivatePopUp: any;
 }
 
-function PopUp({ deleteRisiko, setActivatePopUp }: Props) {
+function PopUp({ deleteRisk, setActivatePopUp }: Props) {
   return (
     <>
       <Box
@@ -24,7 +24,7 @@ function PopUp({ deleteRisiko, setActivatePopUp }: Props) {
             <Button
               variant="danger"
               className={styles.button}
-              onClick={() => deleteRisiko()}
+              onClick={() => deleteRisk()}
             >
               Ja
             </Button>

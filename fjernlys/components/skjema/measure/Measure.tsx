@@ -1,24 +1,21 @@
-import stylesRisk from "@/styles/skjema/risk.module.css";
-import stylesTiltak from "@/styles/skjema/tiltak.module.css";
-import { TrashIcon, XMarkIcon } from "@navikt/aksel-icons";
-import { Button, Select, TextField } from "@navikt/ds-react";
 import React, { useEffect, useState } from "react";
-import Dropdown from "./Dropdown";
+import Dropdown from "../information/Dropdown";
+import styles from "@/styles/skjema/measure.module.css";
 
-interface TiltakProps {
-  tiltakIDNum: number;
+interface MeasureProps {
+  measureIDNum: number;
   riskIDNum: number;
-  deleteTiltak: (tiltakIDNum: number) => void;
+  deleteMeasure: (measureIDNum: number) => void;
   category: string;
   status: string;
   started: boolean;
   updateListe: any;
 }
 
-const Tiltak: React.FC<TiltakProps> = ({
-  tiltakIDNum,
+const Measure: React.FC<MeasureProps> = ({
+  measureIDNum,
   riskIDNum,
-  deleteTiltak,
+  deleteMeasure,
   category,
   started,
   status,
@@ -29,18 +26,9 @@ const Tiltak: React.FC<TiltakProps> = ({
   const [selectedStarted, setSelectedStarted] = useState<boolean>(
     started || false
   );
-  const tiltakID = `T${tiltakIDNum + 1}`;
-
-  const radioBoolCheck = (value: string): boolean => {
-    return value === "ja";
-  };
-
-  const deleteSelf = () => {
-    deleteTiltak(tiltakIDNum);
-  };
 
   useEffect(() => {
-    updateListe(tiltakIDNum, selectedCat, selectedStatus, selectedStarted);
+    updateListe(measureIDNum, selectedCat, selectedStatus, selectedStarted);
   }, [selectedCat, selectedStarted, selectedStatus]);
 
   const dropDownOptionsCat = [
@@ -60,26 +48,20 @@ const Tiltak: React.FC<TiltakProps> = ({
 
   return (
     <>
-      <div style={{ border: "1px red black", display: "flex", gap: "16px" }}>
-        <div style={{ width: "50%" }}>
+      <div className={styles.dropdownContent}>
+        <div className={styles.dropdownComp}>
           <Dropdown
             title={"Kategori"}
-            formKey="category"
-            verdi={selectedCat}
-            setVerdi={setSelectedCat}
+            value={selectedCat}
+            setValue={setSelectedCat}
             options={dropDownOptionsCat}
           />
         </div>
-        <div
-          style={{
-            width: "50%",
-          }}
-        >
+        <div className={styles.dropdownComp}>
           <Dropdown
             title={"Status"}
-            formKey="status"
-            verdi={selectedStatus}
-            setVerdi={setSelectedStatus}
+            value={selectedStatus}
+            setValue={setSelectedStatus}
             options={dropDownOptionsStatus}
           />
         </div>
@@ -88,4 +70,4 @@ const Tiltak: React.FC<TiltakProps> = ({
   );
 };
 
-export default Tiltak;
+export default Measure;

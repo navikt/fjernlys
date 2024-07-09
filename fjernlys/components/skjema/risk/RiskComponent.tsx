@@ -1,21 +1,10 @@
-import {
-  Button,
-  ExpansionCard,
-  HelpText,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-} from "@navikt/ds-react";
-import React, { useContext, useEffect, useState } from "react";
+import { HelpText, Radio, RadioGroup } from "@navikt/ds-react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/risk.module.css";
+import Dropdown from "../information/Dropdown";
+import AddMeasure from "../measure/AddMeasure";
 
-import Dropdown from "./Dropdown";
-import LeggTilTiltak from "./LeggTilTiltak";
-import { TrashIcon } from "@navikt/aksel-icons";
-import Dependent from "./Dependent";
-
-type tiltakValuesType = { category: string; status: string; started: boolean };
+type measureValuesType = { category: string; status: string; started: boolean };
 
 interface Props {
   riskIDNum: number;
@@ -24,23 +13,23 @@ interface Props {
   existingDependent: boolean;
   existingRiskLevel: string;
   existingCategory: string;
-  existingTiltakValues?: tiltakValuesType[];
-  deleteRisiko: any;
-  updateRisiko: any;
+  existingMeasureValues?: measureValuesType[];
+  deleteRisk: any;
+  updateRisk: any;
   newProbability?: string;
   newConsequence?: string;
 }
 
-function RisikoKomponent({
+function RiskComponent({
   riskIDNum,
   probability,
   consequence,
   existingDependent,
-  existingTiltakValues,
+  existingMeasureValues,
   existingRiskLevel,
   existingCategory,
-  deleteRisiko,
-  updateRisiko,
+  deleteRisk,
+  updateRisk,
   newProbability,
   newConsequence,
 }: Props) {
@@ -56,32 +45,32 @@ function RisikoKomponent({
   );
   const [category, setCategory] = useState(existingCategory || "Ikke satt");
 
-  const [tiltakValues, setTiltakValues] = useState<tiltakValuesType[]>(
-    existingTiltakValues || []
+  const [measureValues, setMeasureValues] = useState<measureValuesType[]>(
+    existingMeasureValues || []
   );
 
   const deleteSelf = () => {
-    deleteRisiko(riskIDNum);
+    deleteRisk(riskIDNum);
   };
 
   useEffect(() => {
     updateColor(probValue, consValue);
-    if (tiltakValues.length > 0) {
-      updateRisiko(
+    if (measureValues.length > 0) {
+      updateRisk(
         riskIDNum,
         parseFloat(probValue),
         parseFloat(consValue),
         dependent,
         riskLevel,
         category,
-        tiltakValues,
+        measureValues,
         newConsValue,
         newProbValue
       );
       console.log("newCons", newConsValue);
       console.log("newProb", newProbValue);
     } else {
-      updateRisiko(
+      updateRisk(
         riskIDNum,
         parseFloat(probValue),
         parseFloat(consValue),
@@ -96,7 +85,7 @@ function RisikoKomponent({
     dependent,
     riskLevel,
     category,
-    tiltakValues,
+    measureValues,
     newConsValue,
   ]);
 
@@ -144,74 +133,57 @@ function RisikoKomponent({
   return (
     <>
       <div className={styles.parentDiv}>
-        {" "}
         <div className={styles.contentDiv}>
-          {" "}
-          {/* <div className={styles.contentDiv}>
-            <div style={{ width: "100%" }}>
-              <TextField
-                label="Trusselnivå"
-                readOnly
-                style={{ backgroundColor: color }}
-              />
-            </div>
-          </div> */}
           <div className={styles.verdier}>
-            <div style={{ width: "50%" }}>
+            <div className={styles.dropdownComp}>
               <Dropdown
                 title={"Sannsynlighet"}
-                formKey={"prob"}
-                setVerdi={setProbValue}
-                verdi={probValue}
+                setValue={setProbValue}
+                value={probValue}
                 options={dropdownOptions}
               />
             </div>
-            <div style={{ width: "50%" }}>
+            <div className={styles.dropdownComp}>
               <Dropdown
                 title={"Konsekvens"}
-                formKey={"cons"}
-                setVerdi={setConsValue}
-                verdi={consValue}
+                setValue={setConsValue}
+                value={consValue}
                 options={dropdownOptions}
               />
             </div>
           </div>
-          <div style={{ marginTop: "16px", display: "flex" }}>
-            <div style={{ width: "50%" }}>
+          <div className={styles.categoryDiv}>
+            <div className={styles.dropdownComp}>
               <Dropdown
                 title={"Kategori"}
-                formKey="category"
-                verdi={category}
-                setVerdi={setCategory}
+                value={category}
+                setValue={setCategory}
                 options={categoryOptions}
               />
             </div>
-            <div
-              className={styles.risikoeierDiv}
-              style={{ marginLeft: "16px", marginTop: "4px", width: "50%" }}
-            >
+            <div className={styles.dependentRiskDiv}>
               <RadioGroup
                 legend="Avhengighetsrisiko?"
                 onChange={handleDependent}
                 defaultValue={"false"}
                 size="small"
               >
-                <div className={styles.risikoeierRadio}>
-                  <Radio value="true">Ja</Radio>{" "}
+                <div className={styles.dependentRiskRadio}>
+                  <Radio value="true">Ja</Radio>
                   <Radio value="false">Nei</Radio>
                 </div>
               </RadioGroup>
-              <HelpText title="Hva er en avhengighetsrisiko?">
-                En avhengighetsrisiko innebærer at risikoen du har i ditt
+              <HelpText title="Hva er en avhengighetsRisk?">
+                En avhengighetsRisk innebærer at Risken du har i ditt
                 system/applikasjon er avhengig av andre systemer utenfor ditt
                 ansvarsområde
               </HelpText>
             </div>
           </div>
-          <LeggTilTiltak
+          <AddMeasure
             riskIDNum={riskIDNum}
-            tiltakValues={tiltakValues}
-            setTiltakValues={setTiltakValues}
+            measureValues={measureValues}
+            setMeasureValues={setMeasureValues}
             setNewProbValue={setNewProbValue}
             setNewConsValue={setNewConsValue}
             newProbValue={newProbValue}
@@ -223,4 +195,4 @@ function RisikoKomponent({
   );
 }
 
-export default RisikoKomponent;
+export default RiskComponent;
