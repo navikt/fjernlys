@@ -4,16 +4,22 @@ import { Alert, AlertProps } from "@navikt/ds-react";
 interface AlertWithCloseButtonProps {
   children?: React.ReactNode;
   variant: AlertProps["variant"];
+  setShowAlert: any;
+  showPropAlert: boolean;
 }
 
 const AlertWithCloseButton: React.FC<AlertWithCloseButtonProps> = ({
   children,
   variant,
+  showPropAlert,
+  setShowAlert,
 }) => {
-  const [show, setShow] = React.useState(true);
+  const showAlertFunc = () => {
+    setShowAlert(false);
+  };
 
-  return show ? (
-    <Alert variant={variant} onClose={() => setShow(false)} closeButton>
+  return showPropAlert ? (
+    <Alert variant={variant} onClick={() => showAlertFunc()} closeButton>
       {children || "Content"}
     </Alert>
   ) : null;

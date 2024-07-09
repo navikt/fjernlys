@@ -1,4 +1,4 @@
-import { Box, HelpText, Page, VStack } from "@navikt/ds-react";
+import { Box, Button, HelpText, Page, VStack } from "@navikt/ds-react";
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/landingPage/landingPage.module.css";
@@ -6,6 +6,7 @@ import risk from "@/styles/skjema/risk.module.css";
 import Opplysninger from "@/components/skjema/Opplysninger";
 import LeggTilRisiko from "@/components/skjema/LeggTilRisiko";
 import router from "next/router";
+import AlertWithCloseButton from "@/components/skjema/AlertWithCloseButton";
 
 const goHome = () => {
   router.push("/");
@@ -36,6 +37,8 @@ const fillForm = () => {
   const [notOwner, setNotOwner] = useState("");
   const [service, setService] = useState("Ikke valgt");
 
+  const [showAlert, setShowAlert] = useState(false);
+
   return (
     <>
       <Page
@@ -62,6 +65,14 @@ const fillForm = () => {
             RAPPORTERINGSSYSTEM
           </Page.Block>
         </Box>
+        <div style={{ position: "absolute", width: "90%", marginLeft: "5%" }}>
+          <AlertWithCloseButton
+            variant="success"
+            children="Skjemaet er sendt inn!"
+            showPropAlert={showAlert}
+            setShowAlert={setShowAlert}
+          />
+        </div>
         <div className={risk.skjemaDiv}>
           <VStack gap="4" align={"start"} className={risk.vstack}>
             <div className={styles.test}>
@@ -98,6 +109,12 @@ const fillForm = () => {
                 risikoValues={risikoValues}
                 setRisikoValues={setRisikoValues}
               />
+            </div>
+            <div style={{ marginLeft: "90%", marginBottom: "40px" }}>
+              {" "}
+              <Button variant="primary" onClick={() => setShowAlert(true)}>
+                <div>Send inn</div>
+              </Button>
             </div>
           </VStack>
         </div>

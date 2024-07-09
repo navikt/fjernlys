@@ -224,8 +224,9 @@ const LeggTilRisiko = ({ risikoValues, setRisikoValues }: Props) => {
           variant="secondary"
         >
           <div>Legg til risiko</div>
-        </Button>
+        </Button>{" "}
       </div>
+
       {activePopUp && (
         <PopUp deleteRisiko={deleteRisiko} setActivatePopUp={setActivePopUp} />
       )}
