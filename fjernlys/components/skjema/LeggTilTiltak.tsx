@@ -170,21 +170,24 @@ const LeggTilTiltak = ({
       {showDropdown && <hr />}
 
       {showDropdown && (
-        <div className={styles.verdier}>
-          <Dropdown
-            title={"Ny sannsynlighet"}
-            formKey={"prob"}
-            setVerdi={setNewProbValue}
-            verdi={newProbValue}
-            options={dropdownOptions}
-          />
-          <Dropdown
-            title={"Ny konsekvens"}
-            formKey={"cons"}
-            setVerdi={setNewConsValue}
-            verdi={newConsValue}
-            options={dropdownOptions}
-          />
+        <div>
+          <h3 style={{ margin: 0 }}>Fyll inn nye verdier etter tiltak</h3>
+          <div className={styles.verdier}>
+            <Dropdown
+              title={"Ny sannsynlighet"}
+              formKey={"prob"}
+              setVerdi={setNewProbValue}
+              verdi={newProbValue}
+              options={dropdownOptions}
+            />
+            <Dropdown
+              title={"Ny konsekvens"}
+              formKey={"cons"}
+              setVerdi={setNewConsValue}
+              verdi={newConsValue}
+              options={dropdownOptions}
+            />
+          </div>
         </div>
       )}
     </>
