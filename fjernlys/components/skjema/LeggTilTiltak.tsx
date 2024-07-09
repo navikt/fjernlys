@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { PencilIcon, PlusCircleIcon } from "@navikt/aksel-icons";
+import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 import Tiltak from "./Tiltak";
 import { DropdownValues } from "@/pages/skjema";
 import styles from "@/styles/skjema/tiltak.module.css";
@@ -40,9 +40,7 @@ const LeggTilTiltak = ({
     setTiltakValues((prevList: tiltakValuesType[]) =>
       prevList.filter((_, index) => index !== tiltakIDNum)
     );
-    setTiltakList((prevList) =>
-      prevList.filter((_, index) => index !== tiltakIDNum)
-    );
+    setTiltakList([]);
   };
 
   useEffect(() => {
@@ -115,6 +113,7 @@ const LeggTilTiltak = ({
               <Table.HeaderCell scope="col">Tiltak</Table.HeaderCell>
               <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>
               <Table.HeaderCell scope="col">Status</Table.HeaderCell>
+              <Table.HeaderCell scope="col">Slett tiltak</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -128,6 +127,18 @@ const LeggTilTiltak = ({
                 </Table.DataCell>
                 <Table.DataCell scope="row">
                   {tiltakValues[tiltakID].status}
+                </Table.DataCell>
+                <Table.DataCell scope="row">
+                  <Button
+                    variant="danger"
+                    className={styles.trashcan}
+                    onClick={() => deleteTiltak(tiltakID)}
+                    icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+                    size="small"
+                    style={{ height: "40px" }}
+                  >
+                    Slett tiltak
+                  </Button>
                 </Table.DataCell>
               </Table.ExpandableRow>
             ))}

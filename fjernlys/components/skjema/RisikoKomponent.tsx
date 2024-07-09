@@ -99,21 +99,16 @@ function RisikoKomponent({
     tiltakValues,
     newConsValue,
   ]);
-
   const updateColor = (prob: string, cons: string) => {
     let probInt = parseFloat(prob);
     let consInt = parseFloat(cons);
-
     if (probInt > 0 && consInt > 0) {
       let total = probInt * consInt;
       if (total <= 4 && probInt <= 3 && consInt <= 3) {
-        setColor("green");
         setRiskLevel("Lav");
       } else if (total >= 15) {
-        setColor("red");
         setRiskLevel("Alvorlig");
       } else if (total >= 4 && total < 15) {
-        setColor("yellow");
         setRiskLevel("Moderat");
       }
     }
@@ -219,14 +214,17 @@ function RisikoKomponent({
           />
         </div>
       </div>
-      <Button
-        variant="danger"
-        className={styles.trashcan}
-        onClick={deleteSelf}
-        icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
-      >
-        Slett risiko
-      </Button>
+      <div>
+        {" "}
+        <Button
+          variant="danger"
+          className={styles.trashcan}
+          onClick={deleteSelf}
+          icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+        >
+          Slett risiko
+        </Button>
+      </div>
     </>
   );
 }

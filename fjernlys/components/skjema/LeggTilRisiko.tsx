@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PencilIcon, PlusCircleIcon } from "@navikt/aksel-icons";
 import RisikoKomponent from "./RisikoKomponent";
 import { Button, HStack, Table } from "@navikt/ds-react";
+import { get } from "http";
 
 type tiltakValuesType = { category: string; status: string; started: boolean };
 type risikoValuesType = {
@@ -116,6 +117,18 @@ const LeggTilRisiko = () => {
       },
     ]);
   };
+  const getBackgroundColor = (riskLevel: any) => {
+    switch (riskLevel) {
+      case "Lav":
+        return "var(--a-green-300)";
+      case "Moderat":
+        return "var(--a-orange-300)";
+      case "Alvorlig":
+        return "var(--a-red-400)";
+      default:
+        return "false";
+    }
+  };
 
   return (
     <>
@@ -147,7 +160,28 @@ const LeggTilRisiko = () => {
             >
               <Table.DataCell scope="row">{`R${riskIDNum + 1}`}</Table.DataCell>
               <Table.DataCell scope="row">
-                {risikoValues[riskIDNum].riskLevel}
+                <div style={{ display: "flex", position: "relative" }}>
+                  {" "}
+                  <div style={{ position: "absolute" }}>
+                    {risikoValues[riskIDNum].riskLevel}
+                  </div>
+                  <div
+                    style={{
+                      visibility:
+                        getBackgroundColor(risikoValues[riskIDNum].riskLevel) ==
+                        "false"
+                          ? "hidden"
+                          : "visible",
+                      border: "solid 1px ",
+                      width: "20px",
+                      height: "20px",
+                      marginLeft: "70px",
+                      backgroundColor: getBackgroundColor(
+                        risikoValues[riskIDNum].riskLevel
+                      ),
+                    }}
+                  ></div>
+                </div>
               </Table.DataCell>
               <Table.DataCell scope="row">
                 {risikoValues[riskIDNum].category}

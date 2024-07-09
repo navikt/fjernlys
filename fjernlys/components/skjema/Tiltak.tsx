@@ -84,16 +84,6 @@ const Tiltak: React.FC<TiltakProps> = ({
           />
         </div>
       </div>
-      <div style={{ marginTop: "16px" }}>
-        <Button
-          variant="danger"
-          className={stylesTiltak.trashcan}
-          onClick={deleteSelf}
-          icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
-        >
-          <p style={{ fontSize: "0.8rem" }}>Slett tiltak</p>
-        </Button>
-      </div>
     </>
   );
 };
