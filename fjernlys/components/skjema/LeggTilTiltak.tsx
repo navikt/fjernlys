@@ -171,7 +171,9 @@ const LeggTilTiltak = ({
 
       {showDropdown && (
         <div>
-          <h3 style={{ margin: 0 }}>Fyll inn nye verdier etter tiltak</h3>
+          <h3 style={{ margin: 0, marginTop: "32px" }}>
+            Fyll inn nye verdier etter tiltak
+          </h3>
           <div className={styles.verdier}>
             <Dropdown
               title={"Ny sannsynlighet"}

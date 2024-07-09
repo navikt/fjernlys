@@ -23,6 +23,13 @@ type risikoValuesType = {
   newProbability?: string;
 };
 
+type submitDataType = {
+  ownerData: boolean;
+  notOwnerData?: string | null;
+  serviceData: string;
+  riskValues: risikoValuesType[];
+};
+
 const fillForm = () => {
   const [risikoValues, setRisikoValues] = useState<risikoValuesType[]>([
     {
@@ -34,10 +41,30 @@ const fillForm = () => {
     },
   ]);
   const [owner, setOwner] = useState(true);
-  const [notOwner, setNotOwner] = useState("");
+  const [notOwner, setNotOwner] = useState<string | null>(null);
   const [service, setService] = useState("Ikke valgt");
+  const [submitData, setSubmitData] = useState<submitDataType | null>(null);
 
   const [showAlert, setShowAlert] = useState(false);
+
+  const prepareSubmit = () => {
+    const data: submitDataType = {
+      ownerData: owner,
+      notOwnerData: notOwner,
+      serviceData: service,
+      riskValues: risikoValues,
+    };
+    setSubmitData(data);
+  };
+
+  const test = (value: boolean) => {
+    setShowAlert(value);
+    prepareSubmit();
+  };
+
+  useEffect(() => {
+    console.log(JSON.stringify(submitData));
+  }, [submitData]);
 
   return (
     <>
@@ -112,7 +139,7 @@ const fillForm = () => {
             </div>
             <div style={{ marginLeft: "90%", marginBottom: "40px" }}>
               {" "}
-              <Button variant="primary" onClick={() => setShowAlert(true)}>
+              <Button variant="primary" onClick={() => test(true)}>
                 <div>Send inn</div>
               </Button>
             </div>
