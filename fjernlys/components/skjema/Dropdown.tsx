@@ -1,4 +1,3 @@
-import { DropdownValues } from "@/pages/skjema";
 import { Select } from "@navikt/ds-react";
 import React, { useContext } from "react";
 

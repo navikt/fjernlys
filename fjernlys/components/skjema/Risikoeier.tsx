@@ -2,13 +2,24 @@ import { HelpText, Radio, RadioGroup } from "@navikt/ds-react";
 import React from "react";
 import styles from "@/styles/skjema/opplysninger.module.css";
 
-function Risikoeier() {
+interface Props {
+  owner: boolean;
+  setOwner: any;
+}
+function Risikoeier({ owner, setOwner }: Props) {
+  const updateOwner = (value: string) => {
+    setOwner(value === "true");
+  };
   return (
     <>
       <div className={styles.risikoeierDiv}>
-        <RadioGroup legend="Er du risikoeier?">
+        <RadioGroup
+          legend="Er du risikoeier?"
+          onChange={updateOwner}
+          defaultValue={"true"}
+        >
           <div className={styles.risikoeierRadio}>
-            <Radio value="1">Ja</Radio> <Radio value="2">Nei</Radio>{" "}
+            <Radio value="true">Ja</Radio> <Radio value="false">Nei</Radio>{" "}
           </div>
         </RadioGroup>
         <HelpText title="Hva er en risikoeier?">

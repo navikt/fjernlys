@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 import Tiltak from "./Tiltak";
-import { DropdownValues } from "@/pages/skjema";
+
 import styles from "@/styles/skjema/tiltak.module.css";
 import Dropdown from "./Dropdown";
 import { Button, Table } from "@navikt/ds-react";
