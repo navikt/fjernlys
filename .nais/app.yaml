@@ -8,7 +8,7 @@ metadata:
 spec:
   ingresses:
     - https://fjernlys.ansatt.dev.nav.no
-  image: { { .image } } # Placeholder variable to be replaced by the CI/CD pipeline
+  image: {{ image }}
   port: 8080
   replicas:
     max: 2
