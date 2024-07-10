@@ -4,7 +4,7 @@ metadata:
   labels:
     team: fjernlys
   name: fjernlys
-  namespace:
+  namespace: fjernlys
 spec:
   ingresses:
     - https://fjernlys.ansatt.dev.nav.no
