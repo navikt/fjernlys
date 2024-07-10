@@ -23,5 +23,5 @@ jobs:
         uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp # Replace
-          RESOURCE: .nais/app.yaml #, topic.yaml, statefulset.yaml, etc.
+          RESOURCE: ./fjernlys/.nais/app.yaml #, topic.yaml, statefulset.yaml, etc.
           VAR: image=${{ steps.docker-build-push.outputs.image }}
