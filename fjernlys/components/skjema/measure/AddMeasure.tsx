@@ -67,7 +67,7 @@ const AddMeasure = ({
         ),
       }))
     );
-    console.log("measureValues", measureValues);
+    // console.log("measureValues", measureValues);
   }, [measureValues]);
 
   const generateNewMeasure = () => {

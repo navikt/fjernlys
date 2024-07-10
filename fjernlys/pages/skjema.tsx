@@ -31,7 +31,7 @@ type submitDataType = {
   riskValues: riskValuesType[];
 };
 
-const fillForm = () => {
+const FillForm = () => {
   const [riskValues, setRiskValues] = useState<riskValuesType[]>([
     {
       probability: 0,
@@ -96,7 +96,6 @@ const fillForm = () => {
         <div className={skjemaStyles.alertComponent}>
           <AlertWithCloseButton
             variant="success"
-            children="Skjemaet er sendt inn!"
             showPropAlert={showAlert}
             setShowAlert={setShowAlert}
           />
@@ -137,4 +136,4 @@ const fillForm = () => {
   );
 };
 
-export default fillForm;
+export default FillForm;
