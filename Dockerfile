@@ -1,10 +1,35 @@
-FROM busybox:latest
-ENV PORT=8080
+# Stage 1: Build the Next.js fjernlys
+FROM node:14 AS builder
 
-ADD ./www/index.html /www/index.html
-ADD ./www/hello-nais.png /www/hello-nais.png
+# Set working directory
+WORKDIR /fjernlys
 
-HEALTHCHECK CMD nc -z localhost $PORT
+# Install dependencies
+COPY package*.json ./
+RUN npm install
 
-# Create a basic webserver and run it until the container is stopped
-CMD echo "httpd started" && trap "exit 0;" TERM INT; httpd -v -p $PORT -h /www -f & wait
+# Copy all files
+COPY . .
+
+# Build the Next.js fjernlys
+RUN npm run build
+
+# Stage 2: Serve the built fjernlys using a lightweight web server
+FROM node:14-alpine
+
+# Set working directory
+WORKDIR /fjernlys
+
+# Copy built files from the builder stage
+COPY --from=builder /fjernlys/.next /fjernlys/.next
+COPY --from=builder /fjernlys/public /fjernlys/public
+COPY --from=builder /fjernlys/next.config.mjs /fjernlys/next.config.mjs
+COPY --from=builder /fjernlys/package.json /fjernlys/package.json
+COPY --from=builder /fjernlys/node_modules /fjernlys/node_modules
+
+# Expose the port the fjernlys runs on
+ENV PORT 3000
+EXPOSE 3000
+
+# Start the Next.js fjernlys
+CMD ["npm", "run", "start"]
