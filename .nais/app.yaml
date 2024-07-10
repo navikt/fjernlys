@@ -11,8 +11,8 @@ spec:
   image: {{ image }}
   port: 8080
   replicas:
-    max: 2
-    min: 4
+    max: 4
+    min: 2
   resources:
     requests:
       cpu: 200m
