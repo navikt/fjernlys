@@ -1,0 +1,19 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    team: fjernlys
+  name: fjernlys
+  namespace:
+spec:
+  ingresses:
+    - https://fjernlys.ansatt.dev.nav.no
+  image: { { image } } # Placeholder variable to be replaced by the CI/CD pipeline
+  port: 8080
+  replicas:
+    max: 2
+    min: 4
+  resources:
+    requests:
+      cpu: 200m
+      memory: 128Mi
