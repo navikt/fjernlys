@@ -100,7 +100,7 @@ function RiskComponent({
         setRiskLevel("Lav");
       } else if (total >= 15) {
         setColor("red");
-        setRiskLevel("Alvorlig");
+        setRiskLevel("Høy");
       } else if (total >= 4 && total < 15) {
         setColor("yellow");
         setRiskLevel("Moderat");
@@ -110,8 +110,20 @@ function RiskComponent({
   const handleDependent = (value: string) => {
     setDependent(value === "true");
   };
-  const dropdownOptions = [
-    { value: "0", label: "Velg verdi" },
+  const dropdownOptionsProb = [
+    { value: "0", label: "Velg sannsynlighet" },
+    { value: "1", label: "1" },
+    { value: "1.5", label: "1.5" },
+    { value: "2", label: "2" },
+    { value: "2.5", label: "2.5" },
+    { value: "3", label: "3" },
+    { value: "3.5", label: "3.5" },
+    { value: "4", label: "4" },
+    { value: "4.5", label: "4.5" },
+    { value: "5", label: "5" },
+  ];
+  const dropdownOptionsCons = [
+    { value: "0", label: "Velg konsekvens" },
     { value: "1", label: "1" },
     { value: "1.5", label: "1.5" },
     { value: "2", label: "2" },
@@ -125,9 +137,27 @@ function RiskComponent({
 
   const categoryOptions = [
     { value: "Ikke satt", label: "Ikke satt" },
-    { value: "Personvern", label: "Personvern" },
-    { value: "Digitalt Angrep", label: "Digitalt Angrep" },
-    { value: "Drift/Infrastruktur", label: "Drift/Infrastruktur" },
+    {
+      value: "Stabil drift og måloppnåelse",
+      label: "Stabil drift og måloppnåelse",
+    },
+    { value: "Helse, miljø og sikkerhet", label: "Helse, miljø og sikkerhet" },
+    {
+      value: "Personvern og informasjonssikkerhet",
+      label: "Personvern og informasjonssikkerhet",
+    },
+    {
+      value: "Beredskap og samfunnssikkerhet",
+      label: "Beredskap og samfunnssikkerhet",
+    },
+    {
+      value: "Trygdesvindel",
+      label: "Trygdesvindel",
+    },
+    {
+      value: "Interne misligheter",
+      label: "Interne misligheter",
+    },
   ];
 
   return (
@@ -140,7 +170,7 @@ function RiskComponent({
                 title={"Sannsynlighet"}
                 setValue={setProbValue}
                 value={probValue}
-                options={dropdownOptions}
+                options={dropdownOptionsProb}
               />
             </div>
             <div className={styles.dropdownComp}>
@@ -148,7 +178,7 @@ function RiskComponent({
                 title={"Konsekvens"}
                 setValue={setConsValue}
                 value={consValue}
-                options={dropdownOptions}
+                options={dropdownOptionsCons}
               />
             </div>
           </div>
@@ -173,8 +203,8 @@ function RiskComponent({
                   <Radio value="false">Nei</Radio>
                 </div>
               </RadioGroup>
-              <HelpText title="Hva er en avhengighetsRisk?">
-                En avhengighetsRisk innebærer at Risken du har i ditt
+              <HelpText title="Hva er en avhengighetsrisiko?">
+                En avhengighetsrisiko innebærer at risikoen du har i ditt
                 system/applikasjon er avhengig av andre systemer utenfor ditt
                 ansvarsområde
               </HelpText>

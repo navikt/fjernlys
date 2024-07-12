@@ -140,11 +140,11 @@ const AddRisk = ({ riskValues, setriskValues }: Props) => {
           <Table.Row>
             <Table.HeaderCell />
             <Table.HeaderCell scope="col">Risiko</Table.HeaderCell>
-            <Table.HeaderCell scope="col">Trusselnivå</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Nivå</Table.HeaderCell>
             <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>
             <Table.HeaderCell scope="col">Avhengighet</Table.HeaderCell>
             <Table.HeaderCell scope="col">Antall tiltak</Table.HeaderCell>
-            <Table.HeaderCell scope="col">Slett risk</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Slett risiko</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -209,7 +209,7 @@ const AddRisk = ({ riskValues, setriskValues }: Props) => {
           onClick={() => generateNewrisk()}
           variant="secondary"
         >
-          <div>Legg til risk</div>
+          <div>Legg til risiko</div>
         </Button>
       </div>
 

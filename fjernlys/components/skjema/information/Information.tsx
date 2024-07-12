@@ -25,7 +25,7 @@ const Opplysninger = ({
         <div className={styles.selectDiv}>
           <div className={styles.dropdownDiv}>
             <Select
-              label={"Ytelse"}
+              label={"Ytelse/tjeneste"}
               onChange={(e) => setService(e.target.value)}
               value={service}
             >

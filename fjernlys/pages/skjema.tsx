@@ -73,7 +73,7 @@ const FillForm = () => {
         background="bg-subtle"
         footer={
           <Box as="footer" background="surface-neutral-moderate" padding="8">
-            <Page.Block gutters>Footer</Page.Block>
+            <Page.Block gutters>Fjernlys sommer 2024 ☀️</Page.Block>
           </Box>
         }
         className={landingPageStyles.page}
