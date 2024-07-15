@@ -8,6 +8,7 @@ import AddRisk from "@/components/skjema/risk/AddRisk";
 import router from "next/router";
 import AlertWithCloseButton from "@/components/skjema/information/AlertWithCloseButton";
 import skjemaStyles from "@/styles/skjema/skjema.module.css";
+import { postData } from "./api/postData";
 
 const goHome = () => {
   router.push("/");
@@ -61,6 +62,20 @@ const FillForm = () => {
   const test = (value: boolean) => {
     setShowAlert(value);
     prepareSubmit();
+  };
+
+  // const sendPostRequest = async () => {
+  //   await postData(riskValues);
+  // };
+  const handleClick = async () => {
+    test(true);
+    try {
+      const data = { name: "John Doe" };
+      const result = await postData(data);
+      console.log("Response from postData:", result);
+    } catch (error) {
+      console.error("Error from postData:", error);
+    }
   };
 
   useEffect(() => {
@@ -125,7 +140,13 @@ const FillForm = () => {
               <AddRisk riskValues={riskValues} setriskValues={setRiskValues} />
             </div>
             <div className={skjemaStyles.buttonDiv}>
-              <Button variant="primary" onClick={() => test(true)}>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  test(true);
+                  handleClick();
+                }}
+              >
                 <div>Send inn</div>
               </Button>
             </div>
