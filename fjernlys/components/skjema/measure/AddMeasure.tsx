@@ -18,7 +18,6 @@ interface Props {
 type measureValuesType = {
   status: string;
   category: string;
-  started: boolean;
 };
 
 const AddMeasure = ({
@@ -61,7 +60,6 @@ const AddMeasure = ({
             deleteMeasure={deleteMeasure}
             category={item.category}
             status={item.status}
-            started={item.started}
             updateListe={updateListe}
           />
         ),
@@ -77,15 +75,10 @@ const AddMeasure = ({
     ]);
   };
 
-  const updateListe = (
-    id: number,
-    category: string,
-    status: string,
-    started: boolean
-  ) => {
+  const updateListe = (id: number, category: string, status: string) => {
     setMeasureValues((prevList: measureValuesType[]) => {
       const newList = [...prevList];
-      newList[id] = { category, status, started };
+      newList[id] = { category, status };
       return newList;
     });
   };
@@ -102,6 +95,19 @@ const AddMeasure = ({
     { value: "4.5", label: "4.5" },
     { value: "5", label: "5" },
   ];
+
+  const handleSetNewProbValue = (value: string) => {
+    setNewProbValue(parseFloat(value));
+  };
+
+  const handleSetNewConsValue = (value: string) => {
+    setNewConsValue(parseFloat(value));
+  };
+
+  useEffect(() => {
+    console.log(typeof newProbValue);
+    console.log(typeof newConsValue);
+  }, [newProbValue, newConsValue]);
 
   return (
     <>
@@ -171,13 +177,13 @@ const AddMeasure = ({
           <div className={styles.verdier}>
             <Dropdown
               title={"Ny sannsynlighet"}
-              setValue={setNewProbValue}
+              setValue={handleSetNewProbValue}
               value={newProbValue}
               options={dropdownOptions}
             />
             <Dropdown
               title={"Ny konsekvens"}
-              setValue={setNewConsValue}
+              setValue={handleSetNewConsValue}
               value={newConsValue}
               options={dropdownOptions}
             />

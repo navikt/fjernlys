@@ -14,6 +14,7 @@ const goHome = () => {
   router.push("/");
 };
 type measureValuesType = { category: string; status: string; started: boolean };
+
 type riskValuesType = {
   probability: number;
   consequence: number;
@@ -40,6 +41,9 @@ const FillForm = () => {
       dependent: false,
       riskLevel: "Ingen vurdering",
       category: "Ikke satt",
+      // measureValues: [],
+      // newConsequence: "",
+      // newProbability: "",
     },
   ]);
   const [owner, setOwner] = useState(true);
@@ -64,9 +68,6 @@ const FillForm = () => {
     prepareSubmit();
   };
 
-  // const sendPostRequest = async () => {
-  //   await postData(riskValues);
-  // };
   const handlePostData = async () => {
     test(true);
     try {

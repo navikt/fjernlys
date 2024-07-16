@@ -8,7 +8,6 @@ interface MeasureProps {
   deleteMeasure: (measureIDNum: number) => void;
   category: string;
   status: string;
-  started: boolean;
   updateListe: any;
 }
 
@@ -17,19 +16,18 @@ const Measure: React.FC<MeasureProps> = ({
   riskIDNum,
   deleteMeasure,
   category,
-  started,
   status,
   updateListe,
 }) => {
   const [selectedCat, setSelectedCat] = useState(category || "Velg kategori");
   const [selectedStatus, setSelectedStatus] = useState(status || "Velg status");
-  const [selectedStarted, setSelectedStarted] = useState<boolean>(
-    started || false
-  );
+  // const [selectedStarted, setSelectedStarted] = useState<boolean>(
+  //   started || false
+  // );
 
   useEffect(() => {
-    updateListe(measureIDNum, selectedCat, selectedStatus, selectedStarted);
-  }, [selectedCat, selectedStarted, selectedStatus]);
+    updateListe(measureIDNum, selectedCat, selectedStatus);
+  }, [selectedCat, selectedStatus]);
 
   const dropDownOptionsCat = [
     { value: "Velg kategori", label: "Velg kategori" },
