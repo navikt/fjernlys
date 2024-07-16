@@ -6,7 +6,7 @@ import { get } from "http";
 import PopUp from "../information/PopUp";
 import styles from "@/styles/skjema/risk.module.css";
 import RiskComponent from "./RiskComponent";
-type measureValuesType = { category: string; status: string; started: boolean };
+type measureValuesType = { category: string; status: string };
 type riskValuesType = {
   probability: number;
   consequence: number;

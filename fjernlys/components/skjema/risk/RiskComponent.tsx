@@ -4,7 +4,7 @@ import styles from "@/styles/skjema/risk.module.css";
 import Dropdown from "../information/Dropdown";
 import AddMeasure from "../measure/AddMeasure";
 
-type measureValuesType = { category: string; status: string; started: boolean };
+type measureValuesType = { category: string; status: string };
 
 interface Props {
   riskIDNum: number;

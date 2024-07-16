@@ -71,7 +71,7 @@ const AddMeasure = ({
   const generateNewMeasure = () => {
     setMeasureValues((prevList: measureValuesType[]) => [
       ...prevList,
-      { category: "Velg kategori", status: "Velg status", started: false },
+      { category: "Velg kategori", status: "Velg status" },
     ]);
   };
 
