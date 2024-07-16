@@ -1,7 +1,7 @@
 export const postData = async (data: any) => {
   const endpointURL = "http://0.0.0.0:8080/submit";
 
-  https: try {
+  try {
     const res = await fetch(endpointURL, {
       method: "POST",
       headers: {

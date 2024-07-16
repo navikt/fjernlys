@@ -70,7 +70,7 @@ const FillForm = () => {
   const handleClick = async () => {
     test(true);
     try {
-      const data = { name: "John Doe" };
+      const data = submitData;
       const result = await postData(data);
       console.log("Response from postData:", result);
     } catch (error) {
