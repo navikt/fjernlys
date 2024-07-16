@@ -67,7 +67,7 @@ const FillForm = () => {
   // const sendPostRequest = async () => {
   //   await postData(riskValues);
   // };
-  const handleClick = async () => {
+  const handlePostData = async () => {
     test(true);
     try {
       const data = submitData;
@@ -144,7 +144,7 @@ const FillForm = () => {
                 variant="primary"
                 onClick={() => {
                   test(true);
-                  handleClick();
+                  handlePostData();
                 }}
               >
                 <div>Send inn</div>
