@@ -58,6 +58,7 @@ const FillForm = () => {
 
   const [showAlert, setShowAlert] = useState(false);
   const [allFieldsEdited, setAllFieldsEdited] = useState(false);
+  const [readyToSubmit, setReadyToSubmit] = useState(false);
 
   const prepareSubmit = () => {
     const data: submitDataType = {
@@ -72,6 +73,7 @@ const FillForm = () => {
   const test = (value: boolean) => {
     setShowAlert(value);
     prepareSubmit();
+    setReadyToSubmit(true);
   };
 
   const handlePostData = async () => {
@@ -81,13 +83,20 @@ const FillForm = () => {
     }
     test(true);
     try {
-      const data = submitData;
+      const data = await submitData;
       const result = await postData(data);
       console.log("Response from postData:", result);
     } catch (error) {
       console.error("Error from postData:", error);
     }
   };
+
+  useEffect(() => {
+    if (readyToSubmit) {
+      handlePostData();
+      setReadyToSubmit(false); // Reset the flag
+    }
+  }, [readyToSubmit]);
 
   useEffect(() => {
     console.log(JSON.stringify(submitData));
@@ -159,7 +168,6 @@ const FillForm = () => {
                 variant="primary"
                 onClick={() => {
                   test(true);
-                  handlePostData();
                 }}
               >
                 <div>Send inn</div>
