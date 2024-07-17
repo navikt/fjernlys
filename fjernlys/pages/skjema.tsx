@@ -8,7 +8,7 @@ import AddRisk from "@/components/skjema/risk/AddRisk";
 import router from "next/router";
 import AlertWithCloseButton from "@/components/skjema/information/AlertWithCloseButton";
 import skjemaStyles from "@/styles/skjema/skjema.module.css";
-import { postData } from "./api/postData";
+import { postReport } from "./api/postReport";
 
 const goHome = () => {
   router.push("/");
@@ -84,7 +84,7 @@ const FillForm = () => {
     test(true);
     try {
       const data = await submitData;
-      const result = await postData(data);
+      const result = await postReport(data);
       console.log("Response from postData:", result);
     } catch (error) {
       console.error("Error from postData:", error);

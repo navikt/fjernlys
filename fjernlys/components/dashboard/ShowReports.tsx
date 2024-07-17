@@ -1,8 +1,7 @@
 import { Select, Table } from "@navikt/ds-react";
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/information.module.css";
-import { getData } from "@/pages/api/getData";
-import { get } from "http";
+import { getReportByService } from "@/pages/api/getReportByService";
 
 type reportType = {
   id: string;
@@ -18,12 +17,24 @@ function ShowReports() {
 
   const handleChange = async (service: string) => {
     setService(service);
-    setServiceElements(await getData(service));
+    setServiceElements(await getReportByService(service));
   };
 
   useEffect(() => {
     console.log(serviceElements);
   }, [serviceElements]);
+
+  function formatDate(dateString: string) {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Intl.DateTimeFormat("nb", options).format(new Date(dateString));
+  }
 
   return (
     <>
@@ -63,13 +74,14 @@ function ShowReports() {
           {serviceElements.map((element) => (
             <Table.ExpandableRow key={element.id} content={""}>
               <Table.DataCell scope="row">{service}</Table.DataCell>
-              <Table.DataCell>
-                {element.is_owner ? "Owner" : "Not Owner"}
-              </Table.DataCell>
               <Table.DataCell>{element.owner_ident}</Table.DataCell>
-              <Table.DataCell></Table.DataCell>
-              <Table.DataCell>{element.report_created}</Table.DataCell>
-              <Table.DataCell>{element.report_edited}</Table.DataCell>
+              <Table.DataCell>Ikke tilgjengelig</Table.DataCell>
+              <Table.DataCell>
+                {formatDate(element.report_created)}
+              </Table.DataCell>
+              <Table.DataCell>
+                {formatDate(element.report_edited)}
+              </Table.DataCell>
             </Table.ExpandableRow>
           ))}
         </Table.Body>
