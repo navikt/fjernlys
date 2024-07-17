@@ -52,6 +52,7 @@ const FillForm = () => {
   const [submitData, setSubmitData] = useState<submitDataType | null>(null);
 
   const [showAlert, setShowAlert] = useState(false);
+  const [allFieldsEdited, setAllFieldsEdited] = useState(false);
 
   const prepareSubmit = () => {
     const data: submitDataType = {
@@ -69,6 +70,10 @@ const FillForm = () => {
   };
 
   const handlePostData = async () => {
+    if (!allFieldsEdited) {
+      alert("Please edit all fields before submitting");
+      return;
+    }
     test(true);
     try {
       const data = submitData;
@@ -138,7 +143,11 @@ const FillForm = () => {
                 </div>
               </div>
 
-              <AddRisk riskValues={riskValues} setriskValues={setRiskValues} />
+              <AddRisk
+                riskValues={riskValues}
+                setriskValues={setRiskValues}
+                onFieldsEdited={setAllFieldsEdited}
+              />
             </div>
             <div className={skjemaStyles.buttonDiv}>
               <Button

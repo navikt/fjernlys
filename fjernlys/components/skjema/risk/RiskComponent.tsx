@@ -18,6 +18,11 @@ interface Props {
   updateRisk: any;
   newProbability?: string;
   newConsequence?: string;
+  handleProbChange: (id: number, value: string) => void;
+  handleConsChange: (id: number, value: string) => void;
+  handleNewConsChange: (id: number, value: string) => void;
+  handleNewProbChange: (id: number, value: string) => void;
+  handleCategoryChange: (id: number, value: string) => void;
 }
 
 function RiskComponent({
@@ -32,6 +37,11 @@ function RiskComponent({
   updateRisk,
   newProbability,
   newConsequence,
+  handleProbChange,
+  handleConsChange,
+  handleNewConsChange,
+  handleNewProbChange,
+  handleCategoryChange,
 }: Props) {
   const [color, setColor] = useState("none");
 
@@ -168,7 +178,10 @@ function RiskComponent({
             <div className={styles.dropdownComp}>
               <Dropdown
                 title={"Sannsynlighet"}
-                setValue={setProbValue}
+                setValue={(value) => {
+                  setProbValue(value);
+                  handleProbChange(riskIDNum, value);
+                }}
                 value={probValue}
                 options={dropdownOptionsProb}
               />
@@ -176,7 +189,10 @@ function RiskComponent({
             <div className={styles.dropdownComp}>
               <Dropdown
                 title={"Konsekvens"}
-                setValue={setConsValue}
+                setValue={(value) => {
+                  setConsValue(value);
+                  handleConsChange(riskIDNum, value);
+                }}
                 value={consValue}
                 options={dropdownOptionsCons}
               />
@@ -187,7 +203,10 @@ function RiskComponent({
               <Dropdown
                 title={"Kategori"}
                 value={category}
-                setValue={setCategory}
+                setValue={(value) => {
+                  setCategory(value);
+                  handleCategoryChange(riskIDNum, value);
+                }}
                 options={categoryOptions}
               />
             </div>
@@ -218,6 +237,8 @@ function RiskComponent({
             setNewConsValue={setNewConsValue}
             newProbValue={newProbValue}
             newConsValue={newConsValue}
+            handleNewConsChange={handleNewConsChange}
+            handleNewProbChange={handleNewProbChange}
           />
         </div>
       </div>
