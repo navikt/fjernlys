@@ -14,16 +14,17 @@ type reportType = {
 
 function ShowReports() {
   const [service, setService] = useState("Ikke valgt");
-  const [serviceId, setServiceId] = useState<reportType[]>([]);
+  const [serviceElements, setServiceElements] = useState<reportType[]>([]);
 
   const handleChange = async (service: string) => {
     setService(service);
-    setServiceId(await getData(service));
+    setServiceElements(await getData(service));
   };
 
   useEffect(() => {
-    console.log(serviceId);
-  }, [serviceId]);
+    console.log(serviceElements);
+  }, [serviceElements]);
+
   return (
     <>
       {" "}
@@ -58,7 +59,20 @@ function ShowReports() {
             <Table.HeaderCell scope="col">Endret</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-        <Table.Body></Table.Body>
+        <Table.Body>
+          {serviceElements.map((element) => (
+            <Table.ExpandableRow key={element.id} content={""}>
+              <Table.DataCell scope="row">{service}</Table.DataCell>
+              <Table.DataCell>
+                {element.is_owner ? "Owner" : "Not Owner"}
+              </Table.DataCell>
+              <Table.DataCell>{element.owner_ident}</Table.DataCell>
+              <Table.DataCell></Table.DataCell>
+              <Table.DataCell>{element.report_created}</Table.DataCell>
+              <Table.DataCell>{element.report_edited}</Table.DataCell>
+            </Table.ExpandableRow>
+          ))}
+        </Table.Body>
       </Table>
     </>
   );
