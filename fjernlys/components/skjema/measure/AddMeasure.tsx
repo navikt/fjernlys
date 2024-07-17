@@ -13,6 +13,8 @@ interface Props {
   setNewConsValue: any;
   newProbValue: string;
   newConsValue: string;
+  handleNewConsChange: (id: number, value: string) => void;
+  handleNewProbChange: (id: number, value: string) => void;
 }
 
 type measureValuesType = {
@@ -28,6 +30,8 @@ const AddMeasure = ({
   setNewProbValue,
   newConsValue,
   newProbValue,
+  handleNewConsChange,
+  handleNewProbChange,
 }: Props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [measureList, setMeasureList] = useState<
@@ -177,13 +181,19 @@ const AddMeasure = ({
           <div className={styles.verdier}>
             <Dropdown
               title={"Ny sannsynlighet"}
-              setValue={handleSetNewProbValue}
+              setValue={(value) => {
+                handleSetNewProbValue(value);
+                handleNewProbChange(riskIDNum, value);
+              }}
               value={newProbValue}
               options={dropdownOptions}
             />
             <Dropdown
               title={"Ny konsekvens"}
-              setValue={handleSetNewConsValue}
+              setValue={(value) => {
+                handleSetNewConsValue(value);
+                handleNewConsChange(riskIDNum, value);
+              }}
               value={newConsValue}
               options={dropdownOptions}
             />

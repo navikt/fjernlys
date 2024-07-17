@@ -6,6 +6,7 @@ import { get } from "http";
 import PopUp from "../information/PopUp";
 import styles from "@/styles/skjema/risk.module.css";
 import RiskComponent from "./RiskComponent";
+import { ALL } from "dns";
 type measureValuesType = { category: string; status: string };
 type riskValuesType = {
   probability: number;
@@ -21,17 +22,125 @@ type riskValuesType = {
 interface Props {
   riskValues: riskValuesType[];
   setriskValues: any;
+  onFieldsEdited: (isEdited: boolean) => void;
 }
-const AddRisk = ({ riskValues, setriskValues }: Props) => {
+const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const [cachedID, setCachedID] = useState(0);
+  const [activePopUp, setActivePopUp] = useState(false);
+
+  const [isProbEdited, setIsProbEdited] = useState<boolean[]>(
+    riskValues.map(() => false)
+  );
+  const [isConsEdited, setIsConsEdited] = useState<boolean[]>(
+    riskValues.map(() => false)
+  );
+  const [isNewConsEdited, setIsNewConsEdited] = useState<boolean[]>(
+    riskValues.map(() => false)
+  );
+  const [isNewProbEdited, setIsNewProbEdited] = useState<boolean[]>(
+    riskValues.map(() => false)
+  );
+  const [isCategoryEdited, setIsCategoryEdited] = useState<boolean[]>(
+    riskValues.map(() => false)
+  );
+
+  useEffect(() => {
+    const allFieldsEdited =
+      isProbEdited.every(Boolean) &&
+      isConsEdited.every(Boolean) &&
+      isNewConsEdited.every(Boolean) &&
+      isNewProbEdited.every(Boolean) &&
+      isCategoryEdited.every(Boolean);
+    onFieldsEdited(allFieldsEdited);
+  }, [
+    isProbEdited,
+    isConsEdited,
+    isNewConsEdited,
+    isNewProbEdited,
+    isCategoryEdited,
+    onFieldsEdited,
+  ]);
+
+  // ----------------- New STUFFFFF -----------------
+  const handleProbChange = (id: number, value: string) => {
+    setriskValues((prevList: any) => {
+      const newList = [...prevList];
+      newList[id].probability = parseFloat(value);
+      return newList;
+    });
+    setIsProbEdited((prevList) =>
+      prevList.map((edited, index) => (index === id ? true : edited))
+    );
+  };
+
+  const handleConsChange = (id: number, value: string) => {
+    setriskValues((prevList: any) => {
+      const newList = [...prevList];
+      newList[id].consequence = parseInt(value);
+      return newList;
+    });
+    setIsConsEdited((prevList) =>
+      prevList.map((edited, index) => (index === id ? true : edited))
+    );
+  };
+
+  const handleNewConsChange = (id: number, value: string) => {
+    setriskValues((prevList: any) => {
+      const newList = [...prevList];
+      newList[id].newConsequence = value;
+      return newList;
+    });
+    setIsNewConsEdited((prevList) =>
+      prevList.map((value, index) => (index === id ? true : value))
+    );
+  };
+
+  const handleNewProbChange = (id: number, value: string) => {
+    setriskValues((prevList: any) => {
+      const newList = [...prevList];
+      newList[id].newProbability = value;
+      return newList;
+    });
+    setIsNewProbEdited((prevList) =>
+      prevList.map((edited, index) => (index === id ? true : edited))
+    );
+  };
+
+  const handleCategoryChange = (id: number, value: string) => {
+    setriskValues((prevList: any) => {
+      const newList = [...prevList];
+      newList[id].category = value;
+      return newList;
+    });
+    setIsCategoryEdited((prevList) =>
+      prevList.map((edited, index) => (index === id ? true : edited))
+    );
+  };
+
   const deleteRisk = () => {
     setriskValues((prevList: riskValuesType[]) =>
+      prevList.filter((_, index) => index !== cachedID)
+    );
+    setIsProbEdited((prevList) =>
+      prevList.filter((_, index) => index !== cachedID)
+    );
+    setIsConsEdited((prevList) =>
+      prevList.filter((_, index) => index !== cachedID)
+    );
+    setIsNewConsEdited((prevList) =>
+      prevList.filter((_, index) => index !== cachedID)
+    );
+    setIsNewProbEdited((prevList) =>
+      prevList.filter((_, index) => index !== cachedID)
+    );
+    setIsCategoryEdited((prevList) =>
       prevList.filter((_, index) => index !== cachedID)
     );
     setriskList([]);
     setActivePopUp(!activePopUp);
   };
 
-  const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const handleRowClick = (rowId: number) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
   };
@@ -95,6 +204,11 @@ const AddRisk = ({ riskValues, setriskValues }: Props) => {
             updateRisk={updateListe}
             newConsequence={item.newConsequence}
             newProbability={item.newProbability}
+            handleProbChange={handleProbChange}
+            handleConsChange={handleConsChange}
+            handleNewConsChange={handleNewConsChange}
+            handleNewProbChange={handleNewProbChange}
+            handleCategoryChange={handleCategoryChange}
           />
         ),
       }))
@@ -112,6 +226,11 @@ const AddRisk = ({ riskValues, setriskValues }: Props) => {
         category: "Ikke satt",
       },
     ]);
+    setIsProbEdited((prevList) => [...prevList, false]);
+    setIsConsEdited((prevList) => [...prevList, false]);
+    setIsNewConsEdited((prevList) => [...prevList, false]);
+    setIsNewProbEdited((prevList) => [...prevList, false]);
+    setIsCategoryEdited((prevList) => [...prevList, false]);
   };
   const getBackgroundColor = (riskLevel: any) => {
     switch (riskLevel) {
@@ -126,8 +245,6 @@ const AddRisk = ({ riskValues, setriskValues }: Props) => {
     }
   };
 
-  const [cachedID, setCachedID] = useState(0);
-  const [activePopUp, setActivePopUp] = useState(false);
   const activateDeletePopUp = (riskID: number) => {
     setActivePopUp(!activePopUp);
     setCachedID(riskID);
