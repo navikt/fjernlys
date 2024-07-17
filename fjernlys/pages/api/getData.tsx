@@ -1,5 +1,10 @@
-export const getData = async () => {
-  const endpointURL = "url til backend her";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
+
+export const getData = async (data: string) => {
+  const endpointURL = `${apiBaseUrl}${apiGetUrl}/reports?service=${encodeURIComponent(
+    data
+  )}`;
 
   try {
     const res = await fetch(endpointURL, {
@@ -15,8 +20,7 @@ export const getData = async () => {
 
     const result = await res.json();
     return result;
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error during fetch operation:", error);
-    throw new Error(`Fetch error: ${error.message}`);
   }
 };

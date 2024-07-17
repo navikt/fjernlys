@@ -47,9 +47,14 @@ const FillForm = () => {
     },
   ]);
   const [owner, setOwner] = useState(true);
-  const [notOwner, setNotOwner] = useState<string | null>(null);
+  const [notOwner, setNotOwner] = useState<string>("A111111");
   const [service, setService] = useState("Ikke valgt");
-  const [submitData, setSubmitData] = useState<submitDataType | null>(null);
+  const [submitData, setSubmitData] = useState<submitDataType>({
+    ownerData: owner,
+    notOwnerData: notOwner,
+    serviceData: service,
+    riskValues: riskValues,
+  });
 
   const [showAlert, setShowAlert] = useState(false);
 
