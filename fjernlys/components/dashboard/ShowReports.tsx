@@ -1,16 +1,29 @@
 import { Select, Table } from "@navikt/ds-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/information.module.css";
 import { getData } from "@/pages/api/getData";
 import { get } from "http";
 
+type reportType = {
+  id: string;
+  is_owner: boolean;
+  owner_ident: string;
+  report_created: string;
+  report_edited: string;
+};
+
 function ShowReports() {
   const [service, setService] = useState("Ikke valgt");
+  const [serviceId, setServiceId] = useState<reportType[]>([]);
 
   const handleChange = async (service: string) => {
     setService(service);
-    const test = getData(service);
+    setServiceId(await getData(service));
   };
+
+  useEffect(() => {
+    console.log(serviceId);
+  }, [serviceId]);
   return (
     <>
       {" "}
