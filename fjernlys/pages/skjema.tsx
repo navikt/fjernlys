@@ -13,7 +13,7 @@ import { postData } from "./api/postData";
 const goHome = () => {
   router.push("/");
 };
-type measureValuesType = { category: string; status: string; started: boolean };
+type measureValuesType = { category: string; status: string };
 
 type riskValuesType = {
   probability: number;
