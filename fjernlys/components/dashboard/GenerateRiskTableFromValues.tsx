@@ -1,5 +1,6 @@
 import { Table } from "@navikt/ds-react";
 import React, { useState } from "react";
+import GenerateMeasureTableFromValue from "./GenerateMeassureTableFromValue";
 type MeasureValuesType = {
   id: string;
   risk_assessment_id: string;
@@ -38,7 +39,11 @@ function GenerateRiskTableFromValues({ risks }: Props) {
         </Table.Header>
         <Table.Body>
           {risks.map((item, index) => (
-            <Table.ExpandableRow content={""}>
+            <Table.ExpandableRow
+              content={
+                <GenerateMeasureTableFromValue measure={item.measureValues} />
+              }
+            >
               <Table.DataCell scope="row">{`R${index + 1}`}</Table.DataCell>
               <Table.DataCell>{item.category}</Table.DataCell>
               <Table.DataCell>{item.probability}</Table.DataCell>

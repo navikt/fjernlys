@@ -2,7 +2,7 @@ import { Select, Table } from "@navikt/ds-react";
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/information.module.css";
 import { getReportByService } from "@/pages/api/getReportByService";
-import { getAllInforByService } from "@/pages/api/getAllInfoByService";
+import { getAllInfoByService } from "@/pages/api/getAllInfoByService";
 import DashboardOverview from "@/pages/dashboardOverview";
 import GenerateRiskTableFromValues from "./GenerateRiskTableFromValues";
 
@@ -41,7 +41,7 @@ function ShowReports() {
 
   const handleChange = async (service: string) => {
     setService(service);
-    setServiceElements(await getAllInforByService(service));
+    setServiceElements(await getAllInfoByService(service));
   };
 
   useEffect(() => {
@@ -59,37 +59,6 @@ function ShowReports() {
     };
     return new Intl.DateTimeFormat("nb", options).format(new Date(dateString));
   }
-
-  const generate = (riskTypes: RiskValuesType[]) => {
-    const [riskList, setriskList] = useState<
-      {
-        element: JSX.Element;
-      }[]
-    >([]);
-    setriskList(
-      riskTypes.map((item, index) => ({
-        element: (
-          <DashboardRiskComponent
-            riskIDNum={index}
-            probability={item.probability}
-            consequence={item.consequence}
-            existingDependent={item.dependent}
-            existingRiskLevel={item.riskLevel}
-            existingCategory={item.category}
-            existingMeasureValues={item.measureValues}
-            newConsequence={item.newConsequence}
-            newProbability={item.newProbability}
-          />
-        ),
-      }))
-    );
-
-    return <>{riskList}</>;
-  };
-
-  const test = (risks: RiskValuesType[]) => {
-    risks.map((risk) => <GenerateRiskTableFromValues risks={[risk]} />);
-  };
 
   return (
     <>
@@ -135,7 +104,7 @@ function ShowReports() {
             >
               <Table.DataCell scope="row">{service}</Table.DataCell>
               <Table.DataCell>{element.owner_ident}</Table.DataCell>
-              <Table.DataCell>{element.risk_values.length}</Table.DataCell>
+              <Table.DataCell>test</Table.DataCell>
               <Table.DataCell>
                 {formatDate(element.report_created)}
               </Table.DataCell>

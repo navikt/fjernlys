@@ -1,7 +1,7 @@
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
-export const getAllInforByService = async (service: string) => {
+export const getAllInfoByService = async (service: string) => {
   const endpointURL = `${apiBaseUrl}${apiGetUrl}/all?service=${encodeURIComponent(
     service
   )}`;
