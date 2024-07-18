@@ -83,7 +83,7 @@ function ShowReports() {
           </Select>
         </div>
       </div>
-      <Table>
+      <Table style={{ margin: "32px" }}>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell />
@@ -102,7 +102,9 @@ function ShowReports() {
                 <GenerateRiskTableFromValues risks={element.risk_values} />
               }
             >
-              <Table.DataCell scope="row">{service}</Table.DataCell>
+              <Table.DataCell scope="row">
+                {element.service_name}
+              </Table.DataCell>
               <Table.DataCell>{element.owner_ident}</Table.DataCell>
               <Table.DataCell>test</Table.DataCell>
               <Table.DataCell>

@@ -19,7 +19,7 @@ function GenerateMeasureTableFromValue({ measure }: Props) {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell />
-            <Table.HeaderCell scope="col">Risiko ID</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Tiltak ID</Table.HeaderCell>
             <Table.HeaderCell scope="col">Kategori</Table.HeaderCell>
             <Table.HeaderCell scope="col">Status</Table.HeaderCell>
           </Table.Row>

@@ -94,7 +94,9 @@ const FillForm = () => {
   useEffect(() => {
     if (readyToSubmit) {
       handlePostData();
-      setReadyToSubmit(false); // Reset the flag
+      setReadyToSubmit(false);
+      alert("Form submitted");
+      goHome();
     }
   }, [readyToSubmit]);
 

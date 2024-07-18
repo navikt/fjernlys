@@ -41,7 +41,11 @@ function GenerateRiskTableFromValues({ risks }: Props) {
           {risks.map((item, index) => (
             <Table.ExpandableRow
               content={
-                <GenerateMeasureTableFromValue measure={item.measureValues} />
+                item.measureValues.length > 0 ? (
+                  <GenerateMeasureTableFromValue measure={item.measureValues} />
+                ) : (
+                  "Ingen tiltak"
+                )
               }
             >
               <Table.DataCell scope="row">{`R${index + 1}`}</Table.DataCell>
