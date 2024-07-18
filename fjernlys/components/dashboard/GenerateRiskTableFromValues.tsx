@@ -40,6 +40,7 @@ function GenerateRiskTableFromValues({ risks }: Props) {
         <Table.Body>
           {risks.map((item, index) => (
             <Table.ExpandableRow
+              key={index}
               content={
                 item.measureValues.length > 0 ? (
                   <GenerateMeasureTableFromValue measure={item.measureValues} />
