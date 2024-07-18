@@ -1,9 +1,7 @@
 import { Select, Table } from "@navikt/ds-react";
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/information.module.css";
-import { getReportByService } from "@/pages/api/getReportByService";
 import { getAllInfoByService } from "@/pages/api/getAllInfoByService";
-import DashboardOverview from "@/pages/dashboardOverview";
 import GenerateRiskTableFromValues from "./GenerateRiskTableFromValues";
 
 type MeasureValuesType = {
@@ -106,7 +104,7 @@ function ShowReports() {
                 {element.service_name}
               </Table.DataCell>
               <Table.DataCell>{element.owner_ident}</Table.DataCell>
-              <Table.DataCell>test</Table.DataCell>
+              <Table.DataCell>{element.risk_values.length}</Table.DataCell>
               <Table.DataCell>
                 {formatDate(element.report_created)}
               </Table.DataCell>
