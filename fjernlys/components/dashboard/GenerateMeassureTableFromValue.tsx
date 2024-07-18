@@ -26,7 +26,7 @@ function GenerateMeasureTableFromValue({ measure }: Props) {
         </Table.Header>
         <Table.Body>
           {measure.map((item, index) => (
-            <Table.Row content={""}>
+            <Table.Row key={index} content={""}>
               <Table.DataCell></Table.DataCell>
               <Table.DataCell scope="row">{`T${index + 1}`}</Table.DataCell>
               <Table.DataCell>{item.category}</Table.DataCell>
