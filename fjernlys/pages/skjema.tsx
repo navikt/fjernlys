@@ -8,7 +8,7 @@ import AddRisk from "@/components/skjema/risk/AddRisk";
 import router from "next/router";
 import AlertWithCloseButton from "@/components/skjema/information/AlertWithCloseButton";
 import skjemaStyles from "@/styles/skjema/skjema.module.css";
-import { postData } from "./api/postData";
+import { postReport } from "./api/postReport";
 
 const goHome = () => {
   router.push("/");
@@ -47,12 +47,18 @@ const FillForm = () => {
     },
   ]);
   const [owner, setOwner] = useState(true);
-  const [notOwner, setNotOwner] = useState<string | null>(null);
+  const [notOwner, setNotOwner] = useState<string>("A111111");
   const [service, setService] = useState("Ikke valgt");
-  const [submitData, setSubmitData] = useState<submitDataType | null>(null);
+  const [submitData, setSubmitData] = useState<submitDataType>({
+    ownerData: owner,
+    notOwnerData: notOwner,
+    serviceData: service,
+    riskValues: riskValues,
+  });
 
   const [showAlert, setShowAlert] = useState(false);
   const [allFieldsEdited, setAllFieldsEdited] = useState(false);
+  const [readyToSubmit, setReadyToSubmit] = useState(false);
 
   const prepareSubmit = () => {
     const data: submitDataType = {
@@ -67,6 +73,7 @@ const FillForm = () => {
   const test = (value: boolean) => {
     setShowAlert(value);
     prepareSubmit();
+    setReadyToSubmit(true);
   };
 
   const handlePostData = async () => {
@@ -76,13 +83,22 @@ const FillForm = () => {
     }
     test(true);
     try {
-      const data = submitData;
-      const result = await postData(data);
+      const data = await submitData;
+      const result = await postReport(data);
       console.log("Response from postData:", result);
     } catch (error) {
       console.error("Error from postData:", error);
     }
   };
+
+  useEffect(() => {
+    if (readyToSubmit) {
+      handlePostData();
+      setReadyToSubmit(false);
+      alert("Form submitted");
+      goHome();
+    }
+  }, [readyToSubmit]);
 
   useEffect(() => {
     console.log(JSON.stringify(submitData));
@@ -154,7 +170,6 @@ const FillForm = () => {
                 variant="primary"
                 onClick={() => {
                   test(true);
-                  handlePostData();
                 }}
               >
                 <div>Send inn</div>

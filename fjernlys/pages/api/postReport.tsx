@@ -1,5 +1,8 @@
-export const postData = async (data: any) => {
-  const endpointURL = "http://0.0.0.0:8080/submit";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const apiPostUrl = process.env.NEXT_PUBLIC_API_POST_URL;
+
+export const postReport = async (data: any) => {
+  const endpointURL = `${apiBaseUrl}${apiPostUrl}`;
 
   try {
     const res = await fetch(endpointURL, {
