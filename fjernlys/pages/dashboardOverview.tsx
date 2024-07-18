@@ -16,9 +16,9 @@ const DashboardOverview = () => {
     }
   };
 
-  const handleGetAll = async () => {
-    console.log(await getAllInforByService());
-  };
+  // const handleGetAll = async () => {
+  //   console.log(await getAllInforByService());
+  // };
   return (
     <>
       <div className={styles.dashboardContainer}>
@@ -27,7 +27,7 @@ const DashboardOverview = () => {
           <h3>Task List</h3>
           <p>Dashboard 1</p>
         </div>
-        <div className={styles.card} onClick={handleGetAll}>
+        <div className={styles.card}>
           <TerminalIcon className={styles.cardIcon} />
           <h3>Terminal</h3>
           <p>Dashboard 2</p>
