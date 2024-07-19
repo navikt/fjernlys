@@ -17,7 +17,7 @@ export default function Home() {
   };
 
   const gotToDashboard = () => {
-    router.push("/dashboardOverview");
+    router.push("/dashboard");
   };
 
   return (

@@ -1,8 +1,11 @@
-import { Select, Table } from "@navikt/ds-react";
+import { Button, Select, Table } from "@navikt/ds-react";
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/information.module.css";
 import { getAllInfoByService } from "@/pages/api/getAllInfoByService";
 import GenerateRiskTableFromValues from "./GenerateRiskTableFromValues";
+import { LineGraphDotIcon } from "@navikt/aksel-icons";
+import Link from "next/link";
+import router from "next/router";
 
 type MeasureValuesType = {
   id: string;
@@ -31,6 +34,18 @@ type ReportType = {
   risk_values: RiskValuesType[];
   report_created: string;
   report_edited: string;
+};
+
+const goToHistory = (id: string) => {
+  const fullId = id;
+  const shortId = fullId.substring(0, 8);
+  router.push(
+    {
+      pathname: "/history",
+      query: { fullId: fullId },
+    },
+    `/history/${shortId}`
+  );
 };
 
 function ShowReports() {
@@ -90,6 +105,7 @@ function ShowReports() {
             <Table.HeaderCell scope="col">Antall Risiko</Table.HeaderCell>
             <Table.HeaderCell scope="col">Opprettet</Table.HeaderCell>
             <Table.HeaderCell scope="col">Endret</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Historikk</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -110,6 +126,19 @@ function ShowReports() {
               </Table.DataCell>
               <Table.DataCell>
                 {formatDate(element.report_edited)}
+              </Table.DataCell>
+              <Table.DataCell scope="row">
+                <Button
+                  variant="secondary"
+                  className={styles.trashcan}
+                  icon={
+                    <LineGraphDotIcon title="a11y-title" fontSize="1.5rem" />
+                  }
+                  size="small"
+                  onClick={() => goToHistory(element.id)}
+                >
+                  Se historikk
+                </Button>
               </Table.DataCell>
             </Table.ExpandableRow>
           ))}
