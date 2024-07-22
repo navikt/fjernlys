@@ -8,6 +8,7 @@ import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
 import riskStyles from "@/styles/skjema/risk.module.css";
 import Image from "next/image";
 import router from "next/router";
+import VisualizeRiskLevel from "@/components/dashboard/VisualizeRiskLevel";
 
 const goHome = () => {
   router.push("/");
@@ -53,6 +54,7 @@ const DashboardOverview = () => {
         <div className={riskStyles.skjemaDiv}>
           <VStack gap="4" align={"start"} className={riskStyles.vstack}>
             <h1>Dashboard</h1>
+            <VisualizeRiskLevel />
             <ShowReports />
           </VStack>
         </div>
