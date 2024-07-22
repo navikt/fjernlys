@@ -10,10 +10,39 @@ import {
   Legend,
   ArcElement,
 } from "chart.js/auto";
+import { useEffect, useState } from "react";
+import { getRiskLevels } from "@/pages/api/getRiskLevels";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+interface RiskLevels {
+  Moderat: number;
+  Lav: number;
+  Høy: number;
+  "Ingen vurdering": number;
+}
+
 function VisualizeRiskLevel() {
+  const [riskLevels, setRiskLevels] = useState<RiskLevels>({
+    Lav: 1,
+    Moderat: 1,
+    Høy: 1,
+    "Ingen vurdering": 0,
+  });
+
+  useEffect(() => {
+    const fetchRiskLevels = async () => {
+      try {
+        const data = await getRiskLevels();
+        setRiskLevels(data);
+      } catch {
+        console.log("Something wrong with RiskLevel API");
+      }
+    };
+
+    fetchRiskLevels();
+  }, []);
+
   const cssVar = (variable: string) => {
     if (typeof window !== "undefined") {
       return getComputedStyle(document.documentElement)
@@ -24,21 +53,21 @@ function VisualizeRiskLevel() {
   };
 
   const data = {
-    labels: ["Høy", "Middels", "Lav"],
+    labels: ["Lav", "Moderat", "Høy"],
     datasets: [
       {
-        data: [32, 56, 56],
+        data: [riskLevels.Lav, riskLevels.Moderat, riskLevels.Høy],
         label: " Antall tilfeller",
 
         backgroundColor: [
-          cssVar("--a-red-400"),
-          cssVar("--a-orange-300"),
           cssVar("--a-green-300"),
+          cssVar("--a-orange-300"),
+          cssVar("--a-red-400"),
         ],
         borderColor: [
-          cssVar("--a-red-500"),
-          cssVar("--a-orange-400"),
-          cssVar("--a-green-400"),
+          cssVar("--a-green-500"),
+          cssVar("--a-orange-500"),
+          cssVar("--a-red-700"),
         ],
         borderWidth: 1,
         hoverOffset: 8,

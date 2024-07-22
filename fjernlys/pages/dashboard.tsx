@@ -1,7 +1,6 @@
 import React from "react";
-import { TasklistIcon, TerminalIcon } from "@navikt/aksel-icons";
 import styles from "@/styles/dashboard/overview.module.css";
-import { getReportByService } from "./api/getReportByService";
+import { TasklistIcon, TerminalIcon } from "@navikt/aksel-icons";
 import ShowReports from "@/components/dashboard/showReports/ShowReports";
 import { Box, Page, VStack } from "@navikt/ds-react";
 import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
@@ -9,22 +8,10 @@ import riskStyles from "@/styles/skjema/risk.module.css";
 import Image from "next/image";
 import router from "next/router";
 import VisualizeRiskLevel from "@/components/dashboard/VisualizeRiskLevel";
-
 const goHome = () => {
   router.push("/");
 };
-
-const DashboardOverview = () => {
-  const handlePostData = async () => {
-    try {
-      const data = "test";
-      const result = await getReportByService(data);
-      console.log("Response from postData:", result);
-    } catch (error) {
-      console.error("Error from postData:", error);
-    }
-  };
-
+const Dashboard: React.FC = () => {
   return (
     <>
       <Page
@@ -63,4 +50,4 @@ const DashboardOverview = () => {
   );
 };
 
-export default DashboardOverview;
+export default Dashboard;

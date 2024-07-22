@@ -5,7 +5,7 @@ const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
 export const getRiskLevels = async () => {
   const data = "all";
-  const endpointURL = `${apiBaseUrl}${apiGetUrl}/risk-level?service=${encodeURIComponent(
+  const endpointURL = `${apiBaseUrl}${apiGetUrl}/risk-levels?service=${encodeURIComponent(
     data
   )}`;
   const options = {
