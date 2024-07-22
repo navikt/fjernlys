@@ -6,6 +6,7 @@ import GenerateRiskTableFromValues from "./GenerateRiskTableFromValues";
 import { LineGraphDotIcon } from "@navikt/aksel-icons";
 import Link from "next/link";
 import router from "next/router";
+import { getReportCopyToHistoryTable } from "@/pages/api/getReportToHistoryTable";
 
 type MeasureValuesType = {
   id: string;
@@ -16,6 +17,7 @@ type MeasureValuesType = {
 
 type RiskValuesType = {
   id: string;
+  reportId: string;
   probability: number;
   consequence: number;
   dependent: boolean;
@@ -28,12 +30,12 @@ type RiskValuesType = {
 
 type ReportType = {
   id: string;
-  is_owner: boolean;
-  owner_ident: string;
-  service_name: string;
-  risk_values: RiskValuesType[];
-  report_created: string;
-  report_edited: string;
+  isOwner: boolean;
+  ownerIdent: string;
+  serviceName: string;
+  riskValues: RiskValuesType[];
+  reportCreated: string;
+  reportEdited: string;
 };
 
 const goToHistory = (id: string) => {
@@ -51,10 +53,15 @@ const goToHistory = (id: string) => {
 function ShowReports() {
   const [service, setService] = useState("Ikke valgt");
   const [serviceElements, setServiceElements] = useState<ReportType[]>([]);
+  const [reportCopy, setReportCopy] = useState<ReportType | null>(null);
 
   const handleChange = async (service: string) => {
     setService(service);
     setServiceElements(await getAllInfoByService(service));
+  };
+
+  const handleReportCopy = async (id: string) => {
+    await getReportCopyToHistoryTable(id);
   };
 
   useEffect(() => {
@@ -113,19 +120,17 @@ function ShowReports() {
             <Table.ExpandableRow
               key={element.id}
               content={
-                <GenerateRiskTableFromValues risks={element.risk_values} />
+                <GenerateRiskTableFromValues risks={element.riskValues} />
               }
             >
-              <Table.DataCell scope="row">
-                {element.service_name}
-              </Table.DataCell>
-              <Table.DataCell>{element.owner_ident}</Table.DataCell>
-              <Table.DataCell>{element.risk_values.length}</Table.DataCell>
+              <Table.DataCell scope="row">{element.serviceName}</Table.DataCell>
+              <Table.DataCell>{element.ownerIdent}</Table.DataCell>
+              <Table.DataCell>{element.riskValues.length}</Table.DataCell>
               <Table.DataCell>
-                {formatDate(element.report_created)}
+                {formatDate(element.reportCreated)}
               </Table.DataCell>
               <Table.DataCell>
-                {formatDate(element.report_edited)}
+                {formatDate(element.reportEdited)}
               </Table.DataCell>
               <Table.DataCell scope="row">
                 <Button
@@ -135,7 +140,10 @@ function ShowReports() {
                     <LineGraphDotIcon title="a11y-title" fontSize="1.5rem" />
                   }
                   size="small"
-                  onClick={() => goToHistory(element.id)}
+                  onClick={() => {
+                    goToHistory(element.id);
+                    handleReportCopy(element.id);
+                  }}
                 >
                   Se historikk
                 </Button>
