@@ -16,24 +16,30 @@ import { getRiskLevels } from "@/pages/api/getRiskLevels";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface RiskLevels {
-  Moderat: number;
-  Lav: number;
-  Høy: number;
-  "Ingen vurdering": number;
+  serviceName: string;
+  high: number;
+  moderate: number;
+  low: number;
 }
 
-function VisualizeRiskLevel() {
+interface Props {
+  serviceName: string;
+  labelName: string;
+}
+
+function VisualizeRiskLevel({ serviceName, labelName }: Props) {
   const [riskLevels, setRiskLevels] = useState<RiskLevels>({
-    Lav: 1,
-    Moderat: 1,
-    Høy: 1,
-    "Ingen vurdering": 0,
+    serviceName: "",
+    low: 0,
+    moderate: 0,
+    high: 0,
   });
 
   useEffect(() => {
     const fetchRiskLevels = async () => {
       try {
-        const data = await getRiskLevels();
+        const data = await getRiskLevels(serviceName);
+        console.log(data);
         setRiskLevels(data);
       } catch {
         console.log("Something wrong with RiskLevel API");
@@ -56,7 +62,7 @@ function VisualizeRiskLevel() {
     labels: ["Lav", "Moderat", "Høy"],
     datasets: [
       {
-        data: [riskLevels.Lav, riskLevels.Moderat, riskLevels.Høy],
+        data: [riskLevels.low, riskLevels.moderate, riskLevels.high],
         label: " Antall tilfeller",
 
         backgroundColor: [
@@ -83,7 +89,7 @@ function VisualizeRiskLevel() {
         font: {
           size: 20,
         },
-        text: "Alle tjenester/ytelser",
+        text: labelName,
         color: "black",
       },
     },
