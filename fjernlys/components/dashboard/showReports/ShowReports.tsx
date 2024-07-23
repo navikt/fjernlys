@@ -65,6 +65,7 @@ function ShowReports() {
   };
 
   useEffect(() => {
+    console.log(JSON.stringify(serviceElements));
     console.log(serviceElements);
   }, [serviceElements]);
 

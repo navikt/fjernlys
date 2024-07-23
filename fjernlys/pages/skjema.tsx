@@ -41,9 +41,6 @@ const FillForm = () => {
       dependent: false,
       riskLevel: "Ingen vurdering",
       category: "Ikke satt",
-      // measureValues: [],
-      // newConsequence: "",
-      // newProbability: "",
     },
   ]);
   const [owner, setOwner] = useState(true);
@@ -92,6 +89,9 @@ const FillForm = () => {
   };
 
   useEffect(() => {
+    if (!readyToSubmit) {
+      return;
+    }
     if (readyToSubmit) {
       handlePostData();
       setReadyToSubmit(false);

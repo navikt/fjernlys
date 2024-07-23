@@ -30,12 +30,12 @@ type RiskValuesType = {
 
 type ReportType = {
   id: string;
-  is_owner: boolean;
-  owner_ident: string;
-  service_name: string;
-  risk_values: RiskValuesType[];
-  report_created: string;
-  report_edited: string;
+  isOwner: boolean;
+  ownerIdent: string;
+  serviceName: string;
+  riskValues: RiskValuesType[];
+  reportCreated: string;
+  reportEdited: string;
 };
 
 const goHome = () => {
@@ -121,23 +121,19 @@ function ViewReportHistory() {
                   <Table.ExpandableRow
                     key={element.id}
                     content={
-                      <GenerateRiskTableFromValues
-                        risks={element.risk_values}
-                      />
+                      <GenerateRiskTableFromValues risks={element.riskValues} />
                     }
                   >
                     <Table.DataCell scope="row">
-                      {element.service_name}
+                      {element.serviceName}
                     </Table.DataCell>
-                    <Table.DataCell>{element.owner_ident}</Table.DataCell>
+                    <Table.DataCell>{element.ownerIdent}</Table.DataCell>
+                    <Table.DataCell>{element.riskValues.length}</Table.DataCell>
                     <Table.DataCell>
-                      {element.risk_values.length}
-                    </Table.DataCell>
-                    <Table.DataCell>
-                      {formatDate(element.report_created)}
+                      {formatDate(element.reportCreated)}
                     </Table.DataCell>
                     <Table.DataCell>
-                      {formatDate(element.report_edited)}
+                      {formatDate(element.reportEdited)}
                     </Table.DataCell>
                   </Table.ExpandableRow>
                 ))}
