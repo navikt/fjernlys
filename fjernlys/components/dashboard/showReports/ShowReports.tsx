@@ -7,6 +7,7 @@ import { LineGraphDotIcon } from "@navikt/aksel-icons";
 import Link from "next/link";
 import router from "next/router";
 import { getReportCopyToHistoryTable } from "@/pages/api/getReportToHistoryTable";
+import { getRiskLevels } from "@/pages/api/getRiskLevels";
 
 type MeasureValuesType = {
   id: string;
@@ -64,10 +65,9 @@ function ShowReports() {
     await getReportCopyToHistoryTable(id);
   };
 
-  useEffect(() => {
-    console.log(JSON.stringify(serviceElements));
-    console.log(serviceElements);
-  }, [serviceElements]);
+  // useEffect(() => {
+  //   console.log(serviceElements);
+  // }, [serviceElements]);
 
   function formatDate(dateString: string) {
     const options: Intl.DateTimeFormatOptions = {
