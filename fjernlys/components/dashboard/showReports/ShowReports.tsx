@@ -61,14 +61,6 @@ function ShowReports() {
     setServiceElements(await getAllInfoByService(service));
   };
 
-  const handleReportCopy = async (id: string) => {
-    await getReportCopyToHistoryTable(id);
-  };
-
-  // useEffect(() => {
-  //   console.log(serviceElements);
-  // }, [serviceElements]);
-
   function formatDate(dateString: string) {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -143,7 +135,6 @@ function ShowReports() {
                   size="small"
                   onClick={() => {
                     goToHistory(element.id);
-                    handleReportCopy(element.id);
                   }}
                 >
                   Se historikk

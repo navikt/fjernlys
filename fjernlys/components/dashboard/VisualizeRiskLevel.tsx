@@ -70,14 +70,9 @@ function VisualizeRiskLevel({ serviceName, labelName }: Props) {
           cssVar("--a-orange-300"),
           cssVar("--a-red-400"),
         ],
-        borderColor: [
-          cssVar("--a-green-500"),
-          cssVar("--a-orange-500"),
-          cssVar("--a-red-700"),
-        ],
-        borderWidth: 1,
+        borderColor: ["#FFFFFF", "#FFFFFF", "#FFFFFF"],
+        borderWidth: 4,
         hoverOffset: 8,
-        spacing: 3,
       },
     ],
   };

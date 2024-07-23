@@ -1,9 +1,11 @@
+import { error } from "console";
+
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
-export const getReportCopyToHistoryTable = async (id: string) => {
-  const endpointURL = `${apiBaseUrl}${apiGetUrl}/history?id=${encodeURIComponent(
-    id
+export const getReportById = async (data: string) => {
+  const endpointURL = `${apiBaseUrl}${apiGetUrl}/reports?id=${encodeURIComponent(
+    data
   )}`;
   const options = {
     method: "GET",
@@ -19,6 +21,7 @@ export const getReportCopyToHistoryTable = async (id: string) => {
       return response.json();
     })
     .then((jsonData) => {
+      // console.log("Data fetched successfully:", jsonData);
       return jsonData;
     })
     .catch((error) => console.error(error));
