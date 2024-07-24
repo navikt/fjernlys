@@ -9,50 +9,55 @@ import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
 import riskStyles from "@/styles/skjema/risk.module.css";
 import skjemaStyles from "@/styles/skjema/skjema.module.css";
 import { getReportById } from "./api/getReportById";
+import EditRisk from "@/components/dashboard/reportHistory/EditRisk";
 const goHome = () => {
   router.push("/");
 };
-type measureValuesType = { category: string; status: string };
+type MeasureValuesType = {
+  id: string;
+  risk_assessment_id: string;
+  category: string;
+  status: string;
+};
 
-type riskValuesType = {
+type RiskValuesType = {
+  id: string;
+  reportId: string;
   probability: number;
   consequence: number;
   dependent: boolean;
   riskLevel: string;
   category: string;
-  measureValues?: measureValuesType[];
-  newConsequence?: string;
-  newProbability?: string;
+  measureValues: MeasureValuesType[];
+  newConsequence: number;
+  newProbability: number;
 };
 
-type submitDataType = {
+type ReportType = {
   id: string;
   isOwner: boolean;
   ownerIdent: string;
   serviceName: string;
-  riskValues: riskValuesType[];
+  riskValues: RiskValuesType[];
+  reportCreated: string;
+  reportEdited: string;
 };
 
 function EditReport() {
-  const [riskValues, setRiskValues] = useState<riskValuesType[]>([
-    {
-      probability: 0,
-      consequence: 0,
-      dependent: false,
-      riskLevel: "Ingen vurdering",
-      category: "Ikke satt",
-    },
-  ]);
+  const [riskValues, setRiskValues] = useState<RiskValuesType[]>([]);
+
   const [isOwner, setIsOwner] = useState(true);
   const [ownerIdent, setOwnerIdent] = useState<string>("A111111");
   const [service, setService] = useState("Ikke valgt");
   const [id, setId] = useState("Ikke valgt");
-  const [submitData, setSubmitData] = useState<submitDataType>({
+  const [submitData, setSubmitData] = useState<ReportType>({
     id: id,
     isOwner: isOwner,
     ownerIdent: ownerIdent,
     serviceName: service,
     riskValues: riskValues,
+    reportCreated: "",
+    reportEdited: "",
   });
 
   const [showAlert, setShowAlert] = useState(false);
@@ -60,30 +65,53 @@ function EditReport() {
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
   const [fullId, setFullId] = useState<string>("");
+  const submitValues = (value: boolean) => {
+    setShowAlert(value);
+    prepareSubmit();
+    setReadyToSubmit(true);
+  };
+
+  const handlePostData = async () => {
+    if (!allFieldsEdited) {
+      alert("Please edit all fields before submitting");
+      return;
+    }
+    submitValues(true);
+    try {
+      //const data = await submitData;
+      //const result = await postReport(data);
+      //console.log("Response from postData:", result);
+    } catch (error) {
+      //console.error("Error from postData:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
         setFullId(router.query.fullId as string);
         const data = await getReportById(router.query.fullId as string);
+        console.log("Full data: ", JSON.stringify(data));
+        setService(data.serviceName);
+        setIsOwner(data.isOwner);
+        setOwnerIdent(data.ownerIdent);
         setSubmitData(data);
-        console.log("Full data: ", data);
-        setService(submitData.serviceName);
-        setIsOwner(submitData.isOwner);
-        setOwnerIdent(submitData.ownerIdent);
-        console.log(isOwner, ownerIdent, service);
+        setRiskValues(data.riskValues);
+        console.log(JSON.stringify(data.riskValues));
       }
     };
     fetchData();
   }, []);
 
   const prepareSubmit = () => {
-    const data: submitDataType = {
+    const data: ReportType = {
       id: id,
       isOwner: isOwner,
       ownerIdent: ownerIdent,
       serviceName: service,
       riskValues: riskValues,
+      reportCreated: "",
+      reportEdited: "",
     };
     setSubmitData(data);
   };
@@ -143,14 +171,19 @@ function EditReport() {
                 </div>
               </div>
 
-              <AddRisk
+              <EditRisk
                 riskValues={riskValues}
                 setriskValues={setRiskValues}
                 onFieldsEdited={setAllFieldsEdited}
               />
             </div>
             <div className={skjemaStyles.buttonDiv}>
-              <Button variant="primary" onClick={() => {}}>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  handlePostData();
+                }}
+              >
                 <div>Send inn</div>
               </Button>
             </div>

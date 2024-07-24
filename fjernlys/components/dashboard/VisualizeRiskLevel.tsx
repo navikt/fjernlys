@@ -39,7 +39,6 @@ function VisualizeRiskLevel({ serviceName, labelName }: Props) {
     const fetchRiskLevels = async () => {
       try {
         const data = await getRiskLevels(serviceName);
-        console.log(data);
         setRiskLevels(data);
       } catch {
         console.log("Something wrong with RiskLevel API");

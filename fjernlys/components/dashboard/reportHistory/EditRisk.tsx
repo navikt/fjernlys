@@ -3,24 +3,34 @@ import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 
 import { Button, HStack, Table } from "@navikt/ds-react";
 import { get } from "http";
-import PopUp from "../information/PopUp";
+
 import styles from "@/styles/skjema/risk.module.css";
-import RiskComponent from "./RiskComponent";
+
 import { ALL } from "dns";
-type measureValuesType = { category: string; status: string };
-type riskValuesType = {
+import EditRiskComponent from "./EditRiskComponent";
+import PopUp from "@/components/skjema/information/PopUp";
+type MeasureValuesType = {
+  id: string;
+  risk_assessment_id: string;
+  category: string;
+  status: string;
+};
+
+type RiskValuesType = {
+  id: string;
+  reportId: string;
   probability: number;
   consequence: number;
   dependent: boolean;
   riskLevel: string;
   category: string;
-  measureValues?: measureValuesType[];
-  newConsequence?: string;
-  newProbability?: string;
+  measureValues: MeasureValuesType[];
+  newConsequence: number;
+  newProbability: number;
 };
 
 interface Props {
-  riskValues: riskValuesType[];
+  riskValues: RiskValuesType[];
   setriskValues: any;
   onFieldsEdited: (isEdited: boolean) => void;
 }
@@ -119,7 +129,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   };
 
   const deleteRisk = () => {
-    setriskValues((prevList: riskValuesType[]) =>
+    setriskValues((prevList: RiskValuesType[]) =>
       prevList.filter((_, index) => index !== cachedID)
     );
     setIsProbEdited((prevList) =>
@@ -151,13 +161,12 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
     dependent: boolean,
     riskLevel: string,
     category: string,
-    measureValues?: measureValuesType[],
+    measureValues?: MeasureValuesType[],
     newConsequence?: string,
     newProbability?: string
   ) => {
     setriskValues((prevList: any) => {
       const newList = [...prevList];
-      console.log("newList", newList);
       newList[id] = {
         probability,
         consequence,
@@ -170,11 +179,8 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
       };
       return newList;
     });
+    setExist(true);
   };
-
-  useEffect(() => {
-    console.log(JSON.stringify(riskValues));
-  }, [riskValues]);
 
   const [riskList, setriskList] = useState<
     {
@@ -184,14 +190,11 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   >([]);
 
   useEffect(() => {
-    if (riskValues.length === 0) {
-      generateNewrisk();
-    }
     setriskList(
       riskValues.map((item, index) => ({
         riskIDNum: index,
         element: (
-          <RiskComponent
+          <EditRiskComponent
             key={index}
             riskIDNum={index}
             probability={item.probability}
@@ -202,13 +205,14 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
             existingMeasureValues={item.measureValues}
             deleteRisk={activateDeletePopUp}
             updateRisk={updateListe}
-            newConsequence={item.newConsequence}
-            newProbability={item.newProbability}
+            newConsequence={`${item.newConsequence}`}
+            newProbability={`${item.newProbability}`}
             handleProbChange={handleProbChange}
             handleConsChange={handleConsChange}
             handleNewConsChange={handleNewConsChange}
             handleNewProbChange={handleNewProbChange}
             handleCategoryChange={handleCategoryChange}
+            exist={exist}
           />
         ),
       }))
@@ -249,7 +253,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
     setActivePopUp(!activePopUp);
     setCachedID(riskID);
   };
-
+  const [exist, setExist] = useState<boolean>(false);
   return (
     <>
       <Table>
