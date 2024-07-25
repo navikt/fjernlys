@@ -92,6 +92,7 @@ function VisualizeRiskLevel({ serviceName, labelName }: Props) {
         bottom: 5,
       },
     },
+    animation: { duration: 2500 },
   };
 
   return (

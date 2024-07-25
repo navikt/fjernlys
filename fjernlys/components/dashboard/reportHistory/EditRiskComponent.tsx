@@ -4,17 +4,24 @@ import styles from "@/styles/skjema/risk.module.css";
 import Dropdown from "@/components/skjema/information/Dropdown";
 import AddMeasure from "@/components/skjema/measure/AddMeasure";
 
-type measureValuesType = { category: string; status: string };
+type MeasureValuesType = {
+  id: string;
+  riskAssessmentId: string;
+  status: string;
+  category: string;
+};
 
 interface Props {
   exist: boolean;
   riskIDNum: number;
+  id: string;
+  reportId: string;
   probability: number;
   consequence: number;
   existingDependent: boolean;
   existingRiskLevel: string;
   existingCategory: string;
-  existingMeasureValues?: measureValuesType[];
+  existingMeasureValues?: MeasureValuesType[];
   deleteRisk: any;
   updateRisk: any;
   newProbability?: string;
@@ -29,6 +36,8 @@ interface Props {
 function EditRiskComponent({
   exist,
   riskIDNum,
+  id,
+  reportId,
   probability,
   consequence,
   existingDependent,
@@ -57,7 +66,7 @@ function EditRiskComponent({
   );
   const [category, setCategory] = useState(existingCategory || "Ikke satt");
 
-  const [measureValues, setMeasureValues] = useState<measureValuesType[]>(
+  const [measureValues, setMeasureValues] = useState<MeasureValuesType[]>(
     existingMeasureValues || []
   );
 
@@ -70,6 +79,8 @@ function EditRiskComponent({
     if (measureValues.length > 0) {
       updateRisk(
         riskIDNum,
+        id,
+        reportId,
         parseFloat(probValue),
         parseFloat(consValue),
         dependent,
@@ -79,11 +90,11 @@ function EditRiskComponent({
         newConsValue,
         newProbValue
       );
-      console.log("newCons", newConsValue);
-      console.log("newProb", newProbValue);
     } else {
       updateRisk(
         riskIDNum,
+        id,
+        reportId,
         parseFloat(probValue),
         parseFloat(consValue),
         dependent,

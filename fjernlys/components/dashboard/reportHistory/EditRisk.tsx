@@ -11,9 +11,9 @@ import EditRiskComponent from "./EditRiskComponent";
 import PopUp from "@/components/skjema/information/PopUp";
 type MeasureValuesType = {
   id: string;
-  risk_assessment_id: string;
-  category: string;
+  riskAssessmentId: string;
   status: string;
+  category: string;
 };
 
 type RiskValuesType = {
@@ -155,7 +155,9 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
   };
   const updateListe = (
-    id: number,
+    RiskId: number,
+    id: string,
+    reportId: string,
     probability: number,
     consequence: number,
     dependent: boolean,
@@ -167,7 +169,9 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   ) => {
     setriskValues((prevList: any) => {
       const newList = [...prevList];
-      newList[id] = {
+      newList[RiskId] = {
+        id,
+        reportId,
         probability,
         consequence,
         dependent,
@@ -197,6 +201,8 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
           <EditRiskComponent
             key={index}
             riskIDNum={index}
+            id={item.id}
+            reportId={item.reportId}
             probability={item.probability}
             consequence={item.consequence}
             existingDependent={item.dependent}

@@ -10,12 +10,13 @@ import riskStyles from "@/styles/skjema/risk.module.css";
 import skjemaStyles from "@/styles/skjema/skjema.module.css";
 import { getReportById } from "./api/getReportById";
 import EditRisk from "@/components/dashboard/reportHistory/EditRisk";
+import { submitEditedReport } from "./api/submitEditedReport";
 const goHome = () => {
   router.push("/");
 };
 type MeasureValuesType = {
   id: string;
-  risk_assessment_id: string;
+  riskAssessmentId: string;
   category: string;
   status: string;
 };
@@ -63,19 +64,22 @@ function EditReport() {
   const [showAlert, setShowAlert] = useState(false);
   const [allFieldsEdited, setAllFieldsEdited] = useState(false);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
+  const [reportCreated, setReportCreated] = useState<string>("");
 
   const [fullId, setFullId] = useState<string>("");
-  const submitValues = (value: boolean) => {
+  const submitValues = async (value: boolean) => {
     setShowAlert(value);
     prepareSubmit();
     setReadyToSubmit(true);
+    console.log(JSON.stringify(submitData));
+    await submitEditedReport(submitData);
   };
 
   const handlePostData = async () => {
-    if (!allFieldsEdited) {
-      alert("Please edit all fields before submitting");
-      return;
-    }
+    // if (!allFieldsEdited) {
+    //   alert("Please edit all fields before submitting");
+    //   return;
+    // }
     submitValues(true);
     try {
       //const data = await submitData;
@@ -92,11 +96,12 @@ function EditReport() {
         setFullId(router.query.fullId as string);
         const data = await getReportById(router.query.fullId as string);
         console.log("Full data: ", JSON.stringify(data));
+        setId(data.id);
         setService(data.serviceName);
         setIsOwner(data.isOwner);
         setOwnerIdent(data.ownerIdent);
-        setSubmitData(data);
         setRiskValues(data.riskValues);
+        setSubmitData(data);
         console.log(JSON.stringify(data.riskValues));
       }
     };
@@ -104,16 +109,11 @@ function EditReport() {
   }, []);
 
   const prepareSubmit = () => {
-    const data: ReportType = {
-      id: id,
-      isOwner: isOwner,
-      ownerIdent: ownerIdent,
-      serviceName: service,
-      riskValues: riskValues,
-      reportCreated: "",
-      reportEdited: "",
-    };
-    setSubmitData(data);
+    submitData.id = id;
+    submitData.isOwner = isOwner;
+    submitData.ownerIdent = ownerIdent;
+    submitData.serviceName = service;
+    submitData.riskValues = riskValues;
   };
 
   return (

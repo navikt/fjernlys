@@ -322,7 +322,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
 
       <div className={styles.addRiskDiv}>
         <Button
-          icon={<PencilIcon />}
+          icon={<PlusCircleIcon title="a11y-title" fontSize="1.5rem" />}
           onClick={() => generateNewrisk()}
           variant="secondary"
         >

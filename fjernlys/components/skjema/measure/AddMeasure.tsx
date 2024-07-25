@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PencilIcon, TrashIcon } from "@navikt/aksel-icons";
+import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 import styles from "@/styles/skjema/measure.module.css";
 import Dropdown from "../information/Dropdown";
 import { Button, Table } from "@navikt/ds-react";
@@ -18,6 +18,8 @@ interface Props {
 }
 
 type measureValuesType = {
+  id: string;
+  riskAssessmentId: string;
   status: string;
   category: string;
 };
@@ -60,6 +62,8 @@ const AddMeasure = ({
           <Measure
             key={index}
             measureIDNum={index}
+            id={item.id}
+            riskAssessmentId={item.riskAssessmentId}
             riskIDNum={riskIDNum + 1}
             deleteMeasure={deleteMeasure}
             category={item.category}
@@ -69,7 +73,6 @@ const AddMeasure = ({
         ),
       }))
     );
-    // console.log("measureValues", measureValues);
   }, [measureValues]);
 
   const generateNewMeasure = () => {
@@ -79,10 +82,16 @@ const AddMeasure = ({
     ]);
   };
 
-  const updateListe = (id: number, category: string, status: string) => {
+  const updateListe = (
+    measureId: number,
+    id: string,
+    riskAssessmentId: string,
+    category: string,
+    status: string
+  ) => {
     setMeasureValues((prevList: measureValuesType[]) => {
       const newList = [...prevList];
-      newList[id] = { category, status };
+      newList[measureId] = { id, riskAssessmentId, category, status };
       return newList;
     });
   };
@@ -165,7 +174,7 @@ const AddMeasure = ({
         {" "}
         <div className={styles.actionDiv}>
           <Button
-            icon={<PencilIcon aria-hidden />}
+            icon={<PlusCircleIcon title="a11y-title" fontSize="1.5rem" />}
             size="small"
             variant="secondary"
           >

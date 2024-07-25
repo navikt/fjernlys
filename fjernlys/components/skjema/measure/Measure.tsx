@@ -5,6 +5,8 @@ import styles from "@/styles/skjema/measure.module.css";
 interface MeasureProps {
   measureIDNum: number;
   riskIDNum: number;
+  id: string;
+  riskAssessmentId: string;
   deleteMeasure: (measureIDNum: number) => void;
   category: string;
   status: string;
@@ -14,6 +16,8 @@ interface MeasureProps {
 const Measure: React.FC<MeasureProps> = ({
   measureIDNum,
   riskIDNum,
+  id,
+  riskAssessmentId,
   deleteMeasure,
   category,
   status,
@@ -26,7 +30,13 @@ const Measure: React.FC<MeasureProps> = ({
   // );
 
   useEffect(() => {
-    updateListe(measureIDNum, selectedCat, selectedStatus);
+    updateListe(
+      measureIDNum,
+      id,
+      riskAssessmentId,
+      selectedCat,
+      selectedStatus
+    );
   }, [selectedCat, selectedStatus]);
 
   const dropDownOptionsCat = [
