@@ -1,6 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
+// next.config.mjs
+import transpileModules from "next-transpile-modules";
 
-export default nextConfig;
+const withTM = transpileModules([
+  "@mui/x-charts",
+  "@mui/material",
+  "@emotion/react",
+  "@emotion/styled",
+]);
+
+export default withTM({
+  reactStrictMode: true,
+});

@@ -8,6 +8,11 @@ import riskStyles from "@/styles/skjema/risk.module.css";
 import Image from "next/image";
 import router from "next/router";
 import VisualizeRiskLevel from "@/components/dashboard/VisualizeRiskLevel";
+import VisualizeRiskCategory from "@/components/dashboard/VisualizeRiskCategory";
+import HorizontalBars from "@/components/dashboard/HorizontalBars";
+import NewHorizontalBar from "@/components/dashboard/Graphical/NewHorizontalBar";
+import VisualizeRiskProbCons from "@/components/dashboard/VisualizeRiskProbCons";
+
 const goHome = () => {
   router.push("/");
 };
@@ -74,7 +79,10 @@ const Dashboard: React.FC = () => {
                 labelName={"Utebetaling"}
               />
             </div>
-
+            <div style={{ display: "flex" }}>
+              <VisualizeRiskCategory />
+              <VisualizeRiskProbCons />
+            </div>
             <ShowReports />
           </VStack>
         </div>
