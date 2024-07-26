@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
+import { PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 import styles from "@/styles/skjema/measure.module.css";
-import Dropdown from "../information/Dropdown";
 import { Button, Table } from "@navikt/ds-react";
-import Measure from "./Measure";
+import Dropdown from "@/components/skjema/information/Dropdown";
+import EditMeasureComponent from "./EditMeasureComponent";
 
 interface Props {
   riskIDNum: number;
+  riskAssessmentId: string | null;
   measureValues: measureValuesType[];
   setMeasureValues: any;
   setNewProbValue: any;
@@ -18,12 +19,15 @@ interface Props {
 }
 
 type measureValuesType = {
+  id: string | null;
+  riskAssessmentId: string;
   status: string;
   category: string;
 };
 
-const AddMeasure = ({
+const EditMeasure = ({
   riskIDNum,
+  riskAssessmentId,
   measureValues,
   setMeasureValues,
   setNewConsValue,
@@ -57,10 +61,12 @@ const AddMeasure = ({
       measureValues.map((item, index) => ({
         measureID: index,
         element: (
-          <Measure
+          <EditMeasureComponent
             key={index}
             measureIDNum={index}
             riskIDNum={riskIDNum + 1}
+            id={item.id}
+            riskAssessmentId={riskAssessmentId}
             deleteMeasure={deleteMeasure}
             category={item.category}
             status={item.status}
@@ -75,16 +81,24 @@ const AddMeasure = ({
     setMeasureValues((prevList: measureValuesType[]) => [
       ...prevList,
       {
+        id: null,
+        riskAssessmentId: riskAssessmentId,
         category: "Velg kategori",
         status: "Velg status",
       },
     ]);
   };
 
-  const updateListe = (measureId: number, category: string, status: string) => {
+  const updateListe = (
+    measureId: number,
+    id: string,
+    riskAssessmentId: string,
+    category: string,
+    status: string
+  ) => {
     setMeasureValues((prevList: measureValuesType[]) => {
       const newList = [...prevList];
-      newList[measureId] = { category, status };
+      newList[measureId] = { id, riskAssessmentId, category, status };
       return newList;
     });
   };
@@ -206,4 +220,4 @@ const AddMeasure = ({
   );
 };
 
-export default AddMeasure;
+export default EditMeasure;

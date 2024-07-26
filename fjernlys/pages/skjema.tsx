@@ -84,9 +84,9 @@ const FillForm = () => {
       const result = await postReport(data);
       alert("Form submitted");
       goHome();
-      console.log("Response from postData:", result);
+      // console.log("Response from postData:", result);
     } catch (error) {
-      console.error("Error from postData:", error);
+      // console.error("Error from postData:", error);
     }
   };
 
@@ -100,9 +100,9 @@ const FillForm = () => {
     }
   }, [readyToSubmit]);
 
-  useEffect(() => {
-    console.log(JSON.stringify(submitData));
-  }, [submitData]);
+  // useEffect(() => {
+  //   console.log(JSON.stringify(submitData));
+  // }, [submitData]);
 
   return (
     <>

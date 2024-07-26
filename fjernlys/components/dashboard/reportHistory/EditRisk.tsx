@@ -5,8 +5,6 @@ import { Button, HStack, Table } from "@navikt/ds-react";
 import { get } from "http";
 
 import styles from "@/styles/skjema/risk.module.css";
-
-import { ALL } from "dns";
 import EditRiskComponent from "./EditRiskComponent";
 import PopUp from "@/components/skjema/information/PopUp";
 type MeasureValuesType = {
@@ -17,7 +15,7 @@ type MeasureValuesType = {
 };
 
 type RiskValuesType = {
-  id: string;
+  id: string | null;
   reportId: string;
   probability: number;
   consequence: number;
@@ -30,11 +28,17 @@ type RiskValuesType = {
 };
 
 interface Props {
+  reportId: string;
   riskValues: RiskValuesType[];
   setriskValues: any;
   onFieldsEdited: (isEdited: boolean) => void;
 }
-const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
+const AddRisk = ({
+  reportId,
+  riskValues,
+  setriskValues,
+  onFieldsEdited,
+}: Props) => {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [cachedID, setCachedID] = useState(0);
   const [activePopUp, setActivePopUp] = useState(false);
@@ -202,7 +206,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
             key={index}
             riskIDNum={index}
             id={item.id}
-            reportId={item.reportId}
+            reportId={reportId}
             probability={item.probability}
             consequence={item.consequence}
             existingDependent={item.dependent}
@@ -229,6 +233,8 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
     setriskValues((prevList: any) => [
       ...prevList,
       {
+        id: null,
+        reportId: reportId,
         probability: 0,
         consequence: 0,
         dependent: false,

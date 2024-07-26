@@ -157,7 +157,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   ) => {
     setriskValues((prevList: any) => {
       const newList = [...prevList];
-      console.log("newList", newList);
+      // console.log("newList", newList);
       newList[id] = {
         probability,
         consequence,
@@ -173,7 +173,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(riskValues));
+    // console.log(JSON.stringify(riskValues));
   }, [riskValues]);
 
   const [riskList, setriskList] = useState<

@@ -95,18 +95,26 @@ function EditReport() {
       if (router.isReady) {
         setFullId(router.query.fullId as string);
         const data = await getReportById(router.query.fullId as string);
-        console.log("Full data: ", JSON.stringify(data));
+        // console.log("Full data: ", JSON.stringify(data));
         setId(data.id);
         setService(data.serviceName);
         setIsOwner(data.isOwner);
         setOwnerIdent(data.ownerIdent);
         setRiskValues(data.riskValues);
         setSubmitData(data);
-        console.log(JSON.stringify(data.riskValues));
+        // console.log(JSON.stringify(data.riskValues));
       }
     };
     fetchData();
   }, []);
+
+  const addRiskValues = (riskValues: RiskValuesType[]) => {
+    riskValues.map((item, index) => {
+      const element = {
+        id: item.id,
+      };
+    });
+  };
 
   const prepareSubmit = () => {
     submitData.id = id;
@@ -172,6 +180,7 @@ function EditReport() {
               </div>
 
               <EditRisk
+                reportId={id}
                 riskValues={riskValues}
                 setriskValues={setRiskValues}
                 onFieldsEdited={setAllFieldsEdited}

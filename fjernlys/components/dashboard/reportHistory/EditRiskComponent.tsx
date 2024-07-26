@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/risk.module.css";
 import Dropdown from "@/components/skjema/information/Dropdown";
 import AddMeasure from "@/components/skjema/measure/AddMeasure";
+import EditMeasure from "./EditMeasure";
 
 type MeasureValuesType = {
   id: string;
@@ -14,7 +15,7 @@ type MeasureValuesType = {
 interface Props {
   exist: boolean;
   riskIDNum: number;
-  id: string;
+  id: string | null;
   reportId: string;
   probability: number;
   consequence: number;
@@ -243,8 +244,9 @@ function EditRiskComponent({
                 </HelpText>
               </div>
             </div>
-            <AddMeasure
+            <EditMeasure
               riskIDNum={riskIDNum}
+              riskAssessmentId={id}
               measureValues={measureValues}
               setMeasureValues={setMeasureValues}
               setNewProbValue={setNewProbValue}

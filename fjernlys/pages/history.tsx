@@ -68,7 +68,7 @@ function ViewReportHistory() {
         const data = await getReportCopyToHistoryTable(
           router.query.fullId as string
         );
-        console.log(data);
+        // console.log(data);
         setReports(data);
       }
     };
