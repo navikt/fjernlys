@@ -43,8 +43,6 @@ function RiskComponent({
   handleNewProbChange,
   handleCategoryChange,
 }: Props) {
-  const [color, setColor] = useState("none");
-
   const [probValue, setProbValue] = useState(`${probability}` || "0");
   const [consValue, setConsValue] = useState(`${consequence}` || "0");
   const [newConsValue, setNewConsValue] = useState(newConsequence || "0");
@@ -58,10 +56,6 @@ function RiskComponent({
   const [measureValues, setMeasureValues] = useState<measureValuesType[]>(
     existingMeasureValues || []
   );
-
-  const deleteSelf = () => {
-    deleteRisk(riskIDNum);
-  };
 
   useEffect(() => {
     updateColor(probValue, consValue);
@@ -97,6 +91,9 @@ function RiskComponent({
     category,
     measureValues,
     newConsValue,
+    newProbValue,
+    riskIDNum,
+    updateRisk,
   ]);
 
   const updateColor = (prob: string, cons: string) => {
@@ -106,13 +103,10 @@ function RiskComponent({
     if (probInt > 0 && consInt > 0) {
       let total = probInt * consInt;
       if (total <= 4 && probInt <= 3 && consInt <= 3) {
-        setColor("green");
         setRiskLevel("Lav");
       } else if (total >= 15) {
-        setColor("red");
         setRiskLevel("Høy");
       } else if (total >= 4 && total < 15) {
-        setColor("yellow");
         setRiskLevel("Moderat");
       }
     }

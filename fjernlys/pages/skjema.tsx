@@ -1,5 +1,5 @@
 import { Box, Button, HelpText, Page, VStack } from "@navikt/ds-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
 import riskStyles from "@/styles/skjema/risk.module.css";
@@ -57,23 +57,26 @@ const FillForm = () => {
   const [allFieldsEdited, setAllFieldsEdited] = useState(false);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
-  const prepareSubmit = () => {
-    const data: submitDataType = {
+  const prepareSubmit = useCallback(() => {
+    const data = {
       ownerData: owner,
       notOwnerData: notOwner,
       serviceData: service,
       riskValues: riskValues,
     };
     setSubmitData(data);
-  };
+  }, [owner, notOwner, service, riskValues]);
 
-  const test = (value: boolean) => {
-    setShowAlert(value);
-    prepareSubmit();
-    setReadyToSubmit(true);
-  };
+  const test = useCallback(
+    (value: boolean) => {
+      setShowAlert(value);
+      prepareSubmit();
+      setReadyToSubmit(true);
+    },
+    [prepareSubmit]
+  );
 
-  const handlePostData = async () => {
+  const handlePostData = useCallback(async () => {
     if (!allFieldsEdited) {
       alert("Please edit all fields before submitting");
       return;
@@ -88,7 +91,7 @@ const FillForm = () => {
     } catch (error) {
       // console.error("Error from postData:", error);
     }
-  };
+  }, [allFieldsEdited, submitData, test]);
 
   useEffect(() => {
     if (!readyToSubmit) {
@@ -98,7 +101,7 @@ const FillForm = () => {
       handlePostData();
       setReadyToSubmit(false);
     }
-  }, [readyToSubmit]);
+  }, [readyToSubmit, handlePostData]);
 
   // useEffect(() => {
   //   console.log(JSON.stringify(submitData));

@@ -111,6 +111,11 @@ function EditRiskComponent({
     category,
     measureValues,
     newConsValue,
+    id,
+    reportId,
+    riskIDNum,
+    updateRisk,
+    newProbValue,
   ]);
 
   const updateColor = (prob: string, cons: string) => {

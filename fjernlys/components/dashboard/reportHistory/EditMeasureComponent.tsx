@@ -26,9 +26,6 @@ const EditMeasureComponent: React.FC<MeasureProps> = ({
 }) => {
   const [selectedCat, setSelectedCat] = useState(category || "Velg kategori");
   const [selectedStatus, setSelectedStatus] = useState(status || "Velg status");
-  // const [selectedStarted, setSelectedStarted] = useState<boolean>(
-  //   started || false
-  // );
 
   useEffect(() => {
     updateListe(
@@ -38,7 +35,14 @@ const EditMeasureComponent: React.FC<MeasureProps> = ({
       selectedCat,
       selectedStatus
     );
-  }, [selectedCat, selectedStatus]);
+  }, [
+    selectedCat,
+    selectedStatus,
+    id,
+    riskAssessmentId,
+    measureIDNum,
+    updateListe,
+  ]);
 
   const dropDownOptionsCat = [
     { value: "Velg kategori", label: "Velg kategori" },

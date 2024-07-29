@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useCallback, useEffect, useState } from "react";
 import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 
 import { Button, HStack, Table } from "@navikt/ds-react";
@@ -63,60 +63,75 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   ]);
 
   // ----------------- New STUFFFFF -----------------
-  const handleProbChange = (id: number, value: string) => {
-    setriskValues((prevList: any) => {
-      const newList = [...prevList];
-      newList[id].probability = parseFloat(value);
-      return newList;
-    });
-    setIsProbEdited((prevList) =>
-      prevList.map((edited, index) => (index === id ? true : edited))
-    );
-  };
+  const handleProbChange = useCallback(
+    (id: number, value: string) => {
+      setriskValues((prevList: any) => {
+        const newList = [...prevList];
+        newList[id].probability = parseFloat(value);
+        return newList;
+      });
+      setIsProbEdited((prevList) =>
+        prevList.map((edited, index) => (index === id ? true : edited))
+      );
+    },
+    [setriskValues]
+  );
 
-  const handleConsChange = (id: number, value: string) => {
-    setriskValues((prevList: any) => {
-      const newList = [...prevList];
-      newList[id].consequence = parseInt(value);
-      return newList;
-    });
-    setIsConsEdited((prevList) =>
-      prevList.map((edited, index) => (index === id ? true : edited))
-    );
-  };
+  const handleConsChange = useCallback(
+    (id: number, value: string) => {
+      setriskValues((prevList: any) => {
+        const newList = [...prevList];
+        newList[id].consequence = parseInt(value);
+        return newList;
+      });
+      setIsConsEdited((prevList) =>
+        prevList.map((edited, index) => (index === id ? true : edited))
+      );
+    },
+    [setriskValues]
+  );
 
-  const handleNewConsChange = (id: number, value: string) => {
-    setriskValues((prevList: any) => {
-      const newList = [...prevList];
-      newList[id].newConsequence = value;
-      return newList;
-    });
-    setIsNewConsEdited((prevList) =>
-      prevList.map((value, index) => (index === id ? true : value))
-    );
-  };
+  const handleNewConsChange = useCallback(
+    (id: number, value: string) => {
+      setriskValues((prevList: any) => {
+        const newList = [...prevList];
+        newList[id].newConsequence = value;
+        return newList;
+      });
+      setIsNewConsEdited((prevList) =>
+        prevList.map((value, index) => (index === id ? true : value))
+      );
+    },
+    [setriskValues]
+  );
 
-  const handleNewProbChange = (id: number, value: string) => {
-    setriskValues((prevList: any) => {
-      const newList = [...prevList];
-      newList[id].newProbability = value;
-      return newList;
-    });
-    setIsNewProbEdited((prevList) =>
-      prevList.map((edited, index) => (index === id ? true : edited))
-    );
-  };
+  const handleNewProbChange = useCallback(
+    (id: number, value: string) => {
+      setriskValues((prevList: any) => {
+        const newList = [...prevList];
+        newList[id].newProbability = value;
+        return newList;
+      });
+      setIsNewProbEdited((prevList) =>
+        prevList.map((edited, index) => (index === id ? true : edited))
+      );
+    },
+    [setriskValues]
+  );
 
-  const handleCategoryChange = (id: number, value: string) => {
-    setriskValues((prevList: any) => {
-      const newList = [...prevList];
-      newList[id].category = value;
-      return newList;
-    });
-    setIsCategoryEdited((prevList) =>
-      prevList.map((edited, index) => (index === id ? true : edited))
-    );
-  };
+  const handleCategoryChange = useCallback(
+    (id: number, value: string) => {
+      setriskValues((prevList: any) => {
+        const newList = [...prevList];
+        newList[id].category = value;
+        return newList;
+      });
+      setIsCategoryEdited((prevList) =>
+        prevList.map((edited, index) => (index === id ? true : edited))
+      );
+    },
+    [setriskValues]
+  );
 
   const deleteRisk = () => {
     setriskValues((prevList: riskValuesType[]) =>
@@ -144,33 +159,36 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   const handleRowClick = (rowId: number) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
   };
-  const updateListe = (
-    id: number,
-    probability: number,
-    consequence: number,
-    dependent: boolean,
-    riskLevel: string,
-    category: string,
-    measureValues?: measureValuesType[],
-    newConsequence?: string,
-    newProbability?: string
-  ) => {
-    setriskValues((prevList: any) => {
-      const newList = [...prevList];
-      // console.log("newList", newList);
-      newList[id] = {
-        probability,
-        consequence,
-        dependent,
-        riskLevel,
-        category,
-        measureValues,
-        newConsequence,
-        newProbability,
-      };
-      return newList;
-    });
-  };
+  const updateListe = useCallback(
+    (
+      id: number,
+      probability: number,
+      consequence: number,
+      dependent: boolean,
+      riskLevel: string,
+      category: string,
+      measureValues?: measureValuesType[],
+      newConsequence?: string,
+      newProbability?: string
+    ) => {
+      setriskValues((prevList: any) => {
+        const newList = [...prevList];
+        // console.log("newList", newList);
+        newList[id] = {
+          probability,
+          consequence,
+          dependent,
+          riskLevel,
+          category,
+          measureValues,
+          newConsequence,
+          newProbability,
+        };
+        return newList;
+      });
+    },
+    [setriskValues]
+  );
 
   useEffect(() => {
     // console.log(JSON.stringify(riskValues));
@@ -182,6 +200,32 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
       element: JSX.Element;
     }[]
   >([]);
+
+  const generateNewrisk = useCallback(() => {
+    setriskValues((prevList: any) => [
+      ...prevList,
+      {
+        probability: 0,
+        consequence: 0,
+        dependent: false,
+        riskLevel: "Ingen vurdering",
+        category: "Ikke satt",
+      },
+    ]);
+    setIsProbEdited((prevList) => [...prevList, false]);
+    setIsConsEdited((prevList) => [...prevList, false]);
+    setIsNewConsEdited((prevList) => [...prevList, false]);
+    setIsNewProbEdited((prevList) => [...prevList, false]);
+    setIsCategoryEdited((prevList) => [...prevList, false]);
+  }, [setriskValues]);
+
+  const activateDeletePopUp = useCallback(
+    (riskID: number) => {
+      setActivePopUp(!activePopUp);
+      setCachedID(riskID);
+    },
+    [setActivePopUp, activePopUp, setCachedID]
+  );
 
   useEffect(() => {
     if (riskValues.length === 0) {
@@ -213,25 +257,18 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
         ),
       }))
     );
-  }, [riskValues]);
+  }, [
+    riskValues,
+    activateDeletePopUp,
+    generateNewrisk,
+    handleCategoryChange,
+    handleConsChange,
+    handleNewConsChange,
+    handleNewProbChange,
+    handleProbChange,
+    updateListe,
+  ]);
 
-  const generateNewrisk = () => {
-    setriskValues((prevList: any) => [
-      ...prevList,
-      {
-        probability: 0,
-        consequence: 0,
-        dependent: false,
-        riskLevel: "Ingen vurdering",
-        category: "Ikke satt",
-      },
-    ]);
-    setIsProbEdited((prevList) => [...prevList, false]);
-    setIsConsEdited((prevList) => [...prevList, false]);
-    setIsNewConsEdited((prevList) => [...prevList, false]);
-    setIsNewProbEdited((prevList) => [...prevList, false]);
-    setIsCategoryEdited((prevList) => [...prevList, false]);
-  };
   const getBackgroundColor = (riskLevel: any) => {
     switch (riskLevel) {
       case "Lav":
@@ -243,11 +280,6 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
       default:
         return "false";
     }
-  };
-
-  const activateDeletePopUp = (riskID: number) => {
-    setActivePopUp(!activePopUp);
-    setCachedID(riskID);
   };
 
   return (

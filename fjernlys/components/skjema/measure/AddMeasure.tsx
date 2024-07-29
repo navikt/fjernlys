@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 import styles from "@/styles/skjema/measure.module.css";
 import Dropdown from "../information/Dropdown";
@@ -38,12 +38,26 @@ const AddMeasure = ({
     { measureID: number; element: JSX.Element }[]
   >([]);
 
-  const deleteMeasure = (measureIDNum: number) => {
-    setMeasureValues((prevList: measureValuesType[]) =>
-      prevList.filter((_, index) => index !== measureIDNum)
-    );
-    setMeasureList([]);
-  };
+  const deleteMeasure = useCallback(
+    (measureIDNum: number) => {
+      setMeasureValues((prevList: measureValuesType[]) =>
+        prevList.filter((_, index) => index !== measureIDNum)
+      );
+      setMeasureList([]);
+    },
+    [setMeasureValues]
+  );
+
+  const updateListe = useCallback(
+    (measureId: number, category: string, status: string) => {
+      setMeasureValues((prevList: measureValuesType[]) => {
+        const newList = [...prevList];
+        newList[measureId] = { category, status };
+        return newList;
+      });
+    },
+    [setMeasureValues]
+  );
 
   useEffect(() => {
     setShowDropdown(measureList.length > 0);
@@ -69,7 +83,7 @@ const AddMeasure = ({
         ),
       }))
     );
-  }, [measureValues]);
+  }, [measureValues, deleteMeasure, riskIDNum, updateListe]);
 
   const generateNewMeasure = () => {
     setMeasureValues((prevList: measureValuesType[]) => [
@@ -79,14 +93,6 @@ const AddMeasure = ({
         status: "Velg status",
       },
     ]);
-  };
-
-  const updateListe = (measureId: number, category: string, status: string) => {
-    setMeasureValues((prevList: measureValuesType[]) => {
-      const newList = [...prevList];
-      newList[measureId] = { category, status };
-      return newList;
-    });
   };
 
   const dropdownOptions = [

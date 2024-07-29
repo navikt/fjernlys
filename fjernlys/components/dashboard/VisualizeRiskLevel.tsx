@@ -46,7 +46,7 @@ function VisualizeRiskLevel({ serviceName, labelName }: Props) {
     };
 
     fetchRiskLevels();
-  }, []);
+  }, [serviceName]);
 
   const cssVar = (variable: string) => {
     if (typeof window !== "undefined") {

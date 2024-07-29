@@ -27,7 +27,7 @@ const Measure: React.FC<MeasureProps> = ({
 
   useEffect(() => {
     updateListe(measureIDNum, selectedCat, selectedStatus);
-  }, [selectedCat, selectedStatus]);
+  }, [selectedCat, selectedStatus, measureIDNum, updateListe]);
 
   const dropDownOptionsCat = [
     { value: "Velg kategori", label: "Velg kategori" },
