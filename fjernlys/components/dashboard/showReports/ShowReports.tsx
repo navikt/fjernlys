@@ -58,7 +58,22 @@ function ShowReports() {
 
   const handleChange = async (service: string) => {
     setService(service);
-    setServiceElements(await getAllInfoByService(service));
+    try {
+      setServiceElements(await getAllInfoByService(service));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        if (error.message === "Not Found") {
+          router.push("/404");
+        } else if (error.message === "Internal Server Error") {
+          router.push("/500");
+        } else {
+          // Handle other errors or show a generic error message
+          router.push("/404");
+        }
+      } else {
+        router.push("/404");
+      }
+    }
   };
 
   function formatDate(dateString: string) {

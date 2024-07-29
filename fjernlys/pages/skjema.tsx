@@ -88,8 +88,19 @@ const FillForm = () => {
       alert("Form submitted");
       goHome();
       // console.log("Response from postData:", result);
-    } catch (error) {
-      // console.error("Error from postData:", error);
+    } catch (error: any) {
+      if (error instanceof Error) {
+        if (error.message === "Not Found") {
+          router.push("/404");
+        } else if (error.message === "Internal Server Error") {
+          router.push("/500");
+        } else {
+          // Handle other errors or show a generic error message
+          router.push("/404");
+        }
+      } else {
+        router.push("/404");
+      }
     }
   }, [allFieldsEdited, submitData, test]);
 

@@ -1,5 +1,3 @@
-import { error } from "console";
-
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
@@ -16,7 +14,15 @@ export const getReportById = async (data: string) => {
   return fetch(endpointURL, options)
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`Http error, status = ${response.status}`);
+        if (response.status === 404) {
+          throw new Error("Not Found");
+        } else if (response.status === 500) {
+          throw new Error("Internal Server Error");
+        } else {
+          throw new Error(
+            `HTTP error! status: ${response.status} - ${response.statusText}`
+          );
+        }
       }
       return response.json();
     })

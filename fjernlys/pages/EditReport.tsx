@@ -72,7 +72,22 @@ function EditReport() {
     prepareSubmit();
     setReadyToSubmit(true);
     console.log(JSON.stringify(submitData));
-    await submitEditedReport(submitData);
+    try {
+      await submitEditedReport(submitData);
+    } catch (error: any) {
+      if (error instanceof Error) {
+        if (error.message === "Not Found") {
+          router.push("/404");
+        } else if (error.message === "Internal Server Error") {
+          router.push("/500");
+        } else {
+          // Handle other errors or show a generic error message
+          router.push("/404");
+        }
+      } else {
+        router.push("/404");
+      }
+    }
   };
 
   const handlePostData = async () => {
@@ -81,32 +96,44 @@ function EditReport() {
     //   return;
     // }
     submitValues(true);
-    try {
-      //const data = await submitData;
-      //const result = await postReport(data);
-      //console.log("Response from postData:", result);
-    } catch (error) {
-      //console.error("Error from postData:", error);
-    }
+
+    //const data = await submitData;
+    //const result = await postReport(data);
+    //console.log("Response from postData:", result);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
-        setFullId(router.query.fullId as string);
-        const data = await getReportById(router.query.fullId as string);
-        // console.log("Full data: ", JSON.stringify(data));
-        setId(data.id);
-        setService(data.serviceName);
-        setIsOwner(data.isOwner);
-        setOwnerIdent(data.ownerIdent);
-        setRiskValues(data.riskValues);
-        setSubmitData(data);
-        // console.log(JSON.stringify(data.riskValues));
+        try {
+          setFullId(router.query.fullId as string);
+          const data = await getReportById(router.query.fullId as string);
+          // console.log("Full data: ", JSON.stringify(data));
+          setId(data.id);
+          setService(data.serviceName);
+          setIsOwner(data.isOwner);
+          setOwnerIdent(data.ownerIdent);
+          setRiskValues(data.riskValues);
+          setSubmitData(data);
+          // console.log(JSON.stringify(data.riskValues));
+        } catch (error) {
+          if (error instanceof Error) {
+            if (error.message === "Not Found") {
+              router.push("/404");
+            } else if (error.message === "Internal Server Error") {
+              router.push("/500");
+            } else {
+              // Handle other errors or show a generic error message
+              console.error("Unexpected error:", error);
+            }
+          } else {
+            console.error("Unexpected non-error object:", error);
+          }
+        }
       }
     };
     fetchData();
-  }, []);
+  }, [router]);
 
   const addRiskValues = (riskValues: RiskValuesType[]) => {
     riskValues.map((item, index) => {

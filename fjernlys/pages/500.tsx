@@ -1,4 +1,13 @@
-import { BodyShort, Box, Heading, Link, List, Page } from "@navikt/ds-react";
+import {
+  BodyShort,
+  Box,
+  Heading,
+  HGrid,
+  Link,
+  List,
+  Page,
+  VStack,
+} from "@navikt/ds-react";
 import React from "react";
 import Image from "next/image";
 import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
@@ -34,30 +43,51 @@ function Error500() {
             RAPPORTERINGSSYSTEM
           </Page.Block>
         </Box>
-        <Box
-          paddingBlock="20 16"
-          data-aksel-template="404-v2"
-          style={{ marginLeft: "10rem" }}
-        >
+        <Box paddingBlock="20 8" style={{ marginLeft: "10rem" }}>
           {" "}
-          <div>
+          <HGrid columns="minmax(auto,600px)" data-aksel-template="500-v2">
             {" "}
-            <Heading level="1" size="large" spacing>
+            <VStack gap="16">
               {" "}
-              Beklager, vi fant ikke siden{" "}
-            </Heading>{" "}
-            <BodyShort>
-              {" "}
-              Denne siden kan være slettet eller flyttet, eller det er en feil i
-              lenken.{" "}
-            </BodyShort>{" "}
-            <List>
-              <List.Item>
+              <VStack gap="12" align="start">
                 {" "}
-                <Link href="/">Gå til forsiden</Link>{" "}
-              </List.Item>{" "}
-            </List>{" "}
-          </div>{" "}
+                <div>
+                  {" "}
+                  <BodyShort textColor="subtle" size="small">
+                    {" "}
+                    Statuskode 500{" "}
+                  </BodyShort>{" "}
+                  <Heading level="1" size="large" spacing>
+                    {" "}
+                    Beklager, noe gikk galt.{" "}
+                  </Heading>{" "}
+                  {/* Tekster bør tilpasses den aktuelle 500-feilen. Teksten under er for en generisk 500-feil. */}{" "}
+                  <BodyShort spacing>
+                    {" "}
+                    Det har oppstått en feil under innsending. Prøv å sende inn
+                    skjemaet på nytt.
+                  </BodyShort>{" "}
+                  <BodyShort>Du kan prøve å</BodyShort>{" "}
+                  <List>
+                    {" "}
+                    <List.Item>
+                      {" "}
+                      dobbeltsjekke at alle felt eksisterer før du sender inn på
+                      nytt
+                    </List.Item>{" "}
+                    <List.Item>
+                      {" "}
+                      {/* Vurder å sjekke at window.history.length > 1 før dere rendrer dette som en lenke */}{" "}
+                      <Link href="#" onClick={() => history.back()}>
+                        {" "}
+                        gå tilbake til forrige side{" "}
+                      </Link>{" "}
+                    </List.Item>{" "}
+                  </List>{" "}
+                </div>
+              </VStack>{" "}
+            </VStack>{" "}
+          </HGrid>{" "}
         </Box>
       </Page>
     </>

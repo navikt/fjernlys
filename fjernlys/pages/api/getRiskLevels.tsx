@@ -14,11 +14,19 @@ export const getRiskLevels = async (data: string) => {
     },
   };
   return fetch(endpointURL, options)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Http error, status = ${response.status}`);
+    .then((res) => {
+      if (!res.ok) {
+        if (res.status === 404) {
+          throw new Error("Not Found");
+        } else if (res.status === 500) {
+          throw new Error("Internal Server Error");
+        } else {
+          throw new Error(
+            `HTTP error! status: ${res.status} - ${res.statusText}`
+          );
+        }
       }
-      return response.json();
+      return res.json();
     })
     .then((jsonData) => {
       // console.log("Data fetched successfully:", jsonData);
