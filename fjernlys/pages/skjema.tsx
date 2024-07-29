@@ -1,5 +1,5 @@
 import { Box, Button, HelpText, Page, VStack } from "@navikt/ds-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
 import riskStyles from "@/styles/skjema/risk.module.css";
@@ -57,23 +57,26 @@ const FillForm = () => {
   const [allFieldsEdited, setAllFieldsEdited] = useState(false);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
-  const prepareSubmit = () => {
-    const data: submitDataType = {
+  const prepareSubmit = useCallback(() => {
+    const data = {
       ownerData: owner,
       notOwnerData: notOwner,
       serviceData: service,
       riskValues: riskValues,
     };
     setSubmitData(data);
-  };
+  }, [owner, notOwner, service, riskValues]);
 
-  const test = (value: boolean) => {
-    setShowAlert(value);
-    prepareSubmit();
-    setReadyToSubmit(true);
-  };
+  const test = useCallback(
+    (value: boolean) => {
+      setShowAlert(value);
+      prepareSubmit();
+      setReadyToSubmit(true);
+    },
+    [prepareSubmit]
+  );
 
-  const handlePostData = async () => {
+  const handlePostData = useCallback(async () => {
     if (!allFieldsEdited) {
       alert("Please edit all fields before submitting");
       return;
@@ -82,11 +85,24 @@ const FillForm = () => {
     try {
       const data = await submitData;
       const result = await postReport(data);
-      console.log("Response from postData:", result);
-    } catch (error) {
-      console.error("Error from postData:", error);
+      alert("Form submitted");
+      goHome();
+      // console.log("Response from postData:", result);
+    } catch (error: any) {
+      if (error instanceof Error) {
+        if (error.message === "Not Found") {
+          router.push("/404");
+        } else if (error.message === "Internal Server Error") {
+          router.push("/500");
+        } else {
+          // Handle other errors or show a generic error message
+          router.push("/404");
+        }
+      } else {
+        router.push("/404");
+      }
     }
-  };
+  }, [allFieldsEdited, submitData, test]);
 
   useEffect(() => {
     if (!readyToSubmit) {
@@ -95,14 +111,12 @@ const FillForm = () => {
     if (readyToSubmit) {
       handlePostData();
       setReadyToSubmit(false);
-      alert("Form submitted");
-      goHome();
     }
-  }, [readyToSubmit]);
+  }, [readyToSubmit, handlePostData]);
 
-  useEffect(() => {
-    console.log(JSON.stringify(submitData));
-  }, [submitData]);
+  // useEffect(() => {
+  //   console.log(JSON.stringify(submitData));
+  // }, [submitData]);
 
   return (
     <>

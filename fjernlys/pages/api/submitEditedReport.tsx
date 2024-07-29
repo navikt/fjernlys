@@ -1,8 +1,8 @@
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiPostUrl = process.env.NEXT_PUBLIC_API_POST_URL;
 
-export const postReport = async (data: any) => {
-  const endpointURL = `${apiBaseUrl}${apiPostUrl}`;
+export const submitEditedReport = async (data: any) => {
+  const endpointURL = `${apiBaseUrl}${apiPostUrl}/edit`;
 
   try {
     const res = await fetch(endpointURL, {
@@ -29,6 +29,6 @@ export const postReport = async (data: any) => {
     return result;
   } catch (error: any) {
     //console.error("Error during fetch operation:", error);
-    throw new Error(`Fetch error: ${error.message}`);
+    throw error;
   }
 };

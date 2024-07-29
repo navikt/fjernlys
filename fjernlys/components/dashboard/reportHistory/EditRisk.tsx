@@ -1,30 +1,44 @@
-import React, { act, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 
 import { Button, HStack, Table } from "@navikt/ds-react";
 import { get } from "http";
-import PopUp from "../information/PopUp";
+
 import styles from "@/styles/skjema/risk.module.css";
-import RiskComponent from "./RiskComponent";
-import { ALL } from "dns";
-type measureValuesType = { category: string; status: string };
-type riskValuesType = {
+import EditRiskComponent from "./EditRiskComponent";
+import PopUp from "@/components/skjema/information/PopUp";
+type MeasureValuesType = {
+  id: string;
+  riskAssessmentId: string;
+  status: string;
+  category: string;
+};
+
+type RiskValuesType = {
+  id: string | null;
+  reportId: string;
   probability: number;
   consequence: number;
   dependent: boolean;
   riskLevel: string;
   category: string;
-  measureValues?: measureValuesType[];
-  newConsequence?: string;
-  newProbability?: string;
+  measureValues: MeasureValuesType[];
+  newConsequence: number;
+  newProbability: number;
 };
 
 interface Props {
-  riskValues: riskValuesType[];
+  reportId: string;
+  riskValues: RiskValuesType[];
   setriskValues: any;
   onFieldsEdited: (isEdited: boolean) => void;
 }
-const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
+const AddRisk = ({
+  reportId,
+  riskValues,
+  setriskValues,
+  onFieldsEdited,
+}: Props) => {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [cachedID, setCachedID] = useState(0);
   const [activePopUp, setActivePopUp] = useState(false);
@@ -134,7 +148,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   );
 
   const deleteRisk = () => {
-    setriskValues((prevList: riskValuesType[]) =>
+    setriskValues((prevList: RiskValuesType[]) =>
       prevList.filter((_, index) => index !== cachedID)
     );
     setIsProbEdited((prevList) =>
@@ -159,22 +173,28 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
   const handleRowClick = (rowId: number) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
   };
+
+  const [exist, setExist] = useState<boolean>(false);
+
   const updateListe = useCallback(
     (
-      id: number,
+      RiskId: number,
+      id: string,
+      reportId: string,
       probability: number,
       consequence: number,
       dependent: boolean,
       riskLevel: string,
       category: string,
-      measureValues?: measureValuesType[],
+      measureValues?: MeasureValuesType[],
       newConsequence?: string,
       newProbability?: string
     ) => {
       setriskValues((prevList: any) => {
         const newList = [...prevList];
-        // console.log("newList", newList);
-        newList[id] = {
+        newList[RiskId] = {
+          id,
+          reportId,
           probability,
           consequence,
           dependent,
@@ -186,13 +206,17 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
         };
         return newList;
       });
+      setExist(true);
     },
     [setriskValues]
   );
-
-  useEffect(() => {
-    // console.log(JSON.stringify(riskValues));
-  }, [riskValues]);
+  const activateDeletePopUp = useCallback(
+    (riskID: number) => {
+      setActivePopUp(!activePopUp);
+      setCachedID(riskID);
+    },
+    [setActivePopUp, setCachedID, activePopUp]
+  );
 
   const [riskList, setriskList] = useState<
     {
@@ -201,10 +225,55 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
     }[]
   >([]);
 
-  const generateNewrisk = useCallback(() => {
+  useEffect(() => {
+    setriskList(
+      riskValues.map((item, index) => ({
+        riskIDNum: index,
+        element: (
+          <EditRiskComponent
+            key={index}
+            riskIDNum={index}
+            id={item.id}
+            reportId={reportId}
+            probability={item.probability}
+            consequence={item.consequence}
+            existingDependent={item.dependent}
+            existingRiskLevel={item.riskLevel}
+            existingCategory={item.category}
+            existingMeasureValues={item.measureValues}
+            deleteRisk={activateDeletePopUp}
+            updateRisk={updateListe}
+            newConsequence={`${item.newConsequence}`}
+            newProbability={`${item.newProbability}`}
+            handleProbChange={handleProbChange}
+            handleConsChange={handleConsChange}
+            handleNewConsChange={handleNewConsChange}
+            handleNewProbChange={handleNewProbChange}
+            handleCategoryChange={handleCategoryChange}
+            exist={exist}
+          />
+        ),
+      }))
+    );
+  }, [
+    riskValues,
+    activateDeletePopUp,
+    exist,
+    handleCategoryChange,
+    handleConsChange,
+    handleNewConsChange,
+    handleNewProbChange,
+    handleProbChange,
+    reportId,
+    updateListe,
+  ]);
+
+  const generateNewrisk = () => {
     setriskValues((prevList: any) => [
       ...prevList,
       {
+        id: null,
+        reportId: reportId,
         probability: 0,
         consequence: 0,
         dependent: false,
@@ -217,58 +286,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
     setIsNewConsEdited((prevList) => [...prevList, false]);
     setIsNewProbEdited((prevList) => [...prevList, false]);
     setIsCategoryEdited((prevList) => [...prevList, false]);
-  }, [setriskValues]);
-
-  const activateDeletePopUp = useCallback(
-    (riskID: number) => {
-      setActivePopUp(!activePopUp);
-      setCachedID(riskID);
-    },
-    [setActivePopUp, activePopUp, setCachedID]
-  );
-
-  useEffect(() => {
-    if (riskValues.length === 0) {
-      generateNewrisk();
-    }
-    setriskList(
-      riskValues.map((item, index) => ({
-        riskIDNum: index,
-        element: (
-          <RiskComponent
-            key={index}
-            riskIDNum={index}
-            probability={item.probability}
-            consequence={item.consequence}
-            existingDependent={item.dependent}
-            existingRiskLevel={item.riskLevel}
-            existingCategory={item.category}
-            existingMeasureValues={item.measureValues}
-            deleteRisk={activateDeletePopUp}
-            updateRisk={updateListe}
-            newConsequence={item.newConsequence}
-            newProbability={item.newProbability}
-            handleProbChange={handleProbChange}
-            handleConsChange={handleConsChange}
-            handleNewConsChange={handleNewConsChange}
-            handleNewProbChange={handleNewProbChange}
-            handleCategoryChange={handleCategoryChange}
-          />
-        ),
-      }))
-    );
-  }, [
-    riskValues,
-    activateDeletePopUp,
-    generateNewrisk,
-    handleCategoryChange,
-    handleConsChange,
-    handleNewConsChange,
-    handleNewProbChange,
-    handleProbChange,
-    updateListe,
-  ]);
-
+  };
   const getBackgroundColor = (riskLevel: any) => {
     switch (riskLevel) {
       case "Lav":
@@ -354,7 +372,7 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
 
       <div className={styles.addRiskDiv}>
         <Button
-          icon={<PlusCircleIcon title="a11y-title" fontSize="1.5rem" />}
+          icon={<PencilIcon />}
           onClick={() => generateNewrisk()}
           variant="secondary"
         >

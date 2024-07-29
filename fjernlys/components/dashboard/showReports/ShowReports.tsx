@@ -58,16 +58,23 @@ function ShowReports() {
 
   const handleChange = async (service: string) => {
     setService(service);
-    setServiceElements(await getAllInfoByService(service));
+    try {
+      setServiceElements(await getAllInfoByService(service));
+    } catch (error: any) {
+      if (error instanceof Error) {
+        if (error.message === "Not Found") {
+          router.push("/404");
+        } else if (error.message === "Internal Server Error") {
+          router.push("/500");
+        } else {
+          // Handle other errors or show a generic error message
+          router.push("/404");
+        }
+      } else {
+        router.push("/404");
+      }
+    }
   };
-
-  const handleReportCopy = async (id: string) => {
-    await getReportCopyToHistoryTable(id);
-  };
-
-  // useEffect(() => {
-  //   console.log(serviceElements);
-  // }, [serviceElements]);
 
   function formatDate(dateString: string) {
     const options: Intl.DateTimeFormatOptions = {
@@ -94,7 +101,7 @@ function ShowReports() {
             <option value="Ikke valgt" disabled>
               Velg ytelse/tjeneste
             </option>
-            <option value="Alderpensjon">Alderpensjon</option>
+            <option value="Alderspensjon">Alderspensjon</option>
             <option value="Uføretrygd">Uføretrygd</option>
             <option value="AAP">AAP</option>
             <option value="Sykepenger">Sykepenger</option>
@@ -143,7 +150,6 @@ function ShowReports() {
                   size="small"
                   onClick={() => {
                     goToHistory(element.id);
-                    handleReportCopy(element.id);
                   }}
                 >
                   Se historikk
