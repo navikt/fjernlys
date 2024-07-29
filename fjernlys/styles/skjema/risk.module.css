@@ -118,3 +118,10 @@
   margin-top: 16px;
   display: flex;
 }
+
+.chart-container {
+  width: 80%;
+  height: 100%;
+  margin: auto;
+  position: relative;
+}

@@ -17,7 +17,6 @@ const VisualizeRiskCategory = () => {
   const fetchCategories = async () => {
     try {
       const data: CategoryValues[] = await getRiskCategories(categoryName);
-      console.log(data);
       setFetchedData(data);
     } catch (error) {
       console.error(error);
@@ -33,13 +32,13 @@ const VisualizeRiskCategory = () => {
   const seriesData = [
     {
       dataKey: "dependent",
-      label: "Dependent",
+      label: "Avhengig",
       valueFormatter: (value: number) => `${value}`,
       data: fetchedData.map((item) => item.dependent),
     },
     {
       dataKey: "notDependent",
-      label: "Not Dependent",
+      label: "Ikke-avhengig",
       valueFormatter: (value: number) => `${value}`,
       data: fetchedData.map((item) => item.notDependent),
     },
@@ -73,11 +72,11 @@ const VisualizeRiskCategory = () => {
   return (
     <>
       {/* <Dropdown
-          title={"Kategori"}
-          value={categoryName}
-          setValue={setCategoryName}
-          options={dropDownOptions}
-        /> */}
+        title={"Kategori"}
+        value={categoryName}
+        setValue={setCategoryName}
+        options={dropDownOptions}
+      /> */}
       <div>
         <NewHorizontalBar
           xAxisData={yAxisData}

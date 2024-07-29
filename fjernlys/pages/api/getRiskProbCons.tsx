@@ -19,6 +19,7 @@ export const getRiskProbCons = async () => {
 
     // Parse JSON data directly
     const jsonData = await response.json();
+
     return jsonData;
   } catch (error) {
     console.error("Error fetching risk categories:", error);

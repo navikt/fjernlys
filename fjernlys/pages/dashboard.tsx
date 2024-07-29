@@ -9,9 +9,8 @@ import Image from "next/image";
 import router from "next/router";
 import VisualizeRiskLevel from "@/components/dashboard/VisualizeRiskLevel";
 import VisualizeRiskCategory from "@/components/dashboard/VisualizeRiskCategory";
-import HorizontalBars from "@/components/dashboard/HorizontalBars";
-import NewHorizontalBar from "@/components/dashboard/Graphical/NewHorizontalBar";
 import VisualizeRiskProbCons from "@/components/dashboard/VisualizeRiskProbCons";
+import { Container, Grid, Paper } from "@mui/material";
 
 const goHome = () => {
   router.push("/");
@@ -81,8 +80,11 @@ const Dashboard: React.FC = () => {
             </div>
             <div style={{ display: "flex" }}>
               <VisualizeRiskCategory />
-              <VisualizeRiskProbCons />
+              <div className={riskStyles["chart-container"]}>
+                <VisualizeRiskProbCons />
+              </div>
             </div>
+
             <ShowReports />
           </VStack>
         </div>
