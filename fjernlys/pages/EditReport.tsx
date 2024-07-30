@@ -133,7 +133,7 @@ function EditReport() {
       }
     };
     fetchData();
-  }, [router]);
+  }, []);
 
   const addRiskValues = (riskValues: RiskValuesType[]) => {
     riskValues.map((item, index) => {
