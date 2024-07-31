@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import BubbleChart from "./Graphical/RiskBubbleChart";
+import BubbleChart from "./RiskBubbleChart";
 import { getRiskProbCons } from "@/pages/api/getRiskProbCons";
 
 interface RiskProbConsInterface {

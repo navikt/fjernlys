@@ -86,11 +86,8 @@ const RiskBubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
           label: function (context: any) {
             const dataIndex = context.dataIndex;
             const item = data[dataIndex];
-            return `${item.categoryName}:Antall risikoer: ${
-              item.totalRisks
-            } Probability=${item.probability.toFixed(
-              2
-            )}, Consequence=${item.consequence.toFixed(2)}`;
+            return `${item.categoryName}:  Antall: ${item.totalRisks} 
+            `;
           },
         },
       },
@@ -99,7 +96,7 @@ const RiskBubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
       x: {
         title: {
           display: true,
-          text: "Probability",
+          text: "Sannsynlighet",
         },
         min: 0,
         max: 5,
@@ -107,7 +104,7 @@ const RiskBubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
       y: {
         title: {
           display: true,
-          text: "Consequence",
+          text: "Konsekvens",
         },
         min: 0,
         max: 5,

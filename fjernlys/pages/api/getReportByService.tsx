@@ -21,7 +21,6 @@ export const getReportByService = async (data: string) => {
       return response.json();
     })
     .then((jsonData) => {
-      // console.log("Data fetched successfully:", jsonData);
       return jsonData;
     })
     .catch((error) => console.error(error));

@@ -23,6 +23,6 @@ export const getRiskProbCons = async () => {
     return jsonData;
   } catch (error) {
     console.error("Error fetching risk categories:", error);
-    throw error; // Re-throw the error if you need to handle it further up the chain
+    throw error;
   }
 };

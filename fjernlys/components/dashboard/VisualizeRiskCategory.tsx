@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Dropdown from "../skjema/information/Dropdown";
 import { getRiskCategories } from "@/pages/api/getRiskCategories";
-import NewHorizontalBar from "./Graphical/NewHorizontalBar";
+import NewHorizontalBar from "./NewHorizontalBar";
 
 const VisualizeRiskCategory = () => {
   const [categoryName, setCategoryName] = useState("");
@@ -42,41 +41,10 @@ const VisualizeRiskCategory = () => {
       valueFormatter: (value: number) => `${value}`,
       data: fetchedData.map((item) => item.notDependent),
     },
-    // {
-    //   dataKey: "totalRisk",
-    //   label: "Total Risk",
-    //   valueFormatter: (value: number) => `${value}`,
-    //   data: category.map((item) => item.totalRisk),
-    // },
   ];
-
-  // const dropDownOptions = [
-  //   { value: "", label: "Ikke satt" },
-  //   {
-  //     value: "Stabil drift og måloppnåelse",
-  //     label: "Stabil drift og måloppnåelse",
-  //   },
-  //   { value: "Helse, miljø og sikkerhet", label: "Helse, miljø og sikkerhet" },
-  //   {
-  //     value: "Personvern og informasjonssikkerhet",
-  //     label: "Personvern og informasjonssikkerhet",
-  //   },
-  //   {
-  //     value: "Beredskap og samfunnssikkerhet",
-  //     label: "Beredskap og samfunnssikkerhet",
-  //   },
-  //   { value: "Trygdesvindel", label: "Trygdesvindel" },
-  //   { value: "Interne misligheter", label: "Interne misligheter" },
-  // ];
 
   return (
     <>
-      {/* <Dropdown
-        title={"Kategori"}
-        value={categoryName}
-        setValue={setCategoryName}
-        options={dropDownOptions}
-      /> */}
       <div>
         <NewHorizontalBar
           xAxisData={yAxisData}
