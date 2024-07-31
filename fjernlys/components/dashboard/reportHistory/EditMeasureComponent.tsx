@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
-import Dropdown from "../information/Dropdown";
+
 import styles from "@/styles/skjema/measure.module.css";
+import Dropdown from "@/components/skjema/information/Dropdown";
 
 interface MeasureProps {
   measureIDNum: number;
   riskIDNum: number;
+  id: string | null;
+  riskAssessmentId: string | null;
   deleteMeasure: (measureIDNum: number) => void;
   category: string;
   status: string;
   updateListe: any;
 }
 
-const Measure: React.FC<MeasureProps> = ({
+const EditMeasureComponent: React.FC<MeasureProps> = ({
   measureIDNum,
   riskIDNum,
+  id,
+  riskAssessmentId,
   deleteMeasure,
   category,
   status,
@@ -21,13 +26,23 @@ const Measure: React.FC<MeasureProps> = ({
 }) => {
   const [selectedCat, setSelectedCat] = useState(category || "Velg kategori");
   const [selectedStatus, setSelectedStatus] = useState(status || "Velg status");
-  // const [selectedStarted, setSelectedStarted] = useState<boolean>(
-  //   started || false
-  // );
 
   useEffect(() => {
-    updateListe(measureIDNum, selectedCat, selectedStatus);
-  }, [selectedCat, selectedStatus, measureIDNum, updateListe]);
+    updateListe(
+      measureIDNum,
+      id,
+      riskAssessmentId,
+      selectedCat,
+      selectedStatus
+    );
+  }, [
+    selectedCat,
+    selectedStatus,
+    id,
+    riskAssessmentId,
+    measureIDNum,
+    updateListe,
+  ]);
 
   const dropDownOptionsCat = [
     { value: "Velg kategori", label: "Velg kategori" },
@@ -68,4 +83,4 @@ const Measure: React.FC<MeasureProps> = ({
   );
 };
 
-export default Measure;
+export default EditMeasureComponent;

@@ -1,19 +1,28 @@
 import { HelpText, Radio, RadioGroup } from "@navikt/ds-react";
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/risk.module.css";
-import Dropdown from "../information/Dropdown";
-import AddMeasure from "../measure/AddMeasure";
+import Dropdown from "@/components/skjema/information/Dropdown";
+import AddMeasure from "@/components/skjema/measure/AddMeasure";
+import EditMeasure from "./EditMeasure";
 
-type measureValuesType = { category: string; status: string };
+type MeasureValuesType = {
+  id: string;
+  riskAssessmentId: string;
+  status: string;
+  category: string;
+};
 
 interface Props {
+  exist: boolean;
   riskIDNum: number;
+  id: string | null;
+  reportId: string;
   probability: number;
   consequence: number;
   existingDependent: boolean;
   existingRiskLevel: string;
   existingCategory: string;
-  existingMeasureValues?: measureValuesType[];
+  existingMeasureValues?: MeasureValuesType[];
   deleteRisk: any;
   updateRisk: any;
   newProbability?: string;
@@ -25,8 +34,11 @@ interface Props {
   handleCategoryChange: (id: number, value: string) => void;
 }
 
-function RiskComponent({
+function EditRiskComponent({
+  exist,
   riskIDNum,
+  id,
+  reportId,
   probability,
   consequence,
   existingDependent,
@@ -43,6 +55,8 @@ function RiskComponent({
   handleNewProbChange,
   handleCategoryChange,
 }: Props) {
+  const [color, setColor] = useState("none");
+
   const [probValue, setProbValue] = useState(`${probability}` || "0");
   const [consValue, setConsValue] = useState(`${consequence}` || "0");
   const [newConsValue, setNewConsValue] = useState(newConsequence || "0");
@@ -53,15 +67,21 @@ function RiskComponent({
   );
   const [category, setCategory] = useState(existingCategory || "Ikke satt");
 
-  const [measureValues, setMeasureValues] = useState<measureValuesType[]>(
+  const [measureValues, setMeasureValues] = useState<MeasureValuesType[]>(
     existingMeasureValues || []
   );
+
+  const deleteSelf = () => {
+    deleteRisk(riskIDNum);
+  };
 
   useEffect(() => {
     updateColor(probValue, consValue);
     if (measureValues.length > 0) {
       updateRisk(
         riskIDNum,
+        id,
+        reportId,
         parseFloat(probValue),
         parseFloat(consValue),
         dependent,
@@ -71,11 +91,11 @@ function RiskComponent({
         newConsValue,
         newProbValue
       );
-      console.log("newCons", newConsValue);
-      console.log("newProb", newProbValue);
     } else {
       updateRisk(
         riskIDNum,
+        id,
+        reportId,
         parseFloat(probValue),
         parseFloat(consValue),
         dependent,
@@ -91,9 +111,11 @@ function RiskComponent({
     category,
     measureValues,
     newConsValue,
-    newProbValue,
+    id,
+    reportId,
     riskIDNum,
     updateRisk,
+    newProbValue,
   ]);
 
   const updateColor = (prob: string, cons: string) => {
@@ -103,10 +125,13 @@ function RiskComponent({
     if (probInt > 0 && consInt > 0) {
       let total = probInt * consInt;
       if (total <= 4 && probInt <= 3 && consInt <= 3) {
+        setColor("green");
         setRiskLevel("Lav");
       } else if (total >= 15) {
+        setColor("red");
         setRiskLevel("Høy");
       } else if (total >= 4 && total < 15) {
+        setColor("yellow");
         setRiskLevel("Moderat");
       }
     }
@@ -166,78 +191,81 @@ function RiskComponent({
 
   return (
     <>
-      <div className={styles.parentDiv}>
-        <div className={styles.contentDiv}>
-          <div className={styles.verdier}>
-            <div className={styles.dropdownComp}>
-              <Dropdown
-                title={"Sannsynlighet"}
-                setValue={(value) => {
-                  setProbValue(value);
-                  handleProbChange(riskIDNum, value);
-                }}
-                value={probValue}
-                options={dropdownOptionsProb}
-              />
+      {exist && (
+        <div className={styles.parentDiv}>
+          <div className={styles.contentDiv}>
+            <div className={styles.verdier}>
+              <div className={styles.dropdownComp}>
+                <Dropdown
+                  title={"Sannsynlighet"}
+                  setValue={(value) => {
+                    setProbValue(value);
+                    handleProbChange(riskIDNum, value);
+                  }}
+                  value={probValue}
+                  options={dropdownOptionsProb}
+                />
+              </div>
+              <div className={styles.dropdownComp}>
+                <Dropdown
+                  title={"Konsekvens"}
+                  setValue={(value) => {
+                    setConsValue(value);
+                    handleConsChange(riskIDNum, value);
+                  }}
+                  value={consValue}
+                  options={dropdownOptionsCons}
+                />
+              </div>
             </div>
-            <div className={styles.dropdownComp}>
-              <Dropdown
-                title={"Konsekvens"}
-                setValue={(value) => {
-                  setConsValue(value);
-                  handleConsChange(riskIDNum, value);
-                }}
-                value={consValue}
-                options={dropdownOptionsCons}
-              />
+            <div className={styles.categoryDiv}>
+              <div className={styles.dropdownComp}>
+                <Dropdown
+                  title={"Kategori"}
+                  value={category}
+                  setValue={(value) => {
+                    setCategory(value);
+                    handleCategoryChange(riskIDNum, value);
+                  }}
+                  options={categoryOptions}
+                />
+              </div>
+              <div className={styles.dependentRiskDiv}>
+                <RadioGroup
+                  legend="Avhengighetsrisiko?"
+                  onChange={handleDependent}
+                  defaultValue={"false"}
+                  size="small"
+                >
+                  <div className={styles.dependentRiskRadio}>
+                    <Radio value="true">Ja</Radio>
+                    <Radio value="false">Nei</Radio>
+                  </div>
+                </RadioGroup>
+                <HelpText title="Hva er en avhengighetsrisiko?">
+                  En avhengighetsrisiko innebærer at risikoen du har i ditt
+                  system/applikasjon er avhengig av andre systemer utenfor ditt
+                  ansvarsområde
+                </HelpText>
+              </div>
             </div>
+            <EditMeasure
+              riskIDNum={riskIDNum}
+              riskAssessmentId={id}
+              measureValues={measureValues}
+              setMeasureValues={setMeasureValues}
+              setNewProbValue={setNewProbValue}
+              setNewConsValue={setNewConsValue}
+              newProbValue={newProbValue}
+              newConsValue={newConsValue}
+              handleNewConsChange={handleNewConsChange}
+              handleNewProbChange={handleNewProbChange}
+            />
           </div>
-          <div className={styles.categoryDiv}>
-            <div className={styles.dropdownComp}>
-              <Dropdown
-                title={"Kategori"}
-                value={category}
-                setValue={(value) => {
-                  setCategory(value);
-                  handleCategoryChange(riskIDNum, value);
-                }}
-                options={categoryOptions}
-              />
-            </div>
-            <div className={styles.dependentRiskDiv}>
-              <RadioGroup
-                legend="Avhengighetsrisiko?"
-                onChange={handleDependent}
-                defaultValue={"false"}
-                size="small"
-              >
-                <div className={styles.dependentRiskRadio}>
-                  <Radio value="true">Ja</Radio>
-                  <Radio value="false">Nei</Radio>
-                </div>
-              </RadioGroup>
-              <HelpText title="Hva er en avhengighetsrisiko?">
-                En avhengighetsrisiko innebærer at risikoen du har i ditt
-                system/applikasjon er avhengig av andre systemer utenfor ditt
-                ansvarsområde
-              </HelpText>
-            </div>
-          </div>
-          <AddMeasure
-            riskIDNum={riskIDNum}
-            measureValues={measureValues}
-            setMeasureValues={setMeasureValues}
-            setNewProbValue={setNewProbValue}
-            setNewConsValue={setNewConsValue}
-            newProbValue={newProbValue}
-            newConsValue={newConsValue}
-            handleNewConsChange={handleNewConsChange}
-            handleNewProbChange={handleNewProbChange}
-          />
         </div>
-      </div>
+      )}
     </>
   );
 }
 
-export default RiskComponent;
+export default EditRiskComponent;

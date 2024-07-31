@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
         </Box>
         <div className={riskStyles.skjemaDiv}>
           <VStack gap="4" align={"start"} className={riskStyles.vstack}>
-            <h1>Dashboard</h1>
+            <h1>Risikoer per tjeneste/ytelse</h1>
             <div style={{ display: "flex" }}>
               <VisualizeRiskLevel
                 serviceName={"All"}
@@ -78,13 +78,17 @@ const Dashboard: React.FC = () => {
                 labelName={"Utebetaling"}
               />
             </div>
+          </VStack>
+        </div>
+        <div className={riskStyles.skjemaDiv}>
+          <VStack gap="4" align={"start"} className={riskStyles.vstack}>
+            <h1>Rapporter per tjeneste/ytelse</h1>{" "}
             <div style={{ display: "flex" }}>
               <VisualizeRiskCategory />
               <div className={riskStyles["chart-container"]}>
                 <VisualizeRiskProbCons />
               </div>
             </div>
-
             <ShowReports />
           </VStack>
         </div>

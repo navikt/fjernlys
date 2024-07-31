@@ -8,6 +8,7 @@ import { LineGraphDotIcon } from "@navikt/aksel-icons";
 import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
 import riskStyles from "@/styles/skjema/risk.module.css";
 import Image from "next/image";
+import { getReportCopyToHistoryTable } from "./api/getReportToHistoryTable";
 
 type MeasureValuesType = {
   id: string;
@@ -42,22 +43,38 @@ const goHome = () => {
   router.push("/");
 };
 
+const goToEdit = (id: string) => {
+  const fullId = id;
+  const shortId = fullId.substring(0, 8);
+  router.push(
+    {
+      pathname: "/EditReport",
+      query: { fullId: fullId },
+    },
+    `/edit-report/${shortId}`
+  );
+};
+
 function ViewReportHistory() {
-  const [fullId, setFullId] = useState<string | null>(null);
+  const [fullId, setFullId] = useState<string>("");
 
   const [reports, setReports] = useState<ReportType[]>([]);
 
   const router = useRouter();
   useEffect(() => {
-    if (router.isReady) {
-      setFullId(router.query.fullId as string);
-      handleGetReports();
-    }
-  }, [router.isReady, router.query]);
+    const fetchReportData = async () => {
+      if (router.isReady) {
+        setFullId(router.query.fullId as string);
+        const data = await getReportCopyToHistoryTable(
+          router.query.fullId as string
+        );
+        // console.log(data);
+        setReports(data);
+      }
+    };
 
-  const handleGetReports = async () => {
-    setReports(await getAllInfoByService("Dagpenger"));
-  };
+    fetchReportData();
+  }, [router.isReady, router.query]);
 
   function formatDate(dateString: string) {
     const options: Intl.DateTimeFormatOptions = {
@@ -98,11 +115,38 @@ function ViewReportHistory() {
         </Box>
         <div className={riskStyles.skjemaDiv}>
           <VStack gap="4" align={"start"} className={riskStyles.vstack}>
-            <h1>Versjonshistorikk for rapport</h1>
-            <p>
-              Her ser du en sortert oversikt over alle ulike versjoner av denne
-              risikovurderingen, fra nyeste til eldste versjon.{" "}
-            </p>
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+              }}
+            >
+              <div>
+                <h1>Versjonshistorikk for rapport</h1>
+                <p>
+                  Her ser du en sortert oversikt over alle ulike versjoner av
+                  denne risikovurderingen, fra nyeste til eldste versjon.{" "}
+                </p>
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  width: "12rem",
+                  top: "2rem",
+                  right: "-18.5%",
+                }}
+              >
+                <Button
+                  variant="primary"
+                  size="medium"
+                  onClick={() => {
+                    goToEdit(fullId);
+                  }}
+                >
+                  <div>Rediger rapport</div>
+                </Button>
+              </div>
+            </div>
             <Table style={{ margin: "32px" }}>
               <Table.Header>
                 <Table.Row>
@@ -147,3 +191,6 @@ function ViewReportHistory() {
 }
 
 export default ViewReportHistory;
+function handleGetReports() {
+  throw new Error("Function not implemented.");
+}
