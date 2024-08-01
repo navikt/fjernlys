@@ -4,7 +4,6 @@ import Head from "next/head";
 import dotenv from "dotenv";
 
 export default function App({ Component, pageProps }: AppProps) {
-  dotenv.config();
   return (
     <>
       <Head>
