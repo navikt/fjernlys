@@ -1,17 +1,17 @@
-import { envVariables } from "@/config";
-import { error } from "console";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
 export const getRiskLevels = async (data: string) => {
-  const endpointURL = `${envVariables.apiBaseUrl}${
-    envVariables.apiGetUrl
-  }/risk-levels?service=${encodeURIComponent(data)}`;
+  const endpointURL = `${apiBaseUrl}${apiGetUrl}/risk-levels?service=${encodeURIComponent(
+    data
+  )}`;
   const options = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   };
-  console.log(`MAIN: ", ${envVariables.apiBaseUrl}`);
+  console.log(`MAIN: ", ${apiBaseUrl}`);
   return fetch(endpointURL, options)
     .then((res) => {
       if (!res.ok) {

@@ -12,6 +12,7 @@ import {
 } from "chart.js/auto";
 import { useEffect, useState } from "react";
 import { getRiskLevels } from "@/pages/api/getRiskLevels";
+import router from "next/router";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -40,8 +41,19 @@ function VisualizeRiskLevel({ serviceName, labelName }: Props) {
       try {
         const data = await getRiskLevels(serviceName);
         setRiskLevels(data);
-      } catch {
-        console.log("Something wrong with RiskLevel API");
+      } catch (error: any) {
+        if (error instanceof Error) {
+          if (error.message === "Not Found") {
+            router.push("/404");
+          } else if (error.message === "Internal Server Error") {
+            router.push("/500");
+          } else {
+            // Handle other errors or show a generic error message
+            router.push("/404");
+          }
+        } else {
+          router.push("/404");
+        }
       }
     };
 
