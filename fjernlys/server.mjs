@@ -21,14 +21,14 @@ app.get(`${basePath}isAlive|${basePath}isReady`, (req, res) => {
   res.send("OK");
 });
 
-// app.use(
-//   `${process.env.VITE_API_PATH}`,
-//   createProxyMiddleware({
-//     target: `${process.env.VITE_API_URL}`,
-//     changeOrigin: true,
-//     pathRewrite: { [`^${process.env.VITE_API_PATH}`]: "" },
-//   })
-// );
+app.use(
+  `${process.env.VITE_API_PATH}`,
+  createProxyMiddleware({
+    target: `${process.env.VITE_API_URL}`,
+    changeOrigin: true,
+    pathRewrite: { [`^${process.env.VITE_API_PATH}`]: "" },
+  })
+);
 
 app.use(/^(?!.*\/(internal|static)\/).*$/, (req, res) =>
   res.sendFile(`${buildPath}/index.html`)
