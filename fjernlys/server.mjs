@@ -22,11 +22,20 @@ app.get(`${basePath}isAlive|${basePath}isReady`, (req, res) => {
 });
 
 app.use(
-  `${process.env.VITE_API_PATH}`,
+  `${process.env.NEXT_PUBLIC_API_POST_URL}`,
   createProxyMiddleware({
-    target: `${process.env.VITE_API_URL}`,
+    target: `${process.env.NEXT_PUBLIC_API_BASE_URL}`,
     changeOrigin: true,
-    pathRewrite: { [`^${process.env.VITE_API_PATH}`]: "" },
+    pathRewrite: { [`^${process.env.NEXT_PUBLIC_API_POST_URL}`]: "" },
+  })
+);
+
+app.use(
+  `${process.env.NEXT_PUBLIC_API_SUBMIT_URL}`,
+  createProxyMiddleware({
+    target: `${process.env.NEXT_PUBLIC_API_BASE_URL}`,
+    changeOrigin: true,
+    pathRewrite: { [`^${process.env.NEXT_PUBLIC_API_SUBMIT_URL}`]: "" },
   })
 );
 
