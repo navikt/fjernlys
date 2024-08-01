@@ -31,11 +31,11 @@ app.use(
 );
 
 app.use(
-  `${process.env.NEXT_PUBLIC_API_SUBMIT_URL}`,
+  `${process.env.NEXT_PUBLIC_API_GET_URL}`,
   createProxyMiddleware({
     target: `${process.env.NEXT_PUBLIC_API_BASE_URL}`,
     changeOrigin: true,
-    pathRewrite: { [`^${process.env.NEXT_PUBLIC_API_SUBMIT_URL}`]: "" },
+    pathRewrite: { [`^${process.env.NEXT_PUBLIC_API_GET_URL}`]: "" },
   })
 );
 
