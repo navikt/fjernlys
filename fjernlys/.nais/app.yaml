@@ -19,7 +19,7 @@ spec:
       memory: 128Mi
   env:
     - name: NEXT_PUBLIC_API_BASE_URL
-      value: http://fjernlys-api
+      value: http://fjernlys-api.fjernlys
     - name: NEXT_PUBLIC_API_POST_URL
       value: /submit
     - name: NEXT_PUBLIC_API_GET_URL
