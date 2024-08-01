@@ -39,8 +39,7 @@ function VisualizeRiskLevel({ serviceName, labelName }: Props) {
   useEffect(() => {
     const fetchRiskLevels = async () => {
       try {
-        const data = await getRiskLevels(serviceName);
-        setRiskLevels(data);
+        setRiskLevels(await getRiskLevels(serviceName));
       } catch (error: any) {
         if (error instanceof Error) {
           if (error.message === "Not Found") {
