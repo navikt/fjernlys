@@ -2,9 +2,7 @@ const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
 export const getReportById = async (data: string) => {
-  const endpointURL = `${apiBaseUrl}${apiGetUrl}/reports?id=${encodeURIComponent(
-    data
-  )}`;
+  const endpointURL = `/api/get/reports?id=${encodeURIComponent(data)}`;
   const options = {
     method: "GET",
     headers: {
