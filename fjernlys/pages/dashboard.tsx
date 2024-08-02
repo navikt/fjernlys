@@ -10,7 +10,6 @@ import router from "next/router";
 import VisualizeRiskLevel from "@/components/dashboard/VisualizeRiskLevel";
 import VisualizeRiskCategory from "@/components/dashboard/VisualizeRiskCategory";
 import VisualizeRiskProbCons from "@/components/dashboard/VisualizeRiskProbCons";
-import { Container, Grid, Paper } from "@mui/material";
 
 const goHome = () => {
   router.push("/");
@@ -80,16 +79,25 @@ const Dashboard: React.FC = () => {
             </div>
           </VStack>
         </div>
-        <div className={riskStyles.skjemaDiv}>
-          <VStack gap="4" align={"start"} className={riskStyles.vstack}>
-            <h1>Rapporter per tjeneste/ytelse</h1>{" "}
-            <div style={{ display: "flex" }}>
-              <VisualizeRiskCategory />
+        <div style={{ display: "flex", justifyContent: "center", gap: "2vw" }}>
+          <div className={riskStyles.skjemaDiv1}>
+            <VStack gap="4" align={"start"} className={riskStyles.vstack}>
+              <div>
+                <VisualizeRiskCategory />
+              </div>
+            </VStack>
+          </div>
+          <div className={riskStyles.skjemaDiv2}>
+            <VStack gap="4" align={"start"} className={riskStyles.vstack}>
               <div className={riskStyles["chart-container"]}>
                 <VisualizeRiskProbCons />
               </div>
-            </div>
-            <ShowReports />
+            </VStack>
+          </div>
+        </div>
+        <div className={riskStyles.skjemaDiv}>
+          <VStack gap="4" align={"start"} className={riskStyles.vstack}>
+            <h1>Rapporter per tjeneste/ytelse</h1> <ShowReports />
           </VStack>
         </div>
       </Page>

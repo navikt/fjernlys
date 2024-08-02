@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 interface NewHorizontalBarProps {
   xAxisData: string[];
   seriesData: { label: string; data: number[] }[];
-  width: number;
-  height: number;
+  width: any;
+  height: any;
   layout?: "horizontal" | "vertical";
 }
 
@@ -19,14 +19,13 @@ const NewHorizontalBar: React.FC<NewHorizontalBarProps> = ({
 }) => {
   const xAxis =
     layout === "vertical"
-      ? [{ scaleType: "band", data: xAxisData }]
+      ? [{ scaleType: "band" as const, data: xAxisData }]
       : [{ scaleType: "linear" }];
 
   const yAxis =
     layout === "horizontal"
-      ? [{ scaleType: "band", data: xAxisData }]
-      : [{ scaleType: "linear" }];
-
+      ? [{ scaleType: "band" as const, data: xAxisData }]
+      : [{ scaleType: "linear" as const, data: [] }];
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}

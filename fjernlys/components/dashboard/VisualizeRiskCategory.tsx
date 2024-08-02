@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getRiskCategories } from "@/pages/api/getRiskCategories";
 import NewHorizontalBar from "./NewHorizontalBar";
 
 const VisualizeRiskCategory = () => {
-  const [categoryName, setCategoryName] = useState("");
   const [fetchedData, setFetchedData] = useState<CategoryValues[]>([]);
 
   interface CategoryValues {
@@ -13,18 +12,18 @@ const VisualizeRiskCategory = () => {
     totalRisk: number;
   }
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
-      const data: CategoryValues[] = await getRiskCategories(categoryName);
+      const data: CategoryValues[] = await getRiskCategories();
       setFetchedData(data);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [fetchCategories]);
 
   // Transform data for the bar chart
   const yAxisData = fetchedData.map((item) => item.category);

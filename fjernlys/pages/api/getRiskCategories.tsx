@@ -1,11 +1,9 @@
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
-export const getRiskCategories = async (data: string) => {
+export const getRiskCategories = async () => {
   try {
-    const endpointURL = `${apiBaseUrl}${apiGetUrl}/risk-category?category=${encodeURIComponent(
-      data
-    )}`;
+    const endpointURL = `${apiBaseUrl}${apiGetUrl}/risk-category`;
     const options = {
       method: "GET",
       headers: {

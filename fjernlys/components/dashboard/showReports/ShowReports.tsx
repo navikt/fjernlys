@@ -51,7 +51,7 @@ const goToHistory = (id: string) => {
   );
 };
 
-function ShowReports() {
+const ShowReports = () => {
   const [service, setService] = useState("Ikke valgt");
   const [serviceElements, setServiceElements] = useState<ReportType[]>([]);
   const [reportCopy, setReportCopy] = useState<ReportType | null>(null);
@@ -161,6 +161,6 @@ function ShowReports() {
       </Table>
     </>
   );
-}
+};
 
 export default ShowReports;
