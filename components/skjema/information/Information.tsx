@@ -6,17 +6,17 @@ import Risikoeier from "./RiskOwner";
 interface Props {
   service: string;
   setService: any;
-  owner: boolean;
-  setOwner: any;
-  setNotOwner: any;
+  isOwner: boolean;
+  setIsOwner: any;
+  setOwnerIdent: any;
 }
 
 const Opplysninger = ({
   service,
   setService,
-  owner,
-  setOwner,
-  setNotOwner,
+  isOwner,
+  setIsOwner,
+  setOwnerIdent,
 }: Props) => {
   return (
     <div className={styles.ownerMainDiv}>
@@ -42,13 +42,13 @@ const Opplysninger = ({
             </Select>
           </div>
         </div>
-        <Risikoeier owner={owner} setOwner={setOwner} />
+        <Risikoeier owner={isOwner} setOwner={setIsOwner} />
       </div>
-      {!owner && (
+      {!isOwner && (
         <div className={styles.ownerInput}>
           <TextField
-            label="Skriv inn e-post til risikoeier"
-            onChange={(e) => setNotOwner(e.target.value)}
+            label="Skriv inn ident til risikoeier"
+            onChange={(e) => setOwnerIdent(e.target.value)}
           />
         </div>
       )}

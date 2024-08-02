@@ -43,12 +43,12 @@ const FillForm = () => {
       category: "Ikke satt",
     },
   ]);
-  const [owner, setOwner] = useState(true);
-  const [notOwner, setNotOwner] = useState<string>("A111111");
+  const [isOwner, setIsOwner] = useState(true);
+  const [ownerIdent, setOwnerIdent] = useState<string>("A111111");
   const [service, setService] = useState("Ikke valgt");
   const [submitData, setSubmitData] = useState<submitDataType>({
-    ownerData: owner,
-    notOwnerData: notOwner,
+    ownerData: isOwner,
+    notOwnerData: ownerIdent,
     serviceData: service,
     riskValues: riskValues,
   });
@@ -59,13 +59,13 @@ const FillForm = () => {
 
   const prepareSubmit = useCallback(() => {
     const data = {
-      ownerData: owner,
-      notOwnerData: notOwner,
+      ownerData: isOwner,
+      notOwnerData: ownerIdent,
       serviceData: service,
       riskValues: riskValues,
     };
     setSubmitData(data);
-  }, [owner, notOwner, service, riskValues]);
+  }, [isOwner, ownerIdent, service, riskValues]);
 
   const test = useCallback(
     (value: boolean) => {
@@ -157,9 +157,9 @@ const FillForm = () => {
             <Information
               service={service}
               setService={setService}
-              owner={owner}
-              setOwner={setOwner}
-              setNotOwner={setNotOwner}
+              isOwner={isOwner}
+              setIsOwner={setIsOwner}
+              setOwnerIdent={setOwnerIdent}
             />
             <div className={skjemaStyles.contentDiv}>
               <h2>Risiko</h2>

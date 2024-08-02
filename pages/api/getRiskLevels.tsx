@@ -11,7 +11,7 @@ export const getRiskLevels = async (data: string) => {
       "Content-Type": "application/json",
     },
   };
-  console.log(`MAIN: ", ${apiBaseUrl}`);
+
   return fetch(endpointURL, options)
     .then((res) => {
       if (!res.ok) {

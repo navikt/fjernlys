@@ -190,9 +190,9 @@ function EditReport() {
             <Information
               service={service}
               setService={setService}
-              owner={isOwner}
-              setOwner={setIsOwner}
-              setNotOwner={ownerIdent}
+              isOwner={isOwner}
+              setIsOwner={setIsOwner}
+              setOwnerIdent={ownerIdent}
             />
             <div className={skjemaStyles.contentDiv}>
               <h2>Risiko</h2>
