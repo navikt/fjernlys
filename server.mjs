@@ -13,7 +13,7 @@ const basePath = "/";
 
 const app = express();
 
-const buildPath = path.join(path.resolve(__dirname, "./dist"));
+const buildPath = path.join(path.resolve(__dirname, "./out"));
 
 app.use(basePath, express.static(buildPath, { index: false }));
 
@@ -22,20 +22,11 @@ app.get(`${basePath}isAlive|${basePath}isReady`, (req, res) => {
 });
 
 app.use(
-  process.env.NEXT_PUBLIC_API_POST_URL,
+  process.env.NEXT_PUBLIC_API_PATH,
   createProxyMiddleware({
-    target: process.env.NEXT_PUBLIC_API_BASE_URL,
+    target: process.env.NEXT_PUBLIC_API_URL,
     changeOrigin: true,
-    pathRewrite: { [`^${process.env.NEXT_PUBLIC_API_POST_URL}`]: "" },
-  })
-);
-
-app.use(
-  process.env.NEXT_PUBLIC_API_GET_URL,
-  createProxyMiddleware({
-    target: process.env.NEXT_PUBLIC_API_BASE_URL,
-    changeOrigin: true,
-    pathRewrite: { [`^${process.env.NEXT_PUBLIC_API_GET_URL}`]: "" },
+    pathRewrite: { [`^${process.env.NEXT_PUBLIC_API_PATH}`]: "" },
   })
 );
 

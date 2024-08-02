@@ -18,12 +18,10 @@ spec:
       cpu: 200m
       memory: 128Mi
   env:
-    - name: NEXT_PUBLIC_API_BASE_URL
+    - name: NEXT_PUBLIC_API_URL
       value: http://fjernlys-api.fjernlys
-    - name: NEXT_PUBLIC_API_POST_URL
-      value: /submit
-    - name: NEXT_PUBLIC_API_GET_URL
-      value: /get
+    - name: NEXT_PUBLIC_API_PATH
+      value: /api
   accessPolicy:
     outbound:
       rules:
