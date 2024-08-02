@@ -7,7 +7,6 @@ RUN npm install
 
 RUN npm run build
 
-COPY . .
 # Expose the port the fjernlys runs on
 EXPOSE 3000
 
