@@ -2,9 +2,7 @@ const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
 export const getReportCopyToHistoryTable = async (id: string) => {
-  const endpointURL = `${apiBaseUrl}${apiGetUrl}/history?id=${encodeURIComponent(
-    id
-  )}`;
+  const endpointURL = `/api/get/history?id=${encodeURIComponent(id)}`;
   const options = {
     method: "GET",
     headers: {

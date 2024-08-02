@@ -2,9 +2,7 @@ const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiGetUrl = process.env.NEXT_PUBLIC_API_GET_URL;
 
 export const getAllInfoByService = async (service: string) => {
-  const endpointURL = `${apiBaseUrl}${apiGetUrl}/all?service=${encodeURIComponent(
-    service
-  )}`;
+  const endpointURL = `/api/get/all?service=${encodeURIComponent(service)}`;
   const options = {
     method: "GET",
     headers: {

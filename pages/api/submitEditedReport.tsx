@@ -2,7 +2,7 @@ const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiPostUrl = process.env.NEXT_PUBLIC_API_POST_URL;
 
 export const submitEditedReport = async (data: any) => {
-  const endpointURL = `${apiBaseUrl}${apiPostUrl}/edit`;
+  const endpointURL = `/api/submit/edit`;
 
   try {
     const res = await fetch(endpointURL, {
