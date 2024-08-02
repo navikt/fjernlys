@@ -1,6 +1,8 @@
 # Stage 1: Build the Next.js fjernlys
 FROM node:20
 
+COPY . .
+
 RUN npm install
 
 RUN npm run build
