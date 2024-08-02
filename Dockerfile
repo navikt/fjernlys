@@ -19,4 +19,4 @@ ENV PORT 3000
 EXPOSE 3000
 
 # Start the Next.js fjernlys
-CMD ["npm", "run", "start"]
+CMD node server.mjs
