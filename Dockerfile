@@ -1,9 +1,6 @@
 # Stage 1: Build the Next.js fjernlys
 FROM node:20 AS builder
 
-# Set working directory
-WORKDIR /fjernlys
-
 # Install dependencies
 COPY package.json .
 RUN npm install
