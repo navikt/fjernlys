@@ -64,7 +64,7 @@ const FillForm = () => {
       serviceData: service,
       riskValues: riskValues,
     };
-    setSubmitData(data);
+    setSubmitData({ ...data });
   }, [isOwner, ownerIdent, service, riskValues]);
 
   const test = useCallback(
@@ -90,6 +90,7 @@ const FillForm = () => {
       // console.log("Response from postData:", result);
     } catch (error: any) {
       if (error instanceof Error) {
+        //console.log("Error: ", error.message);
         if (error.message === "Not Found") {
           router.push("/404");
         } else if (error.message === "Internal Server Error") {
@@ -113,10 +114,6 @@ const FillForm = () => {
       setReadyToSubmit(false);
     }
   }, [readyToSubmit, handlePostData]);
-
-  // useEffect(() => {
-  //   console.log(JSON.stringify(submitData));
-  // }, [submitData]);
 
   return (
     <>
@@ -159,6 +156,7 @@ const FillForm = () => {
               setService={setService}
               isOwner={isOwner}
               setIsOwner={setIsOwner}
+              ownerIdent={ownerIdent}
               setOwnerIdent={setOwnerIdent}
             />
             <div className={skjemaStyles.contentDiv}>

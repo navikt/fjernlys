@@ -1,5 +1,5 @@
 import { Select, TextField } from "@navikt/ds-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/skjema/information.module.css";
 import Risikoeier from "./RiskOwner";
 
@@ -8,16 +8,35 @@ interface Props {
   setService: any;
   isOwner: boolean;
   setIsOwner: any;
+  ownerIdent: string;
   setOwnerIdent: any;
 }
 
-const Opplysninger = ({
+const Information = ({
   service,
   setService,
   isOwner,
   setIsOwner,
+  ownerIdent,
   setOwnerIdent,
 }: Props) => {
+  const [newIsOwner, setNewIsOwner] = useState<boolean>(isOwner || false);
+  const [newOwnerIdent, setNewOwnerIdent] = useState<string>(
+    ownerIdent || "A111111"
+  );
+
+  useEffect(() => {
+    setIsOwner(newIsOwner);
+    setOwnerIdent(newOwnerIdent);
+  }, [
+    newIsOwner,
+    setNewIsOwner,
+    newOwnerIdent,
+    setNewOwnerIdent,
+    setIsOwner,
+    setOwnerIdent,
+  ]);
+
   return (
     <div className={styles.ownerMainDiv}>
       <h3>Opplysning fra rapporteringsskjema</h3>
@@ -42,13 +61,14 @@ const Opplysninger = ({
             </Select>
           </div>
         </div>
-        <Risikoeier owner={isOwner} setOwner={setIsOwner} />
+        <Risikoeier isOwner={newIsOwner} setIsOwner={setNewIsOwner} />
       </div>
       {!isOwner && (
         <div className={styles.ownerInput}>
           <TextField
             label="Skriv inn ident til risikoeier"
-            onChange={(e) => setOwnerIdent(e.target.value)}
+            value={newOwnerIdent}
+            onChange={(e) => setNewOwnerIdent(e.target.value)}
           />
         </div>
       )}
@@ -56,4 +76,4 @@ const Opplysninger = ({
   );
 };
 
-export default Opplysninger;
+export default Information;
