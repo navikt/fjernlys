@@ -71,8 +71,8 @@ function RiskComponent({
         newConsValue,
         newProbValue
       );
-      console.log("newCons", newConsValue);
-      console.log("newProb", newProbValue);
+      //console.log("newCons", newConsValue);
+      //console.log("newProb", newProbValue);
     } else {
       updateRisk(
         riskIDNum,
