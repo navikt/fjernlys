@@ -54,6 +54,7 @@ const FillForm = () => {
   });
 
   const [showAlert, setShowAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [allFieldsEdited, setAllFieldsEdited] = useState(false);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
@@ -76,18 +77,19 @@ const FillForm = () => {
     [prepareSubmit]
   );
 
+  const test2 = useCallback((value: boolean) => {
+    setShowErrorAlert(value);
+  }, []);
+
   const handlePostData = useCallback(async () => {
     if (!allFieldsEdited) {
-      alert("Please edit all fields before submitting");
+      test2(true);
       return;
     }
     test(true);
     try {
       const data = await submitData;
       const result = await postReport(data);
-      alert("Form submitted");
-      goHome();
-      // console.log("Response from postData:", result);
     } catch (error: any) {
       if (error instanceof Error) {
         if (error.message === "Not Found") {
@@ -113,10 +115,6 @@ const FillForm = () => {
       setReadyToSubmit(false);
     }
   }, [readyToSubmit, handlePostData]);
-
-  // useEffect(() => {
-  //   console.log(JSON.stringify(submitData));
-  // }, [submitData]);
 
   return (
     <>
@@ -149,7 +147,18 @@ const FillForm = () => {
             variant="success"
             showPropAlert={showAlert}
             setShowAlert={setShowAlert}
-          />
+          >
+            Skjemaet er sendt inn
+          </AlertWithCloseButton>
+        </div>
+        <div className={skjemaStyles.alertComponent}>
+          <AlertWithCloseButton
+            variant="warning"
+            showPropAlert={showErrorAlert}
+            setShowAlert={setShowErrorAlert}
+          >
+            Du må fylle inn alle feltene før du kan sende inn
+          </AlertWithCloseButton>
         </div>
         <div className={riskStyles.skjemaDiv}>
           <VStack gap="4" align={"start"} className={riskStyles.vstack}>
@@ -183,7 +192,7 @@ const FillForm = () => {
               <Button
                 variant="primary"
                 onClick={() => {
-                  test(true);
+                  handlePostData();
                 }}
               >
                 <div>Send inn</div>

@@ -4,8 +4,8 @@ import { Alert, AlertProps } from "@navikt/ds-react";
 interface AlertWithCloseButtonProps {
   children?: React.ReactNode;
   variant: AlertProps["variant"];
-  setShowAlert: any;
-  showPropAlert: boolean;
+  setShowAlert?: any;
+  showPropAlert?: boolean;
 }
 
 const AlertWithCloseButton: React.FC<AlertWithCloseButtonProps> = ({
