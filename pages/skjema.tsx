@@ -1,5 +1,5 @@
 import { Box, Button, HelpText, Page, VStack } from "@navikt/ds-react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
 import riskStyles from "@/styles/skjema/risk.module.css";
@@ -18,6 +18,7 @@ const goHome = () => {
 const goToDashboard = () => {
   router.push("/dashboard");
 };
+
 type measureValuesType = { category: string; status: string };
 
 type riskValuesType = {
@@ -62,7 +63,6 @@ const FillForm = () => {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [allFieldsEdited, setAllFieldsEdited] = useState(false);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
-
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
   const prepareSubmit = useCallback(() => {
