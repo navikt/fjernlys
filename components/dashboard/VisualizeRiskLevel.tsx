@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { getRiskLevels } from "@/pages/api/getRiskLevels";
 import router from "next/router";
+import styles from "@/styles/dashboard/doughnut.module.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -107,7 +108,7 @@ function VisualizeRiskLevel({ serviceName, labelName }: Props) {
   };
 
   return (
-    <div style={{ height: "250px", margin: "32px" }}>
+    <div>
       <Doughnut data={data} options={options} />
     </div>
   );

@@ -51,7 +51,11 @@ const goToHistory = (id: string) => {
   );
 };
 
-function ShowReports() {
+interface Props {
+  serviceName: string;
+}
+
+function ShowReports({ serviceName }: Props) {
   const [service, setService] = useState("Ikke valgt");
   const [serviceElements, setServiceElements] = useState<ReportType[]>([]);
   const [reportCopy, setReportCopy] = useState<ReportType | null>(null);
@@ -76,6 +80,10 @@ function ShowReports() {
     }
   };
 
+  useEffect(() => {
+    handleChange(serviceName);
+  }, [serviceName]);
+
   function formatDate(dateString: string) {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -90,27 +98,6 @@ function ShowReports() {
 
   return (
     <>
-      {" "}
-      <div className={styles.selectDiv}>
-        <div className={styles.dropdownDiv}>
-          <Select
-            label={"Ytelse/tjeneste"}
-            onChange={(e) => handleChange(e.target.value)}
-            value={service}
-          >
-            <option value="Ikke valgt" disabled>
-              Velg ytelse/tjeneste
-            </option>
-            <option value="Alderspensjon">Alderspensjon</option>
-            <option value="Uføretrygd">Uføretrygd</option>
-            <option value="AAP">AAP</option>
-            <option value="Sykepenger">Sykepenger</option>
-            <option value="Dagpenger">Dagpenger</option>
-            <option value="Foreldrepenger">Foreldrepenger</option>
-            <option value="Utbetaling">Utbetaling</option>
-          </Select>
-        </div>
-      </div>
       <Table style={{ margin: "32px" }}>
         <Table.Header>
           <Table.Row>
