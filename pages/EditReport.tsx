@@ -11,9 +11,14 @@ import skjemaStyles from "@/styles/skjema/skjema.module.css";
 import { getReportById } from "./api/getReportById";
 import EditRisk from "@/components/dashboard/reportHistory/EditRisk";
 import { submitEditedReport } from "./api/submitEditedReport";
+import PopUp from "@/components/PopUp";
 
 const goHome = () => {
   router.push("/");
+};
+
+const goToDashboard = () => {
+  router.push("/dashboard");
 };
 
 type MeasureValuesType = {
@@ -61,12 +66,15 @@ function EditReport() {
   const [loading, setLoading] = useState(true);
   const [fullId, setFullId] = useState<string>("");
 
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+
   const submitValues = async (value: boolean) => {
     try {
       setShowAlert(value);
       await prepareSubmit();
       setReadyToSubmit(true);
-      console.log(JSON.stringify(submitData));
+      //console.log(JSON.stringify(submitData));
+      setShowPopup(true);
       if (submitData) {
         await submitEditedReport(submitData);
       }
@@ -167,7 +175,9 @@ function EditReport() {
             variant="success"
             showPropAlert={showAlert}
             setShowAlert={setShowAlert}
-          />
+          >
+            Skjemaet er sendt inn
+          </AlertWithCloseButton>
         </div>
         <div className={riskStyles.skjemaDiv}>
           <VStack gap="4" align={"start"} className={riskStyles.vstack}>
@@ -211,6 +221,13 @@ function EditReport() {
           </VStack>
         </div>
       </Page>
+      {showPopup && (
+        <PopUp
+          goHome={goHome}
+          goToDashboard={goToDashboard}
+          popUpText={"Skjemaet er sendt inn!"}
+        />
+      )}
     </>
   );
 }

@@ -28,3 +28,33 @@
   margin-left: 90%;
   margin-bottom: 40px;
 }
+
+/* Add these styles to your stylesheet */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 1000; /* Ensure the overlay is below the popup but above other elements */
+  display: none; /* Hide overlay by default */
+}
+
+.popup {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  box-shadow: var(--a-shadow-large);
+  z-index: 1001; /* Ensure the popup is above the overlay */
+  display: none; /* Hide popup by default */
+}
+
+.overlay.visible,
+.popup.visible {
+  display: block; /* Show overlay and popup when they have the 'visible' class */
+}

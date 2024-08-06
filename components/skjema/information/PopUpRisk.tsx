@@ -5,9 +5,10 @@ import { Box, Button } from "@navikt/ds-react";
 interface Props {
   deleteRisk: any;
   setActivatePopUp: any;
+  popUpText: string;
 }
 
-function PopUp({ deleteRisk, setActivatePopUp }: Props) {
+function PopUpRisk({ deleteRisk, setActivatePopUp, popUpText }: Props) {
   return (
     <>
       <Box
@@ -19,7 +20,7 @@ function PopUp({ deleteRisk, setActivatePopUp }: Props) {
         className={styles.mainDiv}
       >
         <div className={styles.contentDiv}>
-          <h3>Vil du virkelig slette risikoen?</h3>
+          <h3>{popUpText}</h3>
           <div className={styles.buttonDiv}>
             <Button
               variant="danger"
@@ -42,4 +43,4 @@ function PopUp({ deleteRisk, setActivatePopUp }: Props) {
   );
 }
 
-export default PopUp;
+export default PopUpRisk;

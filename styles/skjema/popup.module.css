@@ -1,21 +1,45 @@
 .mainDiv {
-  height: 150px;
-  width: 300px;
+  height: 12.5rem;
+  width: 25rem;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
+  flex-direction: column;
+  align-items: center;
   box-shadow: var(--a-shadow-large);
 }
 
 .buttonDiv {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 2rem;
   width: 100%;
 }
 
+.header {
+  width: 100%;
+  text-align: center;
+}
+
 .button {
-  width: 100px;
+  width: 8rem;
+}
+
+/* Overlay for blurring the background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(1px);
+  z-index: 10; /* Adjust z-index to be lower than the popup but above other content */
+}
+
+/* Optional: No scroll class for body */
+.noScroll {
+  overflow: hidden;
 }
