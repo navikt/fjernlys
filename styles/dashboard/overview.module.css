@@ -1,8 +1,26 @@
 .dashboardContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   padding: 20px;
+  margin: 2rem;
+}
+
+@media (min-width: 2110px) {
+  .dashboardContainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1600px) and (max-width: 2009px) {
+  .dashboardContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1599px) {
+  .dashboardContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .card {
@@ -28,4 +46,24 @@
 .cardIcon {
   font-size: 3rem;
   margin-bottom: 16px;
+}
+
+.chartDiv {
+  width: 100%;
+  max-width: 20rem;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  transition: border 0.3s ease;
+}
+
+.chartDiv:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

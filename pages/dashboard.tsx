@@ -6,12 +6,36 @@ import { Box, Page, VStack } from "@navikt/ds-react";
 import landingPageStyles from "@/styles/landingPage/landingPage.module.css";
 import riskStyles from "@/styles/skjema/risk.module.css";
 import Image from "next/image";
-import router from "next/router";
+import router, { useRouter } from "next/router";
 import VisualizeRiskLevel from "@/components/dashboard/VisualizeRiskLevel";
 const goHome = () => {
   router.push("/");
 };
 const Dashboard: React.FC = () => {
+  const router = useRouter();
+  const serviceList = [
+    { serviceName: "AAP", labelName: "AAP" },
+    { serviceName: "Alderspensjon", labelName: "Alderspensjon" },
+    { serviceName: "Dagpenger", labelName: "Dagpenger" },
+    { serviceName: "Foreldrepenger", labelName: "Foreldrepenger" },
+    { serviceName: "Sykepenger", labelName: "Sykepenger" },
+    { serviceName: "Uføretrygd", labelName: "Uføretrygd" },
+    { serviceName: "Utbetaling", labelName: "Utbetaling" },
+  ];
+
+  const goToServiceDash = (serviceName: string) => {
+    if (serviceName === "All") {
+      return;
+    } else {
+      router.push(
+        {
+          pathname: "/DashboardByService",
+          query: { serviceName: serviceName },
+        },
+        `/dashboard/${serviceName}`
+      );
+    }
+  };
   return (
     <>
       <Page
@@ -40,46 +64,30 @@ const Dashboard: React.FC = () => {
         </Box>
         <div className={riskStyles.skjemaDiv}>
           <VStack gap="4" align={"start"} className={riskStyles.vstack}>
-            <h1>Risikoer per tjeneste/ytelse</h1>
-            <div style={{ display: "flex" }}>
-              <VisualizeRiskLevel
-                serviceName={"All"}
-                labelName={"Alle tjenester/ytelser"}
-              />
-              <VisualizeRiskLevel serviceName={"AAP"} labelName={"AAP"} />
-              <VisualizeRiskLevel
-                serviceName={"Alderspensjon"}
-                labelName={"Alderspensjon"}
-              />
-              <VisualizeRiskLevel
-                serviceName={"Dagpenger"}
-                labelName={"Dagpenger"}
-              />
+            <h1>Risikoer per tjeneste/ytelse (ADMIN)</h1>
+            <div className={styles.dashboardContainer}>
+              <div
+                className={styles.chartDiv}
+                onClick={() => goToServiceDash("All")}
+              >
+                <VisualizeRiskLevel
+                  serviceName={"All"}
+                  labelName={"Alle tjenester/ytelser"}
+                />
+              </div>
+              {serviceList.map(({ serviceName, labelName }) => (
+                <div
+                  key={serviceName}
+                  className={styles.chartDiv}
+                  onClick={() => goToServiceDash(serviceName)}
+                >
+                  <VisualizeRiskLevel
+                    serviceName={serviceName}
+                    labelName={labelName}
+                  />
+                </div>
+              ))}
             </div>
-            <div style={{ display: "flex" }}>
-              <VisualizeRiskLevel
-                serviceName={"Foreldrepenger"}
-                labelName={"Foreldrepenger"}
-              />
-              <VisualizeRiskLevel
-                serviceName={"Sykepenger"}
-                labelName={"Sykepenger"}
-              />
-              <VisualizeRiskLevel
-                serviceName={"Uføretrygd"}
-                labelName={"Uføretrygd"}
-              />
-              <VisualizeRiskLevel
-                serviceName={"Utbetaling"}
-                labelName={"Utebetaling"}
-              />
-            </div>
-          </VStack>
-        </div>
-        <div className={riskStyles.skjemaDiv}>
-          <VStack gap="4" align={"start"} className={riskStyles.vstack}>
-            <h1>Rapporter per tjeneste/ytelse</h1>
-            <ShowReports />
           </VStack>
         </div>
       </Page>

@@ -114,7 +114,7 @@ const FillForm = () => {
         router.push("/404");
       }
     }
-  }, [allFieldsEdited, submitData, test]);
+  }, [allFieldsEdited, submitData, test, test2]);
 
   useEffect(() => {
     if (!readyToSubmit) {
