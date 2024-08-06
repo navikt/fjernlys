@@ -6,7 +6,7 @@ import { get } from "http";
 
 import styles from "@/styles/skjema/risk.module.css";
 import EditRiskComponent from "./EditRiskComponent";
-import PopUp from "@/components/skjema/information/PopUp";
+import PopUpRisk from "@/components/skjema/information/PopUpRisk";
 type MeasureValuesType = {
   id: string;
   riskAssessmentId: string;
@@ -381,7 +381,11 @@ const AddRisk = ({
       </div>
 
       {activePopUp && (
-        <PopUp deleteRisk={deleteRisk} setActivatePopUp={setActivePopUp} />
+        <PopUpRisk
+          deleteRisk={deleteRisk}
+          setActivatePopUp={setActivePopUp}
+          popUpText={"Vil du virkelig slette denne risikoen?"}
+        />
       )}
     </>
   );

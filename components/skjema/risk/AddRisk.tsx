@@ -3,7 +3,7 @@ import { PencilIcon, PlusCircleIcon, TrashIcon } from "@navikt/aksel-icons";
 
 import { Button, HStack, Table } from "@navikt/ds-react";
 import { get } from "http";
-import PopUp from "../information/PopUp";
+import PopUpRisk from "../information/PopUpRisk";
 import styles from "@/styles/skjema/risk.module.css";
 import RiskComponent from "./RiskComponent";
 import { ALL } from "dns";
@@ -363,7 +363,11 @@ const AddRisk = ({ riskValues, setriskValues, onFieldsEdited }: Props) => {
       </div>
 
       {activePopUp && (
-        <PopUp deleteRisk={deleteRisk} setActivatePopUp={setActivePopUp} />
+        <PopUpRisk
+          deleteRisk={deleteRisk}
+          setActivatePopUp={setActivePopUp}
+          popUpText="Vil du virkelig slette denne risikoen?"
+        />
       )}
     </>
   );

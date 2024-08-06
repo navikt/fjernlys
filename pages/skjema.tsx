@@ -9,9 +9,14 @@ import router from "next/router";
 import AlertWithCloseButton from "@/components/skjema/information/AlertWithCloseButton";
 import skjemaStyles from "@/styles/skjema/skjema.module.css";
 import { postReport } from "./api/postReport";
+import PopUp from "@/components/PopUp";
 
 const goHome = () => {
   router.push("/");
+};
+
+const goToDashboard = () => {
+  router.push("/dashboard");
 };
 type measureValuesType = { category: string; status: string };
 
@@ -58,6 +63,8 @@ const FillForm = () => {
   const [allFieldsEdited, setAllFieldsEdited] = useState(false);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+
   const prepareSubmit = useCallback(() => {
     const data = {
       ownerData: isOwner,
@@ -87,9 +94,11 @@ const FillForm = () => {
       return;
     }
     test(true);
+
     try {
       const data = await submitData;
       const result = await postReport(data);
+      setShowPopup(true);
     } catch (error: any) {
       if (error instanceof Error) {
         //console.log("Error: ", error.message);
@@ -203,6 +212,13 @@ const FillForm = () => {
           </VStack>
         </div>
       </Page>
+      {showPopup && (
+        <PopUp
+          goHome={goHome}
+          goToDashboard={goToDashboard}
+          popUpText={"Skjemaet er sendt inn!"}
+        />
+      )}
     </>
   );
 };
