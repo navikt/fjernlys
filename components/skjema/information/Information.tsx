@@ -51,12 +51,12 @@ const Information = ({
               <option value="Ikke valgt" disabled>
                 Velg ytelse/tjeneste
               </option>
-              <option value="Alderspensjon">Alderspensjon</option>
-              <option value="Uføretrygd">Uføretrygd</option>
               <option value="AAP">AAP</option>
-              <option value="Sykepenger">Sykepenger</option>
+              <option value="Alderspensjon">Alderspensjon</option>
               <option value="Dagpenger">Dagpenger</option>
               <option value="Foreldrepenger">Foreldrepenger</option>
+              <option value="Sykepenger">Sykepenger</option>
+              <option value="Uføretrygd">Uføretrygd</option>
               <option value="Utbetaling">Utbetaling</option>
             </Select>
           </div>

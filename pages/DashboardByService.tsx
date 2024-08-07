@@ -73,7 +73,7 @@ const DashboardByService = () => {
             </div>
           </VStack>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: "2vw" }}>
+        {/* <div style={{ display: "flex", justifyContent: "center", gap: "2vw" }}>
           <div className={riskStyles.skjemaDiv1}>
             <VStack gap="4" align={"start"} className={riskStyles.vstack}>
               <div>
@@ -88,7 +88,7 @@ const DashboardByService = () => {
               </div>
             </VStack>
           </div>
-        </div>
+        </div> */}
         <div className={riskStyles.skjemaDiv}>
           <VStack gap="4" align={"start"} className={riskStyles.vstack}>
             <h1>Rapporter under {serviceName}</h1>
