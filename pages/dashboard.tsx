@@ -103,7 +103,7 @@ const Dashboard: React.FC = () => {
           <div className={riskStyles.skjemaDiv2}>
             <VStack gap="4" align={"start"} className={riskStyles.vstack}>
               <div className={riskStyles["chart-container"]}>
-                <VisualizeRiskProbCons />
+                <VisualizeRiskProbCons serviceName={""} />
               </div>
             </VStack>
           </div>
