@@ -21,6 +21,7 @@ export const getRiskProbCons = async (serviceName: string) => {
 
     // Parse JSON data directly
     const jsonData = await response.json();
+    console.log("Data fetched successfully:", jsonData);
 
     return jsonData;
   } catch (error) {

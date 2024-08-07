@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import styles from "@/styles/dashboard/overview.module.css";
 import { TasklistIcon, TerminalIcon } from "@navikt/aksel-icons";
 import ShowReports from "@/components/dashboard/showReports/ShowReports";
@@ -8,6 +8,8 @@ import riskStyles from "@/styles/skjema/risk.module.css";
 import Image from "next/image";
 import router, { useRouter } from "next/router";
 import VisualizeRiskLevel from "@/components/dashboard/VisualizeRiskLevel";
+import VisualizeRiskCategory from "@/components/dashboard/VisualizeRiskCategory";
+import VisualizeRiskProbCons from "@/components/dashboard/VisualizeRiskProbCons";
 const goHome = () => {
   router.push("/");
 };
@@ -15,6 +17,7 @@ const goHome = () => {
 const DashboardByService = () => {
   const router = useRouter();
   const [serviceName, setServiceName] = useState<string>("");
+  console.log(serviceName);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -69,6 +72,22 @@ const DashboardByService = () => {
               />
             </div>
           </VStack>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: "2vw" }}>
+          <div className={riskStyles.skjemaDiv1}>
+            <VStack gap="4" align={"start"} className={riskStyles.vstack}>
+              <div>
+                <VisualizeRiskCategory />
+              </div>
+            </VStack>
+          </div>
+          <div className={riskStyles.skjemaDiv2}>
+            <VStack gap="4" align={"start"} className={riskStyles.vstack}>
+              <div className={riskStyles["chart-container"]}>
+                <VisualizeRiskProbCons serviceName={serviceName} />
+              </div>
+            </VStack>
+          </div>
         </div>
         <div className={riskStyles.skjemaDiv}>
           <VStack gap="4" align={"start"} className={riskStyles.vstack}>

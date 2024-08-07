@@ -8,31 +8,20 @@ interface RiskProbConsInterface {
   consequence: number;
   newProbability: number;
   newConsequence: number;
-  totalRisks: number;
+  totalRisksPerCategory: number;
 }
 
 interface Props {
   serviceName: string;
 }
 
-const App: React.FC<Props> = (props) => {
-  const serviceName = props.serviceName;
-
+const App: React.FC<Props> = ({ serviceName }) => {
   const [fetchedData, setFetchedData] = useState<RiskProbConsInterface[]>([]);
 
   const fetchProbCons = async () => {
     try {
       const data: any[] = await getRiskProbCons(serviceName);
-
-      const mappedData = data.map((item) => ({
-        categoryName: item.categoryName,
-        probability: item.prob,
-        consequence: item.cons,
-        newProbability: item.newProb,
-        newConsequence: item.newCons,
-        totalRisks: item.totalRisks,
-      }));
-      setFetchedData(mappedData);
+      setFetchedData(data);
     } catch (error) {
       console.error("Error fetching risk categories:", error);
     }

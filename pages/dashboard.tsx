@@ -8,8 +8,6 @@ import riskStyles from "@/styles/skjema/risk.module.css";
 import Image from "next/image";
 import router, { useRouter } from "next/router";
 import VisualizeRiskLevel from "@/components/dashboard/VisualizeRiskLevel";
-import VisualizeRiskProbCons from "@/components/dashboard/VisualizeRiskProbCons";
-import VisualizeRiskCategory from "@/components/dashboard/VisualizeRiskCategory";
 const goHome = () => {
   router.push("/");
 };
@@ -91,22 +89,6 @@ const Dashboard: React.FC = () => {
               ))}
             </div>
           </VStack>
-        </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: "2vw" }}>
-          <div className={riskStyles.skjemaDiv1}>
-            <VStack gap="4" align={"start"} className={riskStyles.vstack}>
-              <div>
-                <VisualizeRiskCategory />
-              </div>
-            </VStack>
-          </div>
-          <div className={riskStyles.skjemaDiv2}>
-            <VStack gap="4" align={"start"} className={riskStyles.vstack}>
-              <div className={riskStyles["chart-container"]}>
-                <VisualizeRiskProbCons serviceName={""} />
-              </div>
-            </VStack>
-          </div>
         </div>
       </Page>
     </>

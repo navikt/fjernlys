@@ -26,7 +26,9 @@ interface RiskProbConsInterface {
   categoryName: string;
   probability: number;
   consequence: number;
-  totalRisks: number;
+  newProbability: number;
+  newConsequence: number;
+  totalRisksPerCategory: number;
 }
 
 interface BubbleChartProps {
@@ -43,17 +45,6 @@ const colorMap: { [key: string]: string } = {
   "Interne misligheter": "hsla(300, 100%, 75%, 0.5)",
 };
 
-// Alternativ til andre farger for Bubble Chart
-
-// const colorMap: { [key: string]: string } = {
-//   "Stabil drift og måloppnåelse": "rgba(0, 36, 58, 0.5)", // Blue 500
-//   "Beredskap og samfunnssikkerhet": "rgba(74, 144, 226, 0.5)", // Blue 300
-//   "Personvern og informasjonssikkerhet": "rgba(0, 82, 204, 0.5)", // Deep Blue 500
-//   "Helse, miljø og sikkerhet": "rgba(50, 115, 220, 0.5)", // Blue 600
-//   Trygdesvindel: "rgba(247, 193, 30, 0.5)", // Yellow 500
-//   "Interne misligheter": "rgba(235, 87, 87, 0.5)", // Red 500
-// };
-
 const RiskBubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
   const chartData = {
     datasets: [
@@ -62,11 +53,11 @@ const RiskBubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
         data: data.map((item) => ({
           x: item.probability,
           y: item.consequence,
-          r: item.totalRisks * 5,
+          r: item.totalRisksPerCategory * 5,
         })),
         backgroundColor: data.map((item) => colorMap[item.categoryName]),
         borderColor: data.map((item) =>
-          colorMap[item.categoryName].replace("0.5", "1")
+          colorMap[item.categoryName]?.replace("0.5", "1")
         ),
         borderWidth: 1,
       },
@@ -88,8 +79,7 @@ const RiskBubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
           label: function (context: any) {
             const dataIndex = context.dataIndex;
             const item = data[dataIndex];
-            return `${item.categoryName}:  Antall: ${item.totalRisks} 
-            `;
+            return `${item.categoryName}: Antall: ${item.totalRisksPerCategory}`;
           },
         },
       },
