@@ -33,9 +33,9 @@ type riskValuesType = {
 };
 
 type submitDataType = {
-  ownerData: boolean;
-  notOwnerData?: string | null;
-  serviceData: string;
+  isOwner: boolean;
+  ownerIdent?: string | null;
+  serviceName: string;
   riskValues: riskValuesType[];
 };
 
@@ -53,9 +53,9 @@ const FillForm = () => {
   const [ownerIdent, setOwnerIdent] = useState<string>("A111111");
   const [service, setService] = useState("Ikke valgt");
   const [submitData, setSubmitData] = useState<submitDataType>({
-    ownerData: isOwner,
-    notOwnerData: ownerIdent,
-    serviceData: service,
+    isOwner: isOwner,
+    ownerIdent: ownerIdent,
+    serviceName: service,
     riskValues: riskValues,
   });
 
@@ -67,12 +67,13 @@ const FillForm = () => {
 
   const prepareSubmit = useCallback(() => {
     const data = {
-      ownerData: isOwner,
-      notOwnerData: ownerIdent,
-      serviceData: service,
+      isOwner: isOwner,
+      ownerIdent: ownerIdent,
+      serviceName: service,
       riskValues: riskValues,
     };
     setSubmitData({ ...data });
+    console.log("data: ", data);
   }, [isOwner, ownerIdent, service, riskValues]);
 
   const test = useCallback(
@@ -80,6 +81,7 @@ const FillForm = () => {
       setShowAlert(value);
       prepareSubmit();
       setReadyToSubmit(true);
+      console.log(submitData);
     },
     [prepareSubmit]
   );
