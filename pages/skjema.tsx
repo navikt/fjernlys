@@ -33,8 +33,8 @@ type riskValuesType = {
 };
 
 type submitDataType = {
-  ownerData: boolean;
-  notOwnerData?: string | null;
+  isOwner: boolean;
+  ownerIdent?: string | null;
   serviceData: string;
   riskValues: riskValuesType[];
 };
@@ -53,8 +53,8 @@ const FillForm = () => {
   const [ownerIdent, setOwnerIdent] = useState<string>("A111111");
   const [service, setService] = useState("Ikke valgt");
   const [submitData, setSubmitData] = useState<submitDataType>({
-    ownerData: isOwner,
-    notOwnerData: ownerIdent,
+    isOwner: isOwner,
+    ownerIdent: ownerIdent,
     serviceData: service,
     riskValues: riskValues,
   });
@@ -67,15 +67,15 @@ const FillForm = () => {
 
   const prepareSubmit = useCallback(() => {
     const data = {
-      ownerData: isOwner,
-      notOwnerData: ownerIdent,
+      isOwner: isOwner,
+      ownerIdent: ownerIdent,
       serviceData: service,
       riskValues: riskValues,
     };
     setSubmitData({ ...data });
   }, [isOwner, ownerIdent, service, riskValues]);
 
-  const test = useCallback(
+  const handleSubmit = useCallback(
     (value: boolean) => {
       setShowAlert(value);
       prepareSubmit();
@@ -84,16 +84,16 @@ const FillForm = () => {
     [prepareSubmit]
   );
 
-  const test2 = useCallback((value: boolean) => {
+  const handleErrorMessage = useCallback((value: boolean) => {
     setShowErrorAlert(value);
   }, []);
 
   const handlePostData = useCallback(async () => {
     if (!allFieldsEdited) {
-      test2(true);
+      handleErrorMessage(true);
       return;
     }
-    test(true);
+    handleSubmit(true);
 
     try {
       const data = await submitData;
@@ -114,7 +114,7 @@ const FillForm = () => {
         router.push("/404");
       }
     }
-  }, [allFieldsEdited, submitData, test, test2]);
+  }, [allFieldsEdited, submitData, handleSubmit, handleErrorMessage]);
 
   useEffect(() => {
     if (!readyToSubmit) {
